@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 
@@ -12,29 +12,34 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
+    <div className="justify-center items-center min-h-screen grid grid-cols-2">
+      <div className="font-bold text-2xl absolute top-0 left-0 ml-4 mt-4">
+        <span>WappTienda</span>
+      </div>
+
+      <div className="flex flex-col w-full items-center my-auto">
+        <CardHeader className="flex flex-col items-center">
+          <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>Enter your credentials</CardDescription>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={() => { onSubmit() }} className="space-y-4">
-            <Input 
-              placeholder="Email" 
+            <Input
+              placeholder="Email"
               type="email"
             />
-            
-            <Input 
-              placeholder="Password" 
+
+            <Input
+              placeholder="Password"
               type="password"
             />
-            
+
             <Button type="submit" className="w-full">Login</Button>
-            
-            <p>Don't have an account? 
-              <Button 
-                variant="link" 
+
+            <p>Don't have an account?
+              <Button
+                variant="link"
                 onClick={() => navigate('/register')}
               >
                 Register
@@ -42,7 +47,9 @@ const LoginPage = () => {
             </p>
           </form>
         </CardContent>
-      </Card>
+      </div>
+
+      <div className="flex h-full w-full bg-gray-100"></div>
     </div>
   )
 }

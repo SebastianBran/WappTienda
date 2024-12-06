@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 
@@ -12,10 +12,14 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Register</CardTitle>
+    <div className="justify-center items-center min-h-screen grid grid-cols-2">
+      <div className="font-bold text-2xl absolute top-0 left-0 ml-4 mt-4">
+        <span>WappTienda</span>
+      </div>
+
+      <div className="flex flex-col w-full items-center my-auto">
+        <CardHeader className="flex flex-col items-center">
+          <CardTitle className="text-2xl">Register</CardTitle>
           <CardDescription>Create a new account</CardDescription>
         </CardHeader>
         <CardContent>
@@ -47,7 +51,9 @@ const RegisterPage = () => {
             </p>
           </form>
         </CardContent>
-      </Card>
+      </div>
+
+      <div className="flex h-full w-full bg-gray-100"></div>
     </div>
   )
 }

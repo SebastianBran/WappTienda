@@ -1,3 +1,4 @@
+import HeaderBrandButton from '@/components/common/headerBrandButton';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ const Home = () => {
       <header className="py-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center">
-            <span className='text-xl mr-4 font-bold'>WappTienda</span>
+            <HeaderBrandButton className='text-xl' />
           </div>
           <div className="flex gap-4">
             <Button variant="ghost" onClick={() => navigate('/login')}>

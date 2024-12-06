@@ -14,34 +14,36 @@ const LoginPage = () => {
 
   return (
     <div className="justify-center items-center min-h-screen grid grid-cols-2">
-      <HeaderBrandButton />
+      <div className="absolute top-0 left-0 ml-4 mt-4">
+        <HeaderBrandButton />
+      </div>
 
       <div className="flex flex-col w-full items-center my-auto">
         <CardHeader className="flex flex-col items-center">
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>Enter your credentials</CardDescription>
+          <CardTitle className="text-2xl">Iniciar Sesión</CardTitle>
+          <CardDescription>Introduce tus credenciales</CardDescription>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={() => { onSubmit() }} className="space-y-4">
             <Input
-              placeholder="Email"
+              placeholder="Correo Electrónico"
               type="email"
             />
 
             <Input
-              placeholder="Password"
+              placeholder="Contraseña"
               type="password"
             />
 
-            <Button type="submit" className="w-full">Login</Button>
+            <Button type="submit" className="w-full">Iniciar Sesión</Button>
 
-            <p>Don't have an account?
+            <p>¿No tienes una cuenta?
               <Button
                 variant="link"
                 onClick={() => navigate('/register')}
               >
-                Register
+                Regístrate
               </Button>
             </p>
           </form>

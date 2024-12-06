@@ -14,38 +14,40 @@ const RegisterPage = () => {
 
   return (
     <div className="justify-center items-center min-h-screen grid grid-cols-2">
-      <HeaderBrandButton />
+      <div className="absolute top-0 left-0 ml-4 mt-4">
+        <HeaderBrandButton />
+      </div>
 
       <div className="flex flex-col w-full items-center my-auto">
         <CardHeader className="flex flex-col items-center">
-          <CardTitle className="text-2xl">Register</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
+          <CardTitle className="text-2xl">Registrarse</CardTitle>
+          <CardDescription>Crea una nueva cuenta</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={() => { onSubmit() }} className="space-y-4">
             <Input
-              placeholder="Email"
+              placeholder="Correo electrónico"
               type="email"
             />
 
             <Input
-              placeholder="Password"
+              placeholder="Contraseña"
               type="password"
             />
 
             <Input
-              placeholder="Confirm Password"
+              placeholder="Confirmar Contraseña"
               type="password"
             />
 
-            <Button type="submit" className="w-full">Register</Button>
+            <Button type="submit" className="w-full">Registrarse</Button>
 
-            <p>Already have an account?
+            <p>¿Ya tienes una cuenta?
               <Button
                 variant="link"
                 onClick={() => navigate('/login')}
               >
-                Login
+                Iniciar sesión
               </Button>
             </p>
           </form>

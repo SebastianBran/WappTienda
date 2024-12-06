@@ -1,19 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils"
 
-const HeaderBrandButton = () => {
+interface HeaderBrandButtonProps {
+  className?: string;
+}
+
+const HeaderBrandButton = ({ className }: HeaderBrandButtonProps) => {
   const navigate = useNavigate();
-  
+
   return (
-    <div className="absolute top-0 left-0 ml-4 mt-4">
-      <Button
-        className="font-bold text-2xl hover:bg-unset"
-        variant="ghost"
-        onClick={() => navigate('/home')}
-      >
-        WappTienda
-      </Button>
-    </div>
+    <Button
+      className={cn(
+        "font-bold text-2xl hover:bg-unset",
+        className,
+      )}
+      variant="ghost"
+      onClick={() => navigate('/home')}
+    >
+      WappTienda
+    </Button>
   )
 }
 

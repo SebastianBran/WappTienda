@@ -1,3 +1,4 @@
+import HeaderBrandButton from "@/components/common/headerBrandButton"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -13,9 +14,7 @@ const RegisterPage = () => {
 
   return (
     <div className="justify-center items-center min-h-screen grid grid-cols-2">
-      <div className="font-bold text-2xl absolute top-0 left-0 ml-4 mt-4">
-        <span>WappTienda</span>
-      </div>
+      <HeaderBrandButton />
 
       <div className="flex flex-col w-full items-center my-auto">
         <CardHeader className="flex flex-col items-center">

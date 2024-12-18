@@ -84,11 +84,11 @@ const CreateStore = () => {
                 <Label htmlFor="storeLink">Link de la tienda</Label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <span className="text-sm text-gray-500">wapptienda/</span>
+                    <span className="text-sm text-gray-500">wapptienda/store/</span>
                   </div>
                   <Input
                     placeholder="floresjuan"
-                    className="pl-24"
+                    className="pl-[135px]"
                   />
                 </div>
               </div>

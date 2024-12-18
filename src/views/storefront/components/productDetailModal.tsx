@@ -24,33 +24,44 @@ const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailModalProp
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="flex flex-col w-fit">
+        <img src="https://via.placeholder.com/300" alt={product.name} className="rounded-lg mt-4" />
+
         <DialogHeader>
           <DialogTitle>{product.name}</DialogTitle>
           <DialogDescription>
-            Price: {product.price}
+            Precio: S/ {product.price}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-          >
-            <Minus />
-          </Button>
+        <div className="flex border-t border-b py-4">
+          <span className="font-bold">
+            Cantidad
+          </span>
 
-          <span className="text-2xl">{quantity}</span>
+          <div className="flex items-center space-x-4 ml-auto">
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-6 h-6"
+              onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            >
+              <Minus />
+            </Button>
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-          >
-            <Plus />
-          </Button>
+            <span>{quantity}</span>
+
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-6 h-6"
+              onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+            >
+              <Plus />
+            </Button>
+          </div>
         </div>
+
 
         <Button onClick={handleAddToCart}>
           <ShoppingCart className="mr-2" /> Agregar al Carrito

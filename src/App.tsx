@@ -17,7 +17,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/create-store" element={<CreateStore />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/storefront" element={<Storefront />} />
+        <Route path="/store/:storeName" element={<Storefront />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

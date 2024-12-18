@@ -1,7 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CartFloatingButton from "./components/cartFloatingButton";
 import { useState } from "react";
 import ProductDetailModal from "./components/productDetailModal";
+import { useParams } from "react-router-dom";
+import ProductCard from "./components/productCard";
+import CartModal from "./components/cartModal";
 
 interface Product {
   id: number;
@@ -38,32 +39,23 @@ const products = [
 ];
 
 const Storefront = () => {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const { storeName } = useParams(); // TODO: Use storeName to fetch products from the API
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Flores juan</h1>
+      <div className="container border-b mb-8">
+        <h1 className="text-3xl text-center font-bold mb-6">Flores juan</h1>
+        <img src="https://via.placeholder.com/100" alt="Store logo" className="mx-auto rounded-full mb-6" />
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 max-w-screen-md gap-4 justify-items-center mx-auto">
         {products.map((product) => (
-          <Card
-            key={product.id}
-            onClick={() => setSelectedProduct(product)}
-            className="cursor-pointer hover:shadow-lg transition-shadow"
-          >
-            <CardHeader>
-              <CardTitle>{product.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between">
-                <span>Price: ${product.price}</span>
-              </div>
-            </CardContent>
-          </Card>
+          <ProductCard key={product.id} product={product} setSelectedProduct={setSelectedProduct} />
         ))}
       </div>
 
-      <CartFloatingButton />
+      <CartModal />
 
       {selectedProduct && (
         <ProductDetailModal

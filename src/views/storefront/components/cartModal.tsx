@@ -1,15 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CartButtonTrigger from "./cartButtonTrigger";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
-interface CartModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const CartModal = ({ isOpen, onClose }: CartModalProps) => {
+const CartModal = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([
     { id: 1, name: "Producto 1", quantity: 1, price: 10 },
@@ -35,11 +31,14 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Carrito de Compras</DialogTitle>
-        </DialogHeader>
+    <Sheet>
+      <SheetTrigger>
+        <CartButtonTrigger />
+      </SheetTrigger>
+      <SheetContent className="sm:max-w-[425px] flex flex-col">
+        <SheetHeader>
+          <SheetTitle>Carrito de Compras</SheetTitle>
+        </SheetHeader>
 
         {items.length === 0 ? (
           <p>Tu carrito está vacío</p>
@@ -77,7 +76,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
               </div>
             ))}
 
-            <div className="mt-4">
+            <div className="mt-auto">
               <p className="font-bold">Total: ${getTotalPrice().toFixed(2)}</p>
               <Button className="w-full mt-2" onClick={() => { navigate('/checkout') }}>
                 Ir a Checkout
@@ -85,8 +84,8 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
             </div>
           </>
         )}
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   )
 }
 

@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartButtonTrigger from "./cartButtonTrigger";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import QuantitySelector from "@/components/common/quantitySelector";
 
 const CartModal = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([
-    { id: 1, name: "Producto 1", quantity: 1, price: 10 },
-    { id: 2, name: "Producto 2", quantity: 2, price: 20 },
+    { id: 1, name: "Producto 1", quantity: 1, price: 10, image: "https://via.placeholder.com/80" },
+    { id: 2, name: "Producto 2", quantity: 2, price: 20, image: "https://via.placeholder.com/80" },
   ]);
 
   const updateQuantity = (id: number, quantity: number) => {
@@ -45,26 +45,17 @@ const CartModal = () => {
         ) : (
           <>
             {items.map((item) => (
-              <div key={item.id} className="flex justify-between items-center border-b py-2">
+              <div key={item.id} className="flex border-b py-2">
                 <div>
+                  <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg" />
+                </div>
+                <div className="ml-4 mr-auto justify-between flex flex-col h-20">
                   <p>{item.name}</p>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    >
-                      <Minus size={16} />
-                    </Button>
-                    <span>{item.quantity}</span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    >
-                      <Plus size={16} />
-                    </Button>
-                  </div>
+                  <p className="text-gray-500">S/ {item.price}</p>
+                  <QuantitySelector
+                    quantity={item.quantity}
+                    onChange={(quantity) => updateQuantity(item.id, quantity)}
+                  />
                 </div>
                 <Button
                   variant="destructive"

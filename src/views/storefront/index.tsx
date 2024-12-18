@@ -49,7 +49,7 @@ const Storefront = () => {
         <img src="https://via.placeholder.com/100" alt="Store logo" className="mx-auto rounded-full mb-6" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 max-w-screen-md gap-4 justify-items-center mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-4 max-w-screen-md gap-4 justify-items-center mx-auto">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} setSelectedProduct={setSelectedProduct} />
         ))}

@@ -1,6 +1,7 @@
+import QuantitySelector from "@/components/common/quantitySelector";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 interface Product {
@@ -39,27 +40,12 @@ const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailModalProp
             Cantidad
           </span>
 
-          <div className="flex items-center space-x-4 ml-auto">
-            <Button
-              variant="outline"
-              size="icon"
-              className="w-6 h-6"
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            >
-              <Minus />
-            </Button>
-
-            <span>{quantity}</span>
-
-            <Button
-              variant="outline"
-              size="icon"
-              className="w-6 h-6"
-              onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-            >
-              <Plus />
-            </Button>
-          </div>
+          <QuantitySelector
+            quantity={quantity}
+            max={product.stock}
+            onChange={setQuantity}
+            className="ml-auto"
+          />
         </div>
 
 

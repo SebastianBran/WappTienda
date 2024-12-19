@@ -7,6 +7,7 @@ import Storefront from './views/storefront'
 import LoginPage from './views/login'
 import RegisterPage from './views/register'
 import CheckoutPage from './views/checkout'
+import Dashboard from './views/admin/views/dashboard'
 
 function App() {
   return (
@@ -16,7 +17,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/create-store" element={<CreateStore />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<Admin />}>
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
         <Route path="/store/:storeName" element={<Storefront />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

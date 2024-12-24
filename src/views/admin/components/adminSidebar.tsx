@@ -10,10 +10,41 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useNavigate } from 'react-router-dom'
 
 type AdminNavProps = React.ComponentProps<typeof Sidebar>
 
 const AdminSidebar = ({ className, ...props }: AdminNavProps) => {
+  const actions = [
+    {
+      title: "Dashboard",
+      icon: Home,
+      url: "/admin",
+    },
+    {
+      title: "Ordenes",
+      icon: ShoppingCart,
+      url: "/admin/orders",
+    },
+    {
+      title: "Productos",
+      icon: Store,
+      url: "/admin/products",
+    },
+    {
+      title: "Clientes",
+      icon: Users,
+      url: "/admin/customers",
+    },
+    {
+      title: "Configuración",
+      icon: Settings,
+      url: "/admin/settings",
+    },
+  ];
+
+  const navigate = useNavigate();
+
   return (
     <Sidebar 
       className={cn(
@@ -33,46 +64,16 @@ const AdminSidebar = ({ className, ...props }: AdminNavProps) => {
         <ScrollArea className="h-[calc(100vh-4rem)]">
           <div className="p-2">
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Home className="h-4 w-4" />
-                    Dashboard
-                  </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <ShoppingCart className="h-4 w-4" />
-                    Orders
-                  </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Store className="h-4 w-4" />
-                    Products
-                  </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Users className="h-4 w-4" />
-                    Customers
-                  </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Settings className="h-4 w-4" />
-                    Settings
-                  </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {actions.map((action, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton asChild>
+                    <Button variant="ghost" className="w-full justify-start gap-2" onClick={() => navigate(action.url)}>
+                      <action.icon className="h-4 w-4" />
+                      {action.title}
+                    </Button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </div>
         </ScrollArea>

@@ -11,6 +11,7 @@ import Dashboard from './views/admin/views/dashboard'
 import Orders from './views/admin/views/orders'
 import OrderDetail from './views/admin/views/orders/views/detail'
 import Products from './views/admin/views/products'
+import ProductDetail from './views/admin/views/products/views/detail'
 
 function App() {
   return (
@@ -27,7 +28,10 @@ function App() {
             <Route index element={<Orders />} />
             <Route path=":orderId/detail" element={<OrderDetail />} />
           </Route>
-          <Route path="products" element={<Products />} />
+          <Route path="products">
+            <Route index element={<Products />} />
+            <Route path=":productId/detail" element={<ProductDetail />} />
+          </Route>
         </Route>
         <Route path="/store/:storeName" element={<Storefront />} />
         <Route path="/checkout" element={<CheckoutPage />} />

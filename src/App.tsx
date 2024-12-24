@@ -9,6 +9,7 @@ import RegisterPage from './views/register'
 import CheckoutPage from './views/checkout'
 import Dashboard from './views/admin/views/dashboard'
 import Orders from './views/admin/views/orders'
+import OrderDetail from './views/admin/views/orders/views/detail'
 
 function App() {
   return (
@@ -21,7 +22,10 @@ function App() {
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders">
+            <Route index element={<Orders />} />
+            <Route path=":orderId/detail" element={<OrderDetail />} />
+          </Route>
         </Route>
         <Route path="/store/:storeName" element={<Storefront />} />
         <Route path="/checkout" element={<CheckoutPage />} />

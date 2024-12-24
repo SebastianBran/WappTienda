@@ -25,10 +25,10 @@ const Orders = () => {
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <h1 className="text-xl font-semibold">Orders</h1>
+          <h1 className="text-xl font-semibold">Órdenes</h1>
         </div>
         <div className="flex gap-2">
-          <Button>Create order</Button>
+          <Button>Crear orden</Button>
         </div>
       </div>
 
@@ -39,9 +39,9 @@ const Orders = () => {
               <TableHead className="w-12">
                 <Checkbox />
               </TableHead>
-              <TableHead>Order</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Orden</TableHead>
+              <TableHead>Fecha</TableHead>
+              <TableHead>Estado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -64,9 +64,9 @@ const Orders = () => {
               </TableCell>
               <TableCell>
                 <div className="flex gap-1">
-                  <Badge variant="secondary">PENDING</Badge>
-                  <Badge variant="secondary">UNPAID</Badge>
-                  <Badge variant="secondary">UNFULFILLED</Badge>
+                  <Badge variant="secondary">PENDIENTE</Badge>
+                  <Badge variant="secondary">NO PAGADO</Badge>
+                  <Badge variant="secondary">NO CUMPLIDO</Badge>
                 </div>
               </TableCell>
             </TableRow>

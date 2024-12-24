@@ -42,14 +42,14 @@ const OrderDetail = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="whatsapp">WhatsApp</SelectItem>
-                <SelectItem value="email">Email</SelectItem>
+                <SelectItem value="email">Correo Electrónico</SelectItem>
                 <SelectItem value="sms">SMS</SelectItem>
               </SelectContent>
             </Select>
             <Button variant="outline" size="icon">
               <Printer className="h-4 w-4" />
             </Button>
-            <Button variant="outline">Edit</Button>
+            <Button variant="outline">Editar</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -57,8 +57,8 @@ const OrderDetail = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Delete</DropdownMenuItem>
-                <DropdownMenuItem>Archive</DropdownMenuItem>
+                <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                <DropdownMenuItem>Archivar</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -71,27 +71,27 @@ const OrderDetail = () => {
               <CardContent className="p-6 space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Status</Label>
+                    <Label>Estado</Label>
                     <Select defaultValue="pending">
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="processing">Processing</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="pending">Pendiente</SelectItem>
+                        <SelectItem value="processing">En Proceso</SelectItem>
+                        <SelectItem value="completed">Completado</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label>Payment status</Label>
+                    <Label>Estado del Pago</Label>
                     <Select defaultValue="unpaid">
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="unpaid">Unpaid</SelectItem>
-                        <SelectItem value="paid">Paid</SelectItem>
+                        <SelectItem value="unpaid">No Pagado</SelectItem>
+                        <SelectItem value="paid">Pagado</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -99,7 +99,7 @@ const OrderDetail = () => {
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Label>Payment link</Label>
+                    <Label>Enlace de Pago</Label>
                     <Info className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div className="flex gap-2">
@@ -114,16 +114,16 @@ const OrderDetail = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Internal note</Label>
-                  <Textarea placeholder="Add a note (invisible to customers)" />
+                  <Label>Nota Interna</Label>
+                  <Textarea placeholder="Añadir una nota (invisible para los clientes)" />
                 </div>
 
                 <div className="border-2 border-dashed rounded-lg p-6 text-center">
                   <p className="text-muted-foreground">
-                    Drag a file here or click to select one
+                    Arrastra un archivo aquí o haz clic para seleccionar uno
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    File should not exceed 10mb. Recommended ratio is 1:1.
+                    El archivo no debe exceder los 10mb. La proporción recomendada es 1:1.
                   </p>
                 </div>
               </CardContent>
@@ -134,8 +134,8 @@ const OrderDetail = () => {
               <CardContent className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <h3 className="font-semibold">Items</h3>
-                    <p className="text-sm text-muted-foreground">1 item</p>
+                    <h3 className="font-semibold">Artículos</h3>
+                    <p className="text-sm text-muted-foreground">1 artículo</p>
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <div className="flex items-center gap-4">
@@ -146,7 +146,7 @@ const OrderDetail = () => {
                   </div>
                   <div className="border-t pt-4 space-y-2">
                     <div className="flex justify-between">
-                      <span>Items total (1)</span>
+                      <span>Total de artículos (1)</span>
                       <span>S/ 3.00</span>
                     </div>
                     <div className="flex justify-between">
@@ -169,20 +169,20 @@ const OrderDetail = () => {
               <CardContent className="p-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">Customer</h3>
+                    <h3 className="font-semibold">Cliente</h3>
                     <Button variant="ghost" size="sm">
-                      View
+                      Ver
                     </Button>
                   </div>
                   <div className="space-y-2">
                     <div className="grid grid-cols-3 gap-2">
-                      <span className="text-sm text-muted-foreground">Name</span>
+                      <span className="text-sm text-muted-foreground">Nombre</span>
                       <span className="col-span-2">
                         Estefano Sebastian Bran Zapata
                       </span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      <span className="text-sm text-muted-foreground">Phone</span>
+                      <span className="text-sm text-muted-foreground">Teléfono</span>
                       <span className="col-span-2">51987961985</span>
                     </div>
                   </div>
@@ -193,18 +193,18 @@ const OrderDetail = () => {
             <Card>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold">Order history</h3>
+                  <h3 className="font-semibold">Historial de Pedidos</h3>
                   <div className="space-y-4">
                     <div className="grid gap-1">
                       <p className="text-sm">
-                        PEN 3.00 payment (Cash on Delivery) in Unpaid
+                        Pago de PEN 3.00 (Contra Entrega) en No Pagado
                       </p>
                       <p className="text-xs text-muted-foreground">
                         28 Nov 2024 23:29
                       </p>
                     </div>
                     <div className="grid gap-1">
-                      <p className="text-sm">Order created</p>
+                      <p className="text-sm">Pedido creado</p>
                       <p className="text-xs text-muted-foreground">
                         28 Nov 2024 23:26
                       </p>
@@ -217,18 +217,18 @@ const OrderDetail = () => {
             <Card className="bg-green-50">
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold">Staff</h3>
+                  <h3 className="font-semibold">Personal</h3>
                   <div className="space-y-2">
-                    <p className="text-sm">Upgrade to assign staff</p>
+                    <p className="text-sm">Actualiza para asignar personal</p>
                     <Button variant="default" size="sm" className="w-full">
-                      Upgrade to Business
+                      Actualizar a Business
                     </Button>
                     <Button
                       variant="link"
                       size="sm"
                       className="w-full text-muted-foreground"
                     >
-                      Learn more
+                      Más información
                     </Button>
                   </div>
                 </div>

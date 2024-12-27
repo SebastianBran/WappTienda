@@ -12,6 +12,9 @@ import Orders from './views/admin/views/orders'
 import OrderDetail from './views/admin/views/orders/views/detail'
 import Products from './views/admin/views/products'
 import ProductDetail from './views/admin/views/products/views/detail'
+import Customers from './views/admin/views/customers'
+import CustomerDetail from './views/admin/views/customers/views/detail'
+import CustomerEdit from './views/admin/views/customers/views/edit'
 
 function App() {
   return (
@@ -31,6 +34,11 @@ function App() {
           <Route path="products">
             <Route index element={<Products />} />
             <Route path=":productId/detail" element={<ProductDetail />} />
+          </Route>
+          <Route path="customers">
+            <Route index element={<Customers />} />
+            <Route path=":customerId/detail" element={<CustomerDetail />} />
+            <Route path=":customerId/edit" element={<CustomerEdit />} />
           </Route>
         </Route>
         <Route path="/store/:storeName" element={<Storefront />} />

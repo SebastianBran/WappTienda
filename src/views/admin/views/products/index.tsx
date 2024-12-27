@@ -1,7 +1,5 @@
-import { Download, Filter } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -32,21 +30,6 @@ const Products = () => {
         <div className="flex gap-2">
           <Button>Añadir producto</Button>
         </div>
-      </div>
-
-      <div className="flex items-center gap-4 mb-6">
-        <div className="relative flex-1">
-          <Input
-            placeholder="Buscar por producto, nombres de variantes o SKU"
-            className="pl-4"
-          />
-        </div>
-        <Button variant="outline" size="icon">
-          <Filter className="h-4 w-4" />
-        </Button>
-        <Button variant="outline" size="icon">
-          <Download className="h-4 w-4" />
-        </Button>
       </div>
 
       <div className="border rounded-lg">

@@ -1,7 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useSidebar } from "@/components/ui/sidebar";
 import { CreditCardIcon, ShoppingCart } from "lucide-react";
+import { useEffect } from "react";
 
 const Dashboard = () => {
+  const { setOpen } = useSidebar();
+
+  useEffect(() => {
+    setOpen(true);
+  }, [setOpen]);
+
   return (
     <div className="grid justify-items-center max-w-3xl mx-auto">
       <div className="grid grid-cols-2 gap-4 w-full">

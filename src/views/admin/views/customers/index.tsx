@@ -16,9 +16,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from 'react-router-dom';
+import { useSidebar } from "@/components/ui/sidebar";
+import { useEffect } from "react";
 
 const Customers = () => {
   const navigate = useNavigate();
+  const { setOpen } = useSidebar();
+
+  useEffect(() => {
+    setOpen(true);
+  }, [setOpen]);
 
   return (
     <div className="container mx-auto py-6">

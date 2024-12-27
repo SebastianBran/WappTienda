@@ -1,4 +1,4 @@
-import { ArrowLeft, Copy, ExternalLink, Info, MoreHorizontal, Printer } from 'lucide-react';
+import { ArrowLeft, Copy, ExternalLink, Info, MoreHorizontal } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -36,20 +36,6 @@ const OrderDetail = () => {
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <Select defaultValue="whatsapp">
-              <SelectTrigger className="w-[130px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="whatsapp">WhatsApp</SelectItem>
-                <SelectItem value="email">Correo Electrónico</SelectItem>
-                <SelectItem value="sms">SMS</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="outline" size="icon">
-              <Printer className="h-4 w-4" />
-            </Button>
-            <Button variant="outline">Editar</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -58,7 +44,6 @@ const OrderDetail = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem>Eliminar</DropdownMenuItem>
-                <DropdownMenuItem>Archivar</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -170,7 +155,7 @@ const OrderDetail = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Cliente</h3>
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" onClick={() => navigate("/admin/customers/1/detail")}>
                       Ver
                     </Button>
                   </div>
@@ -185,51 +170,6 @@ const OrderDetail = () => {
                       <span className="text-sm text-muted-foreground">Teléfono</span>
                       <span className="col-span-2">51987961985</span>
                     </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <h3 className="font-semibold">Historial de Pedidos</h3>
-                  <div className="space-y-4">
-                    <div className="grid gap-1">
-                      <p className="text-sm">
-                        Pago de PEN 3.00 (Contra Entrega) en No Pagado
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        28 Nov 2024 23:29
-                      </p>
-                    </div>
-                    <div className="grid gap-1">
-                      <p className="text-sm">Pedido creado</p>
-                      <p className="text-xs text-muted-foreground">
-                        28 Nov 2024 23:26
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-green-50">
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <h3 className="font-semibold">Personal</h3>
-                  <div className="space-y-2">
-                    <p className="text-sm">Actualiza para asignar personal</p>
-                    <Button variant="default" size="sm" className="w-full">
-                      Actualizar a Business
-                    </Button>
-                    <Button
-                      variant="link"
-                      size="sm"
-                      className="w-full text-muted-foreground"
-                    >
-                      Más información
-                    </Button>
                   </div>
                 </div>
               </CardContent>

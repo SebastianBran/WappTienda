@@ -17,9 +17,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
+import { useSidebar } from "@/components/ui/sidebar";
+import { useEffect } from "react";
 
 const Orders = () => {
   const navigate = useNavigate();
+  const { setOpen } = useSidebar();
+
+  useEffect(() => {
+    setOpen(true);
+  }, [setOpen]);
 
   return (
     <div className="container mx-auto py-6">

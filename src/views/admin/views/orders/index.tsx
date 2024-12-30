@@ -52,7 +52,7 @@ const Orders = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow onClick={() => navigate("/admin/orders/2/detail")}>
+            <TableRow onClick={() => navigate("/admin/123/orders/2/detail")}>
               <TableCell>
                 <Checkbox />
               </TableCell>

@@ -37,7 +37,7 @@ const Settings = () => {
               <Button 
                 className="gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all justify-start hover:text-foreground"
                 variant='ghost'
-                onClick={() => navigate('/admin/settings')}
+                onClick={() => navigate('/admin/123/settings')}
               >
                 General
               </Button>

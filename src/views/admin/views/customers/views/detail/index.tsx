@@ -13,7 +13,7 @@ const CustomerDetail = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/admin/customers')}>
+            <Button variant="ghost" size="icon" onClick={() => navigate('/admin/123/customers')}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div className="space-y-1">
@@ -68,7 +68,7 @@ const CustomerDetail = () => {
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <Button className="text-blue-500 hover:underline" variant='ghost' onClick={() => navigate('/admin/orders/1/detail')}>
+                        <Button className="text-blue-500 hover:underline" variant='ghost' onClick={() => navigate('/admin/123/orders/1/detail')}>
                           #2
                         </Button>
                         <div className="flex gap-1">
@@ -94,7 +94,7 @@ const CustomerDetail = () => {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold">Información del cliente</h2>
-                  <Button variant="outline" size="sm" onClick={() => navigate('/admin/customers/1/edit')}>
+                  <Button variant="outline" size="sm" onClick={() => navigate('/admin/123/customers/1/edit')}>
                     Editar
                   </Button>
                 </div>

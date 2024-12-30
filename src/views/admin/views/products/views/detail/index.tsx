@@ -29,7 +29,7 @@ const ProductDetail = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/products")}>
+            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/123/products")}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div className="flex items-center gap-2">

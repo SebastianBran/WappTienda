@@ -69,7 +69,7 @@ const CartModal = () => {
 
             <div className="mt-auto">
               <p className="font-bold">Total: ${getTotalPrice().toFixed(2)}</p>
-              <Button className="w-full mt-2" onClick={() => { navigate('/checkout') }}>
+              <Button className="w-full mt-2" onClick={() => { navigate('checkout') }}>
                 Ir a Checkout
               </Button>
             </div>

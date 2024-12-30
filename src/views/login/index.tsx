@@ -9,7 +9,7 @@ const LoginPage = () => {
 
   const onSubmit = () => {
     // Simulate login (replace with actual authentication)
-    navigate('/create-store')
+    navigate('/admin/123')
   }
 
   return (

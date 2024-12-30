@@ -25,7 +25,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/create-store" element={<CreateStore />} />
-        <Route path="/admin" element={<Admin />}>
+        <Route path="/admin/:storeAdminId" element={<Admin />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="orders">
@@ -45,8 +45,10 @@ function App() {
             <Route index element={<Settings />} />
           </Route>
         </Route>
-        <Route path="/store/:storeName" element={<Storefront />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/store/:storeName">
+          <Route index element={<Storefront />} />
+          <Route path="checkout" element={<CheckoutPage />} />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

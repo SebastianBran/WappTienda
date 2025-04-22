@@ -1,12 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ProductType } from './product-type.enum';
+import { OrderItem } from '../../orders/entities/order-item.entity';
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
+  @Index()
   sku: string;
 
   @Column()
@@ -50,6 +60,18 @@ export class Product {
   @Column()
   totalInventory: number;
 
-  @Column()
+  @Column({
+    default: true,
+  })
+  @Index()
   visible: boolean;
+
+  @Column({
+    default: false,
+  })
+  @Index()
+  deleted: boolean;
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
 }

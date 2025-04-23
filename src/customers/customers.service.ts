@@ -16,14 +16,16 @@ export class CustomersService {
   findAll(paginationQueryDto: PaginationQueryDto): Promise<Customer[]> {
     const { limit, offset } = paginationQueryDto;
     return this.customerRepository.find({
+      relations: ['orders'],
       take: limit,
       skip: offset,
     });
   }
 
   async findOne(id: number): Promise<Customer> {
-    const customer = await this.customerRepository.findOneBy({
-      id,
+    const customer = await this.customerRepository.findOne({
+      where: { id },
+      relations: ['orders'],
     });
 
     if (!customer) {

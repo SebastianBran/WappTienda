@@ -27,7 +27,7 @@ export class OrdersService {
     const { limit, offset } = paginationQueryDto;
 
     return this.orderRepository.find({
-      relations: ['orderItems', 'customer'],
+      relations: ['orderItems', 'orderItems.product', 'customer'],
       take: limit,
       skip: offset,
     });
@@ -36,7 +36,7 @@ export class OrdersService {
   async findOne(id: number): Promise<Order> {
     const order = await this.orderRepository.findOne({
       where: { id },
-      relations: ['orderItems', 'customer'],
+      relations: ['orderItems', 'orderItems.product', 'customer'],
     });
 
     if (!order) {
@@ -94,6 +94,7 @@ export class OrdersService {
   async preloadOrderItem(item: CreateOrderItemDto): Promise<OrderItem> {
     const product = await this.productRepository.findOneBy({
       id: item.productId,
+      deleted: false,
     });
 
     if (!product) {
@@ -104,7 +105,7 @@ export class OrdersService {
 
     const orderItem = this.orderItemRepository.create({
       ...item,
-      productId: product.id,
+      product,
     });
 
     return orderItem;

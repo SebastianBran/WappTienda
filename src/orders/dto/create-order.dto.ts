@@ -1,4 +1,10 @@
-import { IsEnum, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { OrderStatus } from '../entities/order-status.enum';
 import { PaymentStatus } from '../entities/payment-status.enum';
 import { CreateOrderItemDto } from './create-order-item.dto';
@@ -18,6 +24,10 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsString()
   internalNotes: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  customerId: number;
 
   @ValidateNested({ each: true })
   @Type(() => CreateOrderItemDto)

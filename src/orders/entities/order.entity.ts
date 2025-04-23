@@ -1,7 +1,14 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { OrderStatus } from './order-status.enum';
 import { PaymentStatus } from './payment-status.enum';
 import { OrderItem } from './order-item.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Entity()
 export class Order {
@@ -41,4 +48,10 @@ export class Order {
     onDelete: 'CASCADE',
   })
   orderItems: OrderItem[];
+
+  @Column()
+  customerId: number;
+
+  @ManyToOne(() => Customer, (customer) => customer.orders)
+  customer: Customer;
 }

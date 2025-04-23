@@ -8,6 +8,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { Product } from 'src/products/entities/product.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Injectable()
 export class OrdersService {
@@ -18,13 +19,15 @@ export class OrdersService {
     private readonly orderItemRepository: Repository<OrderItem>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(Customer)
+    private readonly customerRepository: Repository<Customer>,
   ) {}
 
   findAll(paginationQueryDto: PaginationQueryDto): Promise<Order[]> {
     const { limit, offset } = paginationQueryDto;
 
     return this.orderRepository.find({
-      relations: ['orderItems'],
+      relations: ['orderItems', 'customer'],
       take: limit,
       skip: offset,
     });
@@ -33,7 +36,7 @@ export class OrdersService {
   async findOne(id: number): Promise<Order> {
     const order = await this.orderRepository.findOne({
       where: { id },
-      relations: ['orderItems'],
+      relations: ['orderItems', 'customer'],
     });
 
     if (!order) {
@@ -44,6 +47,16 @@ export class OrdersService {
   }
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
+    const customer = await this.customerRepository.findOneBy({
+      id: createOrderDto.customerId,
+    });
+
+    if (!customer) {
+      throw new NotFoundException(
+        `Customer with ID ${createOrderDto.customerId} not found`,
+      );
+    }
+
     const orderItems = await Promise.all(
       createOrderDto.orderItems.map((item) => this.preloadOrderItem(item)),
     );

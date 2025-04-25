@@ -1,10 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionsFilter } from './common/filters/global-exceptions.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const isDev = process.env.NODE_ENV !== 'production';
+  const app = await NestFactory.create(AppModule, {
+    logger: new ConsoleLogger({
+      prefix: 'WappTienda',
+      logLevels: isDev
+        ? ['error', 'warn', 'log', 'debug']
+        : ['error', 'warn', 'log'],
+    }),
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

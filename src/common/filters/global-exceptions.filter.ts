@@ -4,15 +4,20 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { EntityNotFoundError, QueryFailedError, TypeORMError } from 'typeorm';
 
 @Catch()
 export class GlobalExceptionsFilter<T> implements ExceptionFilter {
+  private readonly logger = new Logger(GlobalExceptionsFilter.name);
+
   catch(exception: T, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+    const { method, url } = request;
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     if (exception instanceof HttpException) {
@@ -40,5 +45,7 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
       message,
       error: exception instanceof Error ? exception.name : 'Unknown Error',
     });
+
+    this.logger.error(`HTTP ${method} ${url} (${status}) - Error: ${message}`);
   }
 }

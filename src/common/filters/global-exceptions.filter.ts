@@ -25,8 +25,11 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
     }
 
     let message = 'Internal server error';
-    if (exception instanceof Error || exception instanceof HttpException) {
+    let exceptionName = 'Unknown Error';
+    if (exception instanceof Error) {
+      // HttpException extends Error
       message = exception.message;
+      exceptionName = exception.name;
     }
 
     if (exception instanceof TypeORMError) {
@@ -38,11 +41,6 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
           status = HttpStatus.NOT_FOUND;
           break;
       }
-    }
-
-    let exceptionName = 'Unknown Error';
-    if (exception instanceof Error) {
-      exceptionName = exception.name;
     }
 
     response.status(status).json({

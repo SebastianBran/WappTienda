@@ -40,10 +40,15 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
       }
     }
 
+    let exceptionName = 'Unknown Error';
+    if (exception instanceof Error) {
+      exceptionName = exception.name;
+    }
+
     response.status(status).json({
       statusCode: status,
       message,
-      error: exception instanceof Error ? exception.name : 'Unknown Error',
+      error: exceptionName,
     });
 
     this.logger.error(`HTTP ${method} ${url} (${status}) - Error: ${message}`);

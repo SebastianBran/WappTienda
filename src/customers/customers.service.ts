@@ -10,7 +10,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 export class CustomersService {
   constructor(
     @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>,
+    private readonly customerRepository: Repository<Customer>,
   ) {}
 
   findAll(paginationQueryDto: PaginationQueryDto): Promise<Customer[]> {

@@ -7,10 +7,15 @@ import { ConfigModule } from '@nestjs/config';
 import { OrdersModule } from './orders/orders.module';
 import { CustomersModule } from './customers/customers.module';
 import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env'],
+    }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
@@ -26,6 +31,8 @@ import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware
     ProductsModule,
     OrdersModule,
     CustomersModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -9,6 +9,12 @@ import {
 import { Request, Response } from 'express';
 import { EntityNotFoundError, QueryFailedError, TypeORMError } from 'typeorm';
 
+interface ErrorResponse {
+  statusCode: number;
+  message: string | string[];
+  error?: string;
+}
+
 @Catch()
 export class GlobalExceptionsFilter<T> implements ExceptionFilter {
   private readonly logger = new Logger(GlobalExceptionsFilter.name);
@@ -19,36 +25,75 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const { method, url } = request;
 
-    let status = HttpStatus.INTERNAL_SERVER_ERROR;
     if (exception instanceof HttpException) {
-      status = exception.getStatus();
+      this.handleHttpException(exception, response, method, url);
+      return;
     }
 
+    const errorResponse = this.createErrorResponse(exception);
+
+    response.status(errorResponse.statusCode).json(errorResponse);
+
+    this.logger.error(
+      `HTTP ${method} ${url} (${errorResponse.statusCode}) - Error: ${JSON.stringify(errorResponse.message)}`,
+    );
+  }
+
+  private handleHttpException(
+    exception: HttpException,
+    response: Response,
+    method: string,
+    url: string,
+  ): void {
+    const status = exception.getStatus();
+    let message: unknown;
+
+    if (typeof exception.getResponse() === 'string') {
+      message = exception.getResponse();
+    } else if (typeof exception.getResponse() === 'object') {
+      const responseObj = exception.getResponse();
+      message = responseObj['message'];
+    } else {
+      message = exception.getResponse();
+    }
+
+    response.status(status).json(exception.getResponse());
+
+    this.logger.error(
+      `HTTP ${method} ${url} (${status}) - Error: ${String(message)}`,
+    );
+  }
+
+  private createErrorResponse(exception: unknown): ErrorResponse {
+    let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
-    let exceptionName = 'Unknown Error';
-    if (exception instanceof Error) {
-      // HttpException extends Error
-      message = exception.message;
-      exceptionName = exception.name;
-    }
+    let errorType = 'Unknown Error';
 
-    if (exception instanceof TypeORMError) {
-      switch (exception.constructor) {
-        case QueryFailedError:
-          status = HttpStatus.BAD_REQUEST;
-          break;
-        case EntityNotFoundError:
-          status = HttpStatus.NOT_FOUND;
-          break;
+    if (exception instanceof Error) {
+      message = exception.message;
+      errorType = exception.name;
+
+      if (exception instanceof TypeORMError) {
+        statusCode = this.getTypeormErrorStatus(exception);
       }
     }
 
-    response.status(status).json({
-      statusCode: status,
+    return {
+      statusCode,
       message,
-      error: exceptionName,
-    });
+      error: errorType,
+    };
+  }
 
-    this.logger.error(`HTTP ${method} ${url} (${status}) - Error: ${message}`);
+  private getTypeormErrorStatus(error: TypeORMError): number {
+    if (error instanceof QueryFailedError) {
+      return HttpStatus.BAD_REQUEST;
+    }
+
+    if (error instanceof EntityNotFoundError) {
+      return HttpStatus.NOT_FOUND;
+    }
+
+    return HttpStatus.INTERNAL_SERVER_ERROR;
   }
 }

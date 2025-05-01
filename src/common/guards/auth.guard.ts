@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { RequestPayload } from '../interfaces/request-payload';
+import { AuthRequestPayload } from '../interfaces/request-payload';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
@@ -31,9 +31,12 @@ export class AuthGuard implements CanActivate {
     const token = this.extractToken(request);
 
     try {
-      const payload = await this.jwtService.verifyAsync<RequestPayload>(token, {
-        secret: process.env.JWT_SECRET,
-      });
+      const payload = await this.jwtService.verifyAsync<AuthRequestPayload>(
+        token,
+        {
+          secret: process.env.JWT_SECRET,
+        },
+      );
 
       request['user'] = payload;
     } catch (error) {

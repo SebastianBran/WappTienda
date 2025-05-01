@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { Role } from 'src/users/entities/role.enum';
 import { Request } from 'express';
-import { User } from 'src/users/entities/user.entity';
+import { AuthRequestPayload } from '../interfaces/request-payload';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -25,7 +25,7 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
 
     if (Object.hasOwn(request, 'user')) {
-      const user = request['user'] as User;
+      const user = request['user'] as AuthRequestPayload;
       return requiredRoles.some((role) => user.role === role);
     }
 

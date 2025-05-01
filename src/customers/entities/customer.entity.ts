@@ -1,5 +1,11 @@
 import { Order } from 'src/orders/entities/order.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Customer {
@@ -27,8 +33,12 @@ export class Customer {
   @Column()
   notes: string;
 
-  @OneToMany(() => Order, (order) => order.customer, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
+
+  @Column({
+    default: false,
+  })
+  @Index()
+  deleted: boolean;
 }

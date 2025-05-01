@@ -16,6 +16,7 @@ export class CustomersService {
   findAll(paginationQueryDto: PaginationQueryDto): Promise<Customer[]> {
     const { limit, offset } = paginationQueryDto;
     return this.customerRepository.find({
+      where: { deleted: false },
       relations: ['orders'],
       take: limit,
       skip: offset,
@@ -24,7 +25,7 @@ export class CustomersService {
 
   async findOne(id: number): Promise<Customer> {
     const customer = await this.customerRepository.findOne({
-      where: { id },
+      where: { id, deleted: false },
       relations: ['orders'],
     });
 
@@ -44,23 +45,16 @@ export class CustomersService {
     id: number,
     updateCustomerDto: UpdateCustomerDto,
   ): Promise<Customer> {
-    const customer = await this.customerRepository.preload({
-      id,
-      ...updateCustomerDto,
-    });
-
-    if (!customer) {
-      throw new NotFoundException(`Customer with ID ${id} not found`);
-    }
-
-    return this.customerRepository.save(customer);
+    const customer = await this.findOne(id);
+    return this.customerRepository.merge(customer, updateCustomerDto);
   }
 
   async remove(id: number): Promise<Customer> {
     const customer = await this.findOne(id);
 
     if (customer) {
-      return await this.customerRepository.remove(customer);
+      customer.deleted = true;
+      return await this.customerRepository.save(customer);
     }
 
     throw new NotFoundException(`Customer with ID ${id} not found`);

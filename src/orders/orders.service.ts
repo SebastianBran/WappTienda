@@ -9,6 +9,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { Product } from 'src/products/entities/product.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
+import { CreateCustomerDto } from 'src/customers/dto/create-customer.dto';
 
 @Injectable()
 export class OrdersService {
@@ -47,15 +48,7 @@ export class OrdersService {
   }
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    const customer = await this.customerRepository.findOneBy({
-      id: createOrderDto.customerId,
-    });
-
-    if (!customer) {
-      throw new NotFoundException(
-        `Customer with ID ${createOrderDto.customerId} not found`,
-      );
-    }
+    const customer = await this.preloadCustomer(createOrderDto.customer);
 
     const orderItems = await Promise.all(
       createOrderDto.orderItems.map((item) => this.preloadOrderItem(item)),
@@ -69,6 +62,7 @@ export class OrdersService {
       ...createOrderDto,
       totalAmount,
       orderItems,
+      customer,
     });
 
     await this.orderRepository.save(order);
@@ -91,6 +85,19 @@ export class OrdersService {
     return this.findOne(id);
   }
 
+  async preloadCustomer(customer: CreateCustomerDto): Promise<Customer> {
+    const existingCustomer = await this.customerRepository.findOneBy({
+      phone: customer.phone,
+    });
+
+    if (existingCustomer) {
+      existingCustomer.deleted = false;
+      return this.customerRepository.merge(existingCustomer, customer);
+    }
+
+    return this.customerRepository.create(customer);
+  }
+
   async preloadOrderItem(item: CreateOrderItemDto): Promise<OrderItem> {
     const product = await this.productRepository.findOneBy({
       id: item.productId,
@@ -103,12 +110,10 @@ export class OrdersService {
       );
     }
 
-    const orderItem = this.orderItemRepository.create({
+    return this.orderItemRepository.create({
       ...item,
       product,
     });
-
-    return orderItem;
   }
 
   async remove(id: number): Promise<Order> {

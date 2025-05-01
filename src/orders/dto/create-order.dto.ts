@@ -1,14 +1,9 @@
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { OrderStatus } from '../entities/order-status.enum';
 import { PaymentStatus } from '../entities/payment-status.enum';
 import { CreateOrderItemDto } from './create-order-item.dto';
 import { Type } from 'class-transformer';
+import { CreateCustomerDto } from 'src/customers/dto/create-customer.dto';
 
 export class CreateOrderDto {
   @IsNotEmpty()
@@ -25,9 +20,9 @@ export class CreateOrderDto {
   @IsString()
   internalNotes: string;
 
+  @Type(() => CreateCustomerDto)
   @IsNotEmpty()
-  @IsNumber()
-  customerId: number;
+  customer: CreateCustomerDto;
 
   @ValidateNested({ each: true })
   @Type(() => CreateOrderItemDto)

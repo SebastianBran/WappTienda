@@ -31,6 +31,7 @@ export class CustomersController {
     return this.customersService.findOne(id);
   }
 
+  @Roles(Role.ADMIN, Role.WRITER)
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto) {
     return this.customersService.create(createCustomerDto);

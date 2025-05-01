@@ -15,22 +15,31 @@ export class Customer {
   @Column()
   name: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   email: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
+  @Index()
   phone: string;
 
   @Column({
     type: 'date',
     transformer: {
-      to: (value: Date) => value,
+      to: (value: Date) => value || null,
       from: (value: Date) => new Date(value),
     },
+    nullable: true,
   })
   birthDate: Date;
 
-  @Column()
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   notes: string;
 
   @OneToMany(() => Order, (order) => order.customer)

@@ -52,6 +52,8 @@ export class Order {
   @Column()
   customerId: number;
 
-  @ManyToOne(() => Customer, (customer) => customer.orders)
+  @ManyToOne(() => Customer, (customer) => customer.orders, {
+    cascade: true,
+  })
   customer: Customer;
 }

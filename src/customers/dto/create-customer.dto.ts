@@ -12,13 +12,13 @@ export class CreateCustomerDto {
   @IsString()
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsDate()
   @IsNotEmpty()
-  birthDate: Date;
+  birthDate?: Date;
 
   @IsString()
   @IsNotEmpty()
-  notes: string;
+  notes?: string;
 }

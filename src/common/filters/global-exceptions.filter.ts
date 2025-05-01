@@ -12,7 +12,7 @@ import { EntityNotFoundError, QueryFailedError, TypeORMError } from 'typeorm';
 interface ErrorResponse {
   statusCode: number;
   message: string | string[];
-  error?: string;
+  error: string;
 }
 
 @Catch()
@@ -31,12 +31,11 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
     }
 
     const errorResponse = this.createErrorResponse(exception);
+    const { statusCode, message, error } = errorResponse;
 
-    response.status(errorResponse.statusCode).json(errorResponse);
+    response.status(statusCode).json(errorResponse);
 
-    this.logger.error(
-      `HTTP ${method} ${url} (${errorResponse.statusCode}) - Error: ${JSON.stringify(errorResponse.message)}`,
-    );
+    this.logError(method, url, statusCode, error, message);
   }
 
   private handleHttpException(
@@ -46,6 +45,7 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
     url: string,
   ): void {
     const status = exception.getStatus();
+    const errorType = exception.message;
     let message: unknown;
 
     if (typeof exception.getResponse() === 'string') {
@@ -59,9 +59,7 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
 
     response.status(status).json(exception.getResponse());
 
-    this.logger.error(
-      `HTTP ${method} ${url} (${status}) - Error: ${String(message)}`,
-    );
+    this.logError(method, url, status, errorType, message);
   }
 
   private createErrorResponse(exception: unknown): ErrorResponse {
@@ -95,5 +93,19 @@ export class GlobalExceptionsFilter<T> implements ExceptionFilter {
     }
 
     return HttpStatus.INTERNAL_SERVER_ERROR;
+  }
+
+  private logError(
+    method: string,
+    url: string,
+    statusCode: number,
+    error: string,
+    message: unknown,
+  ): void {
+    this.logger.error(
+      `HTTP ${method} ${url} (${statusCode}) - ${error}: ${JSON.stringify(
+        message,
+      )}`,
+    );
   }
 }

@@ -1,6 +1,8 @@
 import { OnApplicationBootstrap, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users.service';
+import { Role } from './entities/role.enum';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class BootstrapUserProvider implements OnApplicationBootstrap {
@@ -29,7 +31,13 @@ export class BootstrapUserProvider implements OnApplicationBootstrap {
       return;
     }
 
-    await this.usersService.create(username, password);
+    const createUserDto: CreateUserDto = {
+      username,
+      password,
+      role: Role.ADMIN,
+    };
+
+    await this.usersService.create(createUserDto, true);
     this.logger.log(`User ${username} created successfully.`);
   }
 }

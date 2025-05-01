@@ -1,4 +1,3 @@
-// bootstrap-user.provider.ts
 import { OnApplicationBootstrap, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users.service';

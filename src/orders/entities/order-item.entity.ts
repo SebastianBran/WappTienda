@@ -1,10 +1,12 @@
 import { Product } from '../../products/entities/product.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './order.entity';
 
@@ -36,4 +38,10 @@ export class OrderItem {
   })
   @JoinColumn()
   order: Order;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

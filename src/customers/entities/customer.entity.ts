@@ -1,10 +1,12 @@
 import { Order } from 'src/orders/entities/order.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -53,4 +55,10 @@ export class Customer {
   })
   @Index()
   deleted: boolean;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

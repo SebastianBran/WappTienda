@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { OrderStatus } from './order-status.enum';
 import { PaymentStatus } from './payment-status.enum';
@@ -56,4 +58,10 @@ export class Order {
     cascade: true,
   })
   customer: Customer;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

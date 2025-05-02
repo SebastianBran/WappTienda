@@ -18,6 +18,10 @@ export class UsersService {
     return this.userRepository.findOne({ where: { username } });
   }
 
+  existsMasterUser(): Promise<User | null> {
+    return this.userRepository.findOne({ where: { isMaster: true } });
+  }
+
   async create(createUserDto: CreateUserDto, isMaster = false) {
     const saltRounds = Number(this.configService.get('BCRYPT_SALT_ROUNDS', 10));
 

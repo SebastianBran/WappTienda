@@ -14,6 +14,13 @@ export class BootstrapUserProvider implements OnApplicationBootstrap {
   private readonly logger = new Logger(BootstrapUserProvider.name);
 
   async onApplicationBootstrap() {
+    const masterUserExists = await this.usersService.existsMasterUser();
+
+    if (masterUserExists) {
+      this.logger.warn('Master user already exists. Skipping creation.');
+      return;
+    }
+
     const username = this.configService.get<string>('DEFAULT_ADMIN_USER');
     const password = this.configService.get<string>('DEFAULT_ADMIN_PASSWORD');
 

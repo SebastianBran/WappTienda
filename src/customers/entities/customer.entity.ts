@@ -30,7 +30,10 @@ export class Customer {
     type: 'date',
     transformer: {
       to: (value: Date) => value || null,
-      from: (value: Date) => new Date(value),
+      from: (value: Date) => {
+        if (!value) return null;
+        return new Date(value);
+      },
     },
     nullable: true,
   })

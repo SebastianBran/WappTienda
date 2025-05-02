@@ -14,6 +14,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/users/entities/role.enum';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('orders')
 export class OrdersController {
@@ -34,6 +35,12 @@ export class OrdersController {
   @Roles(Role.ADMIN, Role.WRITER)
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.create(createOrderDto);
+  }
+
+  @Public()
+  @Post('/public')
+  createPublic(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
 

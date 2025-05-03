@@ -37,7 +37,7 @@ const CheckoutPage = () => {
       <h1 className="text-2xl font-bold">Checkout</h1>
       <div className="flex items-center gap-4 mb-4">
         <h2 className="text-lg mr-auto">Flores Juan</h2>
-        <Button variant="ghost" onClick={() => { navigate('/store/flores-juan') }}>
+        <Button variant="ghost" onClick={() => { navigate('/store') }}>
           <HomeIcon size={16} /> Volver
         </Button>
       </div>

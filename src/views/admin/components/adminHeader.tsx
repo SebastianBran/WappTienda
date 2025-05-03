@@ -12,11 +12,8 @@ const AdminHeader = () => {
           <HeaderBrandButton className='text-xl' />
         </div>
         <div className="flex gap-4">
-          <Button variant="ghost" onClick={() => navigate('/login')}>
+          <Button onClick={() => navigate('/login')}>
             Iniciar sesión
-          </Button>
-          <Button onClick={() => navigate('/register')}>
-            Registrarse
           </Button>
         </div>
       </div>

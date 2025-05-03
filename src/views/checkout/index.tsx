@@ -1,4 +1,4 @@
-import WhatsAppSvg from "@/assets/whatsappSvg"
+import WhatsAppSvg from "@/components/common/WhatsappSvg"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

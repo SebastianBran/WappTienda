@@ -11,7 +11,8 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import useLoginMutation from "@/hooks/useLoginMutation";
+import useLoginMutation from "@/api/mutations/useLoginMutation";
+import Spinner from "@/components/common/Spinner";
 
 const loginFormDefaultValues = {
   username: "",
@@ -19,14 +20,14 @@ const loginFormDefaultValues = {
 };
 
 const LoginForm: FC = () => {
-  const loginMutation = useLoginMutation();
+  const { mutate, isPending } = useLoginMutation();
   const form = useForm<LoginFormType>({
     defaultValues: loginFormDefaultValues,
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = (data: LoginFormType) => {
-    loginMutation.mutate(data);
+    mutate(data);
   };
 
   return (
@@ -58,7 +59,8 @@ const LoginForm: FC = () => {
           )}
         />
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending && <Spinner />}
           Iniciar Sesión
         </Button>
       </form>

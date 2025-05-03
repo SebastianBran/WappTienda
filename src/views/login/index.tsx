@@ -1,6 +1,6 @@
-import HeaderBrandButton from "@/components/common/headerBrandButton";
+import HeaderBrandButton from "@/components/common/HeaderBrandButton";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import LoginForm from "./components/loginForm";
+import LoginForm from "./components/LoginForm";
 
 const LoginPage = () => {
   return (

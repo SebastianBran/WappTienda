@@ -43,6 +43,7 @@ const excludedResponseInterceptorPaths = [
   "/auth/login",
   "/auth/refresh",
   "/auth/logout",
+  "/store",
 ];
 
 axiosInstance.interceptors.response.use(

@@ -51,9 +51,6 @@ export class Order {
   })
   orderItems: OrderItem[];
 
-  @Column()
-  customerId: number;
-
   @ManyToOne(() => Customer, (customer) => customer.orders, {
     cascade: true,
   })

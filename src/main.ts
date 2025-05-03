@@ -12,6 +12,7 @@ async function bootstrap() {
         ? ['error', 'warn', 'log', 'debug']
         : ['error', 'warn', 'log'],
     }),
+    cors: true,
   });
   app.useGlobalPipes(
     new ValidationPipe({

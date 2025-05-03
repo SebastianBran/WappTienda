@@ -51,7 +51,7 @@ const Products = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow onClick={() => navigate('/admin/123/products/1/detail')}>
+            <TableRow onClick={() => navigate('/admin/products/1/detail')}>
               <TableCell>
                 <Checkbox />
               </TableCell>
@@ -76,7 +76,7 @@ const Products = () => {
                 </Badge>
               </TableCell>
             </TableRow>
-            <TableRow onClick={() => navigate('/admin/123/products/2/detail')}>
+            <TableRow onClick={() => navigate('/admin/products/2/detail')}>
               <TableCell>
                 <Checkbox />
               </TableCell>

@@ -11,37 +11,35 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
 
 type AdminNavProps = React.ComponentProps<typeof Sidebar>
 
 const AdminSidebar = ({ className, ...props }: AdminNavProps) => {
-  const [storeId] = useState('123');
   const actions = [
     {
       title: "Dashboard",
       icon: Home,
-      url: `/admin/${storeId}`,
+      url: `/admin`,
     },
     {
       title: "Ordenes",
       icon: ShoppingCart,
-      url: `/admin/${storeId}/orders`,
+      url: `/admin/orders`,
     },
     {
       title: "Productos",
       icon: Store,
-      url: `/admin/${storeId}/products`,
+      url: `/admin/products`,
     },
     {
       title: "Clientes",
       icon: Users,
-      url: `/admin/${storeId}/customers`,
+      url: `/admin/customers`,
     },
     {
       title: "Configuración",
       icon: Settings,
-      url: `/admin/${storeId}/settings`,
+      url: `/admin/settings`,
     },
   ];
 

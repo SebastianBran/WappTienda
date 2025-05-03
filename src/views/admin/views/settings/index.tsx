@@ -24,7 +24,7 @@ const Settings = () => {
       <div className="flex flex-col">
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-14 items-center">
-            <Button className="flex items-center gap-2 text-sm font-medium" variant='ghost' onClick={() => navigate('/admin/123')}>
+            <Button className="flex items-center gap-2 text-sm font-medium" variant='ghost' onClick={() => navigate('/admin')}>
               <ChevronLeft className="h-4 w-4" />
               Volver al panel
             </Button>
@@ -37,7 +37,7 @@ const Settings = () => {
               <Button 
                 className="gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all justify-start hover:text-foreground"
                 variant='ghost'
-                onClick={() => navigate('/admin/123/settings')}
+                onClick={() => navigate('/admin/settings')}
               >
                 General
               </Button>

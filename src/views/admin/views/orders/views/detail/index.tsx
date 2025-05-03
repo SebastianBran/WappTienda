@@ -28,7 +28,7 @@ const OrderDetail = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/123/orders")}>
+            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/orders")}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <h1 className="text-xl font-semibold">
@@ -88,7 +88,7 @@ const OrderDetail = () => {
                     <Info className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div className="flex gap-2">
-                    <Input value="https://take.app/floresjuan" readOnly />
+                    <Input value="https://test.app/floresjuan" readOnly />
                     <Button variant="outline" size="icon">
                       <Copy className="h-4 w-4" />
                     </Button>
@@ -155,7 +155,7 @@ const OrderDetail = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Cliente</h3>
-                    <Button variant="ghost" size="sm" onClick={() => navigate("/admin/123/customers/1/detail")}>
+                    <Button variant="ghost" size="sm" onClick={() => navigate("/admin/customers/1/detail")}>
                       Ver
                     </Button>
                   </div>

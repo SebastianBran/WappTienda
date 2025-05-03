@@ -1,7 +1,6 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './views/home'
-import CreateStore from './views/createStore'
 import Admin from './views/admin'
 import Storefront from './views/storefront'
 import LoginPage from './views/login'
@@ -24,8 +23,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/create-store" element={<CreateStore />} />
-        <Route path="/admin/:storeAdminId" element={<Admin />}>
+        <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="orders">

@@ -9,7 +9,7 @@ const LoginPage = () => {
 
   const onSubmit = () => {
     // Simulate login (replace with actual authentication)
-    navigate('/admin/123')
+    navigate('/admin')
   }
 
   return (

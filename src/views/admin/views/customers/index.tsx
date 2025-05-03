@@ -50,7 +50,7 @@ const Customers = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow onClick={() => navigate('/admin/123/customers/1/detail')}>
+            <TableRow onClick={() => navigate('/admin/customers/1/detail')}>
               <TableCell>
                 <Checkbox />
               </TableCell>

@@ -11,7 +11,7 @@ const useLoginMutation = () => {
   return useMutation({
     mutationFn: authService.login,
     onSuccess: ({ data }) => {
-      setItem<string>("access_token", data.access_token);
+      setItem<string>("accessToken", data.access_token);
       navigate("/admin");
     },
     onError: () => {

@@ -54,6 +54,10 @@ export class OrdersService {
       createOrderDto.orderItems.map((item) => this.preloadOrderItem(item)),
     );
 
+    const totalItems = orderItems.reduce((total, item) => {
+      return total + item.quantity;
+    }, 0);
+
     const totalAmount = orderItems.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
@@ -61,6 +65,9 @@ export class OrdersService {
     const order = this.orderRepository.create({
       ...createOrderDto,
       totalAmount,
+      // TODO: Check if subtotalAmount is needed, if so, calculate it
+      subtotalAmount: totalAmount,
+      totalItems,
       orderItems,
       customer,
     });
@@ -75,7 +82,6 @@ export class OrdersService {
       id,
       ...updateOrderDto,
     });
-
     if (!order) {
       throw new NotFoundException(`Order with ID ${id} not found`);
     }

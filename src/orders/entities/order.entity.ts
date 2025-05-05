@@ -42,6 +42,17 @@ export class Order {
   })
   totalAmount: number;
 
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  subtotalAmount: number;
+
   @Column()
   internalNotes: string;
 
@@ -50,6 +61,9 @@ export class Order {
     onDelete: 'CASCADE',
   })
   orderItems: OrderItem[];
+
+  @Column()
+  totalItems: number;
 
   @ManyToOne(() => Customer, (customer) => customer.orders, {
     cascade: true,

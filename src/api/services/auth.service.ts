@@ -1,13 +1,13 @@
-import { LoginFormType } from "@/schemas/login.schema";
 import http from "./http-common";
 import { LoginResponse } from "@/types/auth";
 
 class AuthService {
-  login({ username, password }: LoginFormType) {
-    return http.post<LoginResponse>("/auth/login", {
+  async login(username: string, password: string): Promise<LoginResponse> {
+    const response = await http.post<LoginResponse>("/auth/login", {
       username,
       password,
     });
+    return response.data;
   }
 }
 

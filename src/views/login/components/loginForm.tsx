@@ -14,15 +14,13 @@ import {
 import useLoginMutation from "@/api/mutations/useLoginMutation";
 import Spinner from "@/components/common/Spinner";
 
-const loginFormDefaultValues = {
-  username: "",
-  password: "",
-};
-
 const LoginForm: FC = () => {
   const { mutate, isPending } = useLoginMutation();
   const form = useForm<LoginFormType>({
-    defaultValues: loginFormDefaultValues,
+    defaultValues: {
+      username: "",
+      password: "",
+    },
     resolver: zodResolver(loginSchema),
   });
 

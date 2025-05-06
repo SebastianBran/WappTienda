@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,6 +11,7 @@ import ViewLoading from "@/components/common/ViewLoading";
 import CustomerdCard from "./components/CustomerdCard";
 import UpdateOrderForm from "./components/UpdateOrderForm";
 import OrderSummary from "./components/OrderSummary";
+import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
 
 const OrderDetail = () => {
   const { orderId } = useParams();
@@ -20,7 +20,7 @@ const OrderDetail = () => {
   );
   const navigate = useNavigate();
 
-  if (getOrderLoading) {
+  if (getOrderLoading || !order) {
     return <ViewLoading />;
   }
 
@@ -37,18 +37,18 @@ const OrderDetail = () => {
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <h1 className="text-xl font-semibold">
-              #{order?.id} {order?.customer.name}
+              #{order.id} {order.customer.name}
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                <ConfirmDeleteDialog orderId={order.id} />
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -61,7 +61,7 @@ const OrderDetail = () => {
           </div>
 
           <div className="flex flex-col space-y-6">
-            <CustomerdCard customer={order?.customer} />
+            <CustomerdCard customer={order.customer} />
           </div>
         </div>
       </div>

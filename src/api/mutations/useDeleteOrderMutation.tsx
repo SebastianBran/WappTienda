@@ -13,10 +13,13 @@ const useDeleteOrderMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["order", "orders"] });
       navigate("/admin/orders");
       toast({
-        title: "Success",
-        description: `Order ${variables.id} deleted successfully`,
-        variant: "default",
+        title: "Exitoso",
+        description: `Orden #${variables.id} eliminada`,
+        variant: "success",
       });
+    },
+    onError: (error) => {
+      console.error("Error deleting order", error);
     },
   });
 };

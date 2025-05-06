@@ -23,13 +23,13 @@ const Orders = () => {
       case OrderStatus.PENDING:
         return "Pendiente";
       case OrderStatus.CANCELLED:
-        return "Cancelada";
+        return "Cancelado";
       case OrderStatus.CONFIRMED:
-        return "Completada";
+        return "Completado";
       case OrderStatus.DELIVERED:
-        return "Entregada";
+        return "Entregado";
       default:
-        return "Desconocida";
+        return "Desconocido";
     }
   };
 
@@ -38,17 +38,17 @@ const Orders = () => {
       case PaymentStatus.PENDING:
         return "Pendiente";
       case PaymentStatus.PAID:
-        return "Pagada";
+        return "Pagado";
       case PaymentStatus.REFUNDED:
-        return "Reembolsada";
+        return "Reembolsado";
       case PaymentStatus.PARTIALLY_REFUNDED:
-        return "Reembolsada parcialmente";
+        return "Reembolsado parcialmente";
       case PaymentStatus.FAILED:
-        return "Fallida";
+        return "Fallido";
       case PaymentStatus.CANCELED:
-        return "Cancelada";
+        return "Cancelado";
       default:
-        return "Desconocida";
+        return "Desconocido";
     }
   };
 

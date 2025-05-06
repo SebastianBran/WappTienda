@@ -1,8 +1,6 @@
-import { ArrowLeft, Copy, ExternalLink, Info, MoreHorizontal } from 'lucide-react';
+import { ArrowLeft, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -17,10 +15,56 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
+import useGetOrderByIdQuery from "@/api/queries/useGetOrderByIdQuery";
+import { orderStatus, paymentStatus } from "@/lib/constants";
+import useUpdateOrderMutation from "@/api/mutations/useUpdateOrderMutation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import updateOrderSchema, {
+  UpdateOrderFormType,
+} from "@/schemas/updateOrder.schema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { useEffect } from "react";
+import Spinner from "@/components/common/Spinner";
+import ViewLoading from "@/components/common/ViewLoading";
 
 const OrderDetail = () => {
+  const { orderId } = useParams();
+  const { data: order, isPending: getOrderLoading } = useGetOrderByIdQuery(Number(orderId || 0));
+  const { mutate, isPending: updateOrderLoading } = useUpdateOrderMutation();
   const navigate = useNavigate();
+  const form = useForm({
+    defaultValues: {
+      status: order?.status,
+      paymentStatus: order?.paymentStatus,
+      internalNotes: order?.internalNotes,
+    },
+    resolver: zodResolver(updateOrderSchema),
+  });
+
+  useEffect(() => {
+    if (order) {
+      form.reset(order);
+    }
+  }, [order, form]);
+
+  const onSubmit = (data: UpdateOrderFormType) => {
+    const orderId = order?.id;
+    if (orderId) {
+      mutate({ id: order?.id, data });
+    }
+  };
+
+  if (getOrderLoading) {
+    return <ViewLoading />;
+  }
 
   return (
     <div className="container mx-auto py-6">
@@ -28,11 +72,15 @@ const OrderDetail = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/orders")}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/admin/orders")}
+            >
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <h1 className="text-xl font-semibold">
-              #2 Estefano Sebastian Bran Zapata
+              #{order?.id} {order?.customer.name}
             </h1>
           </div>
           <div className="flex items-center gap-2">
@@ -52,67 +100,102 @@ const OrderDetail = () => {
         <div className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
             {/* Status Section */}
-            <Card>
-              <CardContent className="p-6 space-y-4">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label>Estado</Label>
-                    <Select defaultValue="pending">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="pending">Pendiente</SelectItem>
-                        <SelectItem value="processing">En Proceso</SelectItem>
-                        <SelectItem value="completed">Completado</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Estado del Pago</Label>
-                    <Select defaultValue="unpaid">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="unpaid">No Pagado</SelectItem>
-                        <SelectItem value="paid">Pagado</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Label>Enlace de Pago</Label>
-                    <Info className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <div className="flex gap-2">
-                    <Input value="https://test.app/floresjuan" readOnly />
-                    <Button variant="outline" size="icon">
-                      <Copy className="h-4 w-4" />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Card>
+                  <CardContent className="p-6 space-y-4">
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <FormField
+                          control={form.control}
+                          name="status"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Estado</FormLabel>
+                              <FormControl>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  value={field.value}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Selecciona el estado de la orden" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {orderStatus.map((status) => (
+                                      <SelectItem
+                                        key={status.value}
+                                        value={status.value}
+                                      >
+                                        {status.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <FormField
+                          control={form.control}
+                          name="paymentStatus"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Estado del Pago</FormLabel>
+                              <FormControl>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  value={field.value}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Selecciona el estado del pago" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {paymentStatus.map((status) => (
+                                      <SelectItem
+                                        key={status.value}
+                                        value={status.value}
+                                      >
+                                        {status.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <FormField
+                        control={form.control}
+                        name="internalNotes"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Notas Internas</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Añadir una nota (invisible para los clientes)"
+                                {...field}
+                                defaultValue={field.value}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className="w-full" disabled={updateOrderLoading}>
+                      {updateOrderLoading && <Spinner />}
+                      Guardar Cambios
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Nota Interna</Label>
-                  <Textarea placeholder="Añadir una nota (invisible para los clientes)" />
-                </div>
-
-                <div className="border-2 border-dashed rounded-lg p-6 text-center">
-                  <p className="text-muted-foreground">
-                    Arrastra un archivo aquí o haz clic para seleccionar uno
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    El archivo no debe exceder los 10mb. La proporción recomendada es 1:1.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                  </CardFooter>
+                </Card>
+              </form>
+            </Form>
 
             {/* Order Items */}
             <Card>
@@ -120,27 +203,35 @@ const OrderDetail = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <h3 className="font-semibold">Artículos</h3>
-                    <p className="text-sm text-muted-foreground">1 artículo</p>
+                    <p className="text-sm text-muted-foreground">
+                      {order?.totalItems}{" "}
+                      {order?.totalItems && order.totalItems > 1
+                        ? "artículos"
+                        : "artículo"}
+                    </p>
                   </div>
-                  <div className="flex justify-between items-center py-2">
-                    <div className="flex items-center gap-4">
-                      <span>1x</span>
-                      <span>Girasol</span>
+                  {order?.orderItems.map((item) => (
+                    <div
+                      className="flex flex-col"
+                      key={item.id + item.product.name}
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <span>{item.quantity}x</span>
+                          <span>{item.product.name}</span>
+                        </div>
+                        <span>S/ {item.price * item.quantity}</span>
+                      </div>
                     </div>
-                    <span>S/ 3.00</span>
-                  </div>
+                  ))}
                   <div className="border-t pt-4 space-y-2">
                     <div className="flex justify-between">
-                      <span>Total de artículos (1)</span>
-                      <span>S/ 3.00</span>
-                    </div>
-                    <div className="flex justify-between">
                       <span>Subtotal</span>
-                      <span>S/ 3.00</span>
+                      <span>S/ {order?.subtotalAmount}</span>
                     </div>
                     <div className="flex justify-between font-semibold">
                       <span>Total</span>
-                      <span>S/ 3.00</span>
+                      <span>S/ {order?.totalAmount}</span>
                     </div>
                   </div>
                 </div>
@@ -155,20 +246,32 @@ const OrderDetail = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Cliente</h3>
-                    <Button variant="ghost" size="sm" onClick={() => navigate("/admin/customers/1/detail")}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        navigate(
+                          `/admin/customers/${order?.customer.id}/detail`,
+                        )
+                      }
+                    >
                       Ver
                     </Button>
                   </div>
                   <div className="space-y-2">
                     <div className="grid grid-cols-3 gap-2">
-                      <span className="text-sm text-muted-foreground">Nombre</span>
-                      <span className="col-span-2">
-                        Estefano Sebastian Bran Zapata
+                      <span className="text-sm text-muted-foreground">
+                        Nombre
                       </span>
+                      <span className="col-span-2">{order?.customer.name}</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      <span className="text-sm text-muted-foreground">Teléfono</span>
-                      <span className="col-span-2">51987961985</span>
+                      <span className="text-sm text-muted-foreground">
+                        Teléfono
+                      </span>
+                      <span className="col-span-2">
+                        {order?.customer.phone}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -179,6 +282,6 @@ const OrderDetail = () => {
       </div>
     </div>
   );
-}
+};
 
 export default OrderDetail;

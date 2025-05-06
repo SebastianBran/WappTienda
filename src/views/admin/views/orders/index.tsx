@@ -7,26 +7,61 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useEffect } from "react";
+import useGetAllOrdersQuery from "@/api/queries/useGetAllOrdersQuery";
+import { OrderStatus, PaymentStatus } from "@/types/orders";
+import ViewLoading from "@/components/common/ViewLoading";
 
 const Orders = () => {
   const navigate = useNavigate();
   const { setOpen } = useSidebar();
+  const { data, isPending } = useGetAllOrdersQuery();
 
   useEffect(() => {
     setOpen(true);
   }, [setOpen]);
+
+  const parseOrderStatus = (status: OrderStatus) => {
+    switch (status) {
+      case OrderStatus.PENDING:
+        return "Pendiente";
+      case OrderStatus.CANCELLED:
+        return "Cancelada";
+      case OrderStatus.CONFIRMED:
+        return "Completada";
+      case OrderStatus.DELIVERED:
+        return "Entregada";
+      default:
+        return "Desconocida";
+    }
+  };
+
+  const parsePaymentStatus = (status: PaymentStatus) => {
+    switch (status) {
+      case PaymentStatus.PENDING:
+        return "Pendiente";
+      case PaymentStatus.PAID:
+        return "Pagada";
+      case PaymentStatus.REFUNDED:
+        return "Reembolsada";
+      case PaymentStatus.PARTIALLY_REFUNDED:
+        return "Reembolsada parcialmente";
+      case PaymentStatus.FAILED:
+        return "Fallida";
+      case PaymentStatus.CANCELED:
+        return "Cancelada";
+      default:
+        return "Desconocida";
+    }
+  };
+
+  if (isPending) {
+    return <ViewLoading />;
+  }
 
   return (
     <div className="container mx-auto py-6">
@@ -49,42 +84,54 @@ const Orders = () => {
               <TableHead>Orden</TableHead>
               <TableHead>Fecha</TableHead>
               <TableHead>Estado</TableHead>
+              <TableHead>Pago</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow onClick={() => navigate("/admin/orders/2/detail")}>
-              <TableCell>
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                <div>
-                  <div className="font-medium">#2</div>
-                  <div className="text-sm text-muted-foreground">
-                    Estefano Sebastian Bran Zapata
+            {data?.map((order) => (
+              <TableRow
+                onClick={() => navigate(`/admin/orders/${order.id}/detail`)}
+                key={order.id + order.customer.name}
+              >
+                <TableCell>
+                  <Checkbox />
+                </TableCell>
+                <TableCell>
+                  <div>
+                    <div className="font-medium">#{order.id}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {order.customer.name}
+                    </div>
                   </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="text-sm text-muted-foreground">
-                  28 Nov 2024 23:26
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="flex gap-1">
-                  <Badge variant="secondary">PENDIENTE</Badge>
-                  <Badge variant="secondary">NO PAGADO</Badge>
-                  <Badge variant="secondary">NO CUMPLIDO</Badge>
-                </div>
-              </TableCell>
-            </TableRow>
+                </TableCell>
+                <TableCell>
+                  <div className="text-sm text-muted-foreground">
+                    {new Date(order.created_at).toLocaleDateString("es-ES")}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-1">
+                    <Badge variant="secondary">
+                      {parseOrderStatus(order.status)}
+                    </Badge>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-1">
+                    <Badge variant="secondary">
+                      {parsePaymentStatus(order.paymentStatus)}
+                    </Badge>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
 
-      <div className="flex items-center justify-between mt-4">
-        <div className="text-sm text-muted-foreground">
-          Total 1
-        </div>
+      {/* TODO: Implement pagination */}
+      {/* <div className="flex items-center justify-between mt-4">
+        <div className="text-sm text-muted-foreground">Total 1</div>
         <div className="flex items-center gap-2">
           <Select defaultValue="50">
             <SelectTrigger className="w-20">
@@ -104,9 +151,9 @@ const Orders = () => {
             {">"}
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
-  )
+  );
 };
 
 export default Orders;

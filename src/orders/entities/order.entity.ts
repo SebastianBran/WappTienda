@@ -53,7 +53,10 @@ export class Order {
   })
   subtotalAmount: number;
 
-  @Column()
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   internalNotes: string;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {

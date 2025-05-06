@@ -16,7 +16,6 @@ export class CreateOrderDto {
   @IsEnum(PaymentStatus)
   paymentStatus: string;
 
-  @IsNotEmpty()
   @IsString()
   internalNotes: string;
 

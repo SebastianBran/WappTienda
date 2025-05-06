@@ -11,9 +11,17 @@ import ProductInventory from "./components/ProductInventory";
 import ProductDescription from "./components/ProductDescription";
 import ProductPricing from "./components/ProductPricing";
 import ProductAttributes from "./components/ProductAttributes";
+import ViewLoading from "@/components/common/ViewLoading";
+import { useContext } from "react";
+import { ProductDetailContext } from "./ProductDetailContext";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
+  const { product, isPending } = useContext(ProductDetailContext);
+
+  if (isPending || !product) {
+    return <ViewLoading />;
+  }
 
   return (
     <div className="container mx-auto py-6">
@@ -28,7 +36,7 @@ const ProductDetail = () => {
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-semibold">Producto</h1>
+              <h1 className="text-xl font-semibold">Producto #{product.id}</h1>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -47,13 +55,13 @@ const ProductDetail = () => {
 
         <form className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
-            <ProductAttributes />
-            <ProductPricing />
-            <ProductDescription />
+            <ProductAttributes product={product} />
+            <ProductPricing product={product} />
+            <ProductDescription product={product} />
           </div>
 
           <div className="flex flex-col space-y-6">
-            <ProductInventory />
+            <ProductInventory product={product} />
           </div>
         </form>
       </div>

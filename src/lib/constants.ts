@@ -43,3 +43,14 @@ export const paymentStatus = [
     value: "CANCELED",
   },
 ];
+
+export const productTypes = [
+  {
+    label: "Físico",
+    value: "PHYSICAL",
+  },
+  {
+    label: "Digital",
+    value: "DIGITAL",
+  },
+];

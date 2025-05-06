@@ -1,11 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Product } from "@/types/products";
 import { FC } from "react";
 
-interface ProductPricingProps {}
+interface ProductPricingProps {
+  product: Product;
+}
 
-const ProductPricing: FC<ProductPricingProps> = () => {
+const ProductPricing: FC<ProductPricingProps> = ({ product }) => {
   return (
     <Card>
       <CardContent className="p-6 space-y-4">
@@ -17,7 +20,7 @@ const ProductPricing: FC<ProductPricingProps> = () => {
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <span className="text-muted-foreground">PEN</span>
               </div>
-              <Input id="price" defaultValue="5" className="pl-12" />
+              <Input id="price" className="pl-12" value={product.salesPrice} />
             </div>
           </div>
           <div className="space-y-2">
@@ -26,7 +29,7 @@ const ProductPricing: FC<ProductPricingProps> = () => {
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <span className="text-muted-foreground">PEN</span>
               </div>
-              <Input id="price" defaultValue="5" className="pl-12" />
+              <Input id="price" className="pl-12" value={product.price} />
             </div>
           </div>
         </div>

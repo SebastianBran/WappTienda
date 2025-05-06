@@ -14,8 +14,8 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
           <div className="flex justify-between items-center">
             <h3 className="font-semibold">Artículos</h3>
             <p className="text-sm text-muted-foreground">
-              {order?.totalItems}{" "}
-              {order?.totalItems && order.totalItems > 1
+              {order.totalItems}{" "}
+              {order.totalItems > 1
                 ? "artículos"
                 : "artículo"}
             </p>
@@ -34,11 +34,11 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
           <div className="border-t pt-4 space-y-2">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>S/ {order?.subtotalAmount}</span>
+              <span>S/ {order.subtotalAmount}</span>
             </div>
             <div className="flex justify-between font-semibold">
               <span>Total</span>
-              <span>S/ {order?.totalAmount}</span>
+              <span>S/ {order.totalAmount}</span>
             </div>
           </div>
         </div>

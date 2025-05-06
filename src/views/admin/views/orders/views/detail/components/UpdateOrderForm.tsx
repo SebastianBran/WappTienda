@@ -35,9 +35,9 @@ const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {
 
   const form = useForm({
     defaultValues: {
-      status: order?.status,
-      paymentStatus: order?.paymentStatus,
-      internalNotes: order?.internalNotes,
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+      internalNotes: order.internalNotes,
     },
     resolver: zodResolver(updateOrderSchema),
   });
@@ -49,10 +49,7 @@ const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {
   }, [order, form]);
 
   const onSubmit = (data: UpdateOrderFormType) => {
-    const orderId = order?.id;
-    if (orderId) {
-      mutate({ id: order?.id, data });
-    }
+    mutate({ id: order.id, data });
   };
 
   return (

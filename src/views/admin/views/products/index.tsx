@@ -8,25 +8,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { useNavigate } from 'react-router-dom';
-import { useSidebar } from "@/components/ui/sidebar";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useGetAllProductsQuery from "@/api/queries/useGetAllProductsQuery";
+import ViewLoading from "@/components/common/ViewLoading";
 
 const Products = () => {
   const navigate = useNavigate();
-  const { setOpen } = useSidebar();
+  const { data: products, isPending } = useGetAllProductsQuery();
 
-  useEffect(() => {
-    setOpen(true);
-  }, [setOpen]);
+  if (isPending) {
+    return <ViewLoading />;
+  }
 
   return (
     <div className="container mx-auto py-6">
@@ -51,64 +44,52 @@ const Products = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow onClick={() => navigate('/admin/products/1/detail')}>
-              <TableCell>
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-4">
-                  <img
-                    src="https://via.placeholder.com/48"
-                    alt="Girasol"
-                    width={48}
-                    height={48}
-                    className="rounded-lg object-cover"
-                  />
-                  <div>
-                    <div className="font-medium">Rosa</div>
-                    <div className="text-sm text-muted-foreground">S/ 5.00</div>
+            {products?.map((product) => (
+              <TableRow
+                key={product.id + product.name}
+                onClick={() => navigate(`/admin/products/${product.id}/detail`)}
+              >
+                <TableCell>
+                  <Checkbox />
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-4">
+                    <img
+                      src="https://via.placeholder.com/48"
+                      alt={product.name}
+                      width={48}
+                      height={48}
+                      className="rounded-lg object-cover"
+                    />
+                    <div>
+                      <div className="font-medium">{product.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        S/ {product.price.toFixed(2)}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <Badge variant="secondary" className="bg-green-50 text-green-700">
-                  VISIBLE
-                </Badge>
-              </TableCell>
-            </TableRow>
-            <TableRow onClick={() => navigate('/admin/products/2/detail')}>
-              <TableCell>
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-4">
-                  <img
-                    src="https://via.placeholder.com/48"
-                    alt="Girasol"
-                    width={48}
-                    height={48}
-                    className="rounded-lg object-cover"
-                  />
-                  <div>
-                    <div className="font-medium">Girasol</div>
-                    <div className="text-sm text-muted-foreground">S/ 3.00</div>
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <Badge variant="secondary" className="bg-green-50 text-green-700">
-                  VISIBLE
-                </Badge>
-              </TableCell>
-            </TableRow>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant="secondary"
+                    className={`${
+                      product.visible
+                        ? "bg-green-50 text-green-700"
+                        : "bg-red-50 text-red-700"
+                    }`}
+                  >
+                    {product.visible ? "VISIBLE" : "OCULTO"}
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
 
-      <div className="flex items-center justify-between mt-4">
-        <div className="text-sm text-muted-foreground">
-          Total 2
-        </div>
+      {/* TODO: Implement pagination */}
+      {/* <div className="flex items-center justify-between mt-4">
+        <div className="text-sm text-muted-foreground">Total 2</div>
         <div className="flex items-center gap-2">
           <Select defaultValue="50">
             <SelectTrigger className="w-20">
@@ -128,9 +109,9 @@ const Products = () => {
             {">"}
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
-  )
-}
+  );
+};
 
 export default Products;

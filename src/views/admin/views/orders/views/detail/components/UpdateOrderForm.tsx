@@ -27,7 +27,7 @@ import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface UpdateOrderFormProps {
-  order?: Order;
+  order: Order;
 }
 
 const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {

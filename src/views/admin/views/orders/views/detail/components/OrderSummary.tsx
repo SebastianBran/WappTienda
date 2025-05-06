@@ -3,7 +3,7 @@ import { Order } from "@/types/orders";
 import { FC } from "react";
 
 interface OrderSummaryProps {
-  order?: Order;
+  order: Order;
 }
 
 const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {

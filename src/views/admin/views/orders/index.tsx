@@ -10,20 +10,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
-import { useSidebar } from "@/components/ui/sidebar";
-import { useEffect } from "react";
 import useGetAllOrdersQuery from "@/api/queries/useGetAllOrdersQuery";
 import { OrderStatus, PaymentStatus } from "@/types/orders";
 import ViewLoading from "@/components/common/ViewLoading";
 
 const Orders = () => {
   const navigate = useNavigate();
-  const { setOpen } = useSidebar();
-  const { data, isPending } = useGetAllOrdersQuery();
-
-  useEffect(() => {
-    setOpen(true);
-  }, [setOpen]);
+  const { data: orders, isPending } = useGetAllOrdersQuery();
 
   const parseOrderStatus = (status: OrderStatus) => {
     switch (status) {
@@ -88,7 +81,7 @@ const Orders = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((order) => (
+            {orders?.map((order) => (
               <TableRow
                 onClick={() => navigate(`/admin/orders/${order.id}/detail`)}
                 key={order.id + order.customer.name}

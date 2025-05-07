@@ -50,7 +50,7 @@ export const productTypes = [
     value: "PHYSICAL",
   },
   {
-    label: "Digital",
-    value: "DIGITAL",
+    label: "Virtual",
+    value: "VIRTUAL",
   },
 ];

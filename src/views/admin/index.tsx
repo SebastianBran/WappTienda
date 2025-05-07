@@ -17,7 +17,7 @@ const Admin = () => {
       style={{ "--sidebar-width": "20rem" } as React.CSSProperties}
     >
       <AdminSidebar />
-      <main className="container mx-auto p-4">
+      <main className="container mx-auto p-4 relative">
         <Outlet />
       </main>
     </SidebarProvider>

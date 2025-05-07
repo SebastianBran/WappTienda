@@ -1,19 +1,18 @@
-import { Minus, Plus } from "lucide-react"
-import { Button } from "../ui/button"
+import { Minus, Plus } from "lucide-react";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { ComponentProps, FC, MouseEvent, useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
 
-interface QuantitySelectorProps {
-  quantity: number;
+type QuantitySelectorProps = ComponentProps<typeof Input> & {
   max?: number;
   min?: number;
-  onChange: (newQuantity: number) => void;
   className?: string;
-  disabled?: boolean;
   step?: number;
-}
+};
 
-const QuantitySelector = ({
-  quantity,
+const QuantitySelector: FC = ({
+  value: defaultValue,
   max = 100,
   min = 1,
   onChange,
@@ -21,15 +20,23 @@ const QuantitySelector = ({
   disabled = false,
   step = 1,
 }: QuantitySelectorProps) => {
-  const handleDecrease = () => {
-    if (!disabled && quantity > min) {
-      onChange(Math.max(min, quantity - step));
+  const [value, setValue] = useState<number>(Number(defaultValue) || min);
+
+  useEffect(() => {
+    setValue(Number(defaultValue || min));
+  }, [defaultValue, min]);
+
+  const handleDecrease = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!disabled && value > min) {
+      setValue(Math.max(min, value - step));
     }
   };
 
-  const handleIncrease = () => {
-    if (!disabled && quantity < max) {
-      onChange(Math.min(max, quantity + step));
+  const handleIncrease = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!disabled && value < max) {
+      setValue(Math.min(max, value + step));
     }
   };
 
@@ -46,26 +53,28 @@ const QuantitySelector = ({
         size="icon"
         className="w-6 h-6"
         onClick={handleDecrease}
-        disabled={disabled || quantity <= min}
+        disabled={disabled || value <= min}
       >
         <Minus />
       </Button>
 
-      <span className={disabled ? "text-gray-400" : ""}>
-        {quantity}
-      </span>
+      <Input
+        className={disabled ? "text-gray-400" : ""}
+        value={value}
+        onChange={onChange}
+      />
 
       <Button
         variant="outline"
         size="icon"
         className="w-6 h-6"
         onClick={handleIncrease}
-        disabled={disabled || quantity >= max}
+        disabled={disabled || value >= max}
       >
         <Plus />
       </Button>
     </div>
   );
-}
+};
 
 export default QuantitySelector;

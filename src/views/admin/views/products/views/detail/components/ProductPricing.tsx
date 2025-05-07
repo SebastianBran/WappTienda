@@ -1,36 +1,72 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Product } from "@/types/products";
 import { FC } from "react";
+import { useFormContext } from "react-hook-form";
 
-interface ProductPricingProps {
-  product: Product;
-}
+const ProductPricing: FC = () => {
+  const { control } = useFormContext();
 
-const ProductPricing: FC<ProductPricingProps> = ({ product }) => {
   return (
     <Card>
       <CardContent className="p-6 space-y-4">
         <h2 className="text-lg font-semibold">Precios</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="price">Precio</Label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <span className="text-muted-foreground">PEN</span>
-              </div>
-              <Input id="price" className="pl-12" value={product.salesPrice} />
-            </div>
+            <FormField
+              control={control}
+              name="salesPrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="price">Precio</FormLabel>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <span className="text-muted-foreground">PEN</span>
+                    </div>
+                    <Input
+                      id="price"
+                      className="pl-12"
+                      type="number"
+                      min={0}
+                      step={0.01}
+                      {...field}
+                      onChange={(e) => {
+                        const value = parseFloat(e.target.value || "0");
+                        field.onChange(value);
+                      }}
+                    />
+                  </div>
+                </FormItem>
+              )}
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="original-price">Precio original</Label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <span className="text-muted-foreground">PEN</span>
-              </div>
-              <Input id="price" className="pl-12" value={product.price} />
-            </div>
+            <FormField
+              control={control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="price">Precio original</FormLabel>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <span className="text-muted-foreground">PEN</span>
+                    </div>
+                    <Input
+                      id="price"
+                      className="pl-12"
+                      type="number"
+                      min={0}
+                      step={0.01}
+                      {...field}
+                      onChange={(e) => {
+                        const value = parseFloat(e.target.value || "0");
+                        field.onChange(value);
+                      }}
+                    />
+                  </div>
+                </FormItem>
+              )}
+            />
           </div>
         </div>
       </CardContent>

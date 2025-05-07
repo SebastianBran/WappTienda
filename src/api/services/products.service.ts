@@ -12,6 +12,11 @@ class ProductService {
     const response = await http.get(`/products/${id}`);
     return response.data;
   }
+
+  async update(id: number, product: Partial<Product>): Promise<Product> {
+    const response = await http.patch(`/products/${id}`, product);
+    return response.data;
+  }
 }
 
 export default new ProductService();

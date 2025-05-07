@@ -21,7 +21,7 @@ import { orderStatus, paymentStatus } from "@/lib/constants";
 import updateOrderSchema, {
   UpdateOrderFormType,
 } from "@/schemas/updateOrder.schema";
-import { Order } from "@/types/orders";
+import { Order, OrderStatus } from "@/types/orders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -35,9 +35,9 @@ const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {
 
   const form = useForm({
     defaultValues: {
-      status: order.status,
-      paymentStatus: order.paymentStatus,
-      internalNotes: order.internalNotes,
+      status: order.status || OrderStatus.PENDING,
+      paymentStatus: order.paymentStatus || OrderStatus.PENDING,
+      internalNotes: order.internalNotes || "",
     },
     resolver: zodResolver(updateOrderSchema),
   });
@@ -65,26 +65,28 @@ const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Estado</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        name={field.name}
+                      >
+                        <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Selecciona el estado de la orden" />
+                            <SelectValue
+                              ref={field.ref}
+                              onBlur={field.onBlur}
+                              placeholder="Selecciona el estado de la orden"
+                            />
                           </SelectTrigger>
-                          <SelectContent>
-                            {orderStatus.map((status) => (
-                              <SelectItem
-                                key={status.value}
-                                value={status.value}
-                              >
-                                {status.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {orderStatus.map((status) => (
+                            <SelectItem key={status.value} value={status.value}>
+                              {status.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormItem>
                   )}
                 />
@@ -95,27 +97,29 @@ const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {
                   name="paymentStatus"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Estado del Pago</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
+                      <FormLabel>Estado del pago</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        name={field.name}
+                      >
+                        <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Selecciona el estado del pago" />
+                            <SelectValue
+                              ref={field.ref}
+                              onBlur={field.onBlur}
+                              placeholder="Selecciona el estado del pago"
+                            />
                           </SelectTrigger>
-                          <SelectContent>
-                            {paymentStatus.map((status) => (
-                              <SelectItem
-                                key={status.value}
-                                value={status.value}
-                              >
-                                {status.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {paymentStatus.map((status) => (
+                            <SelectItem key={status.value} value={status.value}>
+                              {status.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormItem>
                   )}
                 />
@@ -132,6 +136,7 @@ const UpdateOrderForm: FC<UpdateOrderFormProps> = ({ order }) => {
                       <Textarea
                         placeholder="Añadir una nota (invisible para los clientes)"
                         {...field}
+                        value={field.value || ""}
                       />
                     </FormControl>
                   </FormItem>

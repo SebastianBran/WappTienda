@@ -7,10 +7,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
-import ProductInventory from "./components/ProductInventory";
-import ProductDescription from "./components/ProductDescription";
-import ProductPricing from "./components/ProductPricing";
-import ProductAttributes from "./components/ProductAttributes";
+import {
+  ProductInventory,
+  ProductDescription,
+  ProductPricing,
+  ProductAttributes,
+} from "./components";
 import ViewLoading from "@/components/common/ViewLoading";
 import { useContext, useEffect, useState } from "react";
 import { ProductDetailContext } from "./ProductDetailContext";

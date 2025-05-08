@@ -17,6 +17,10 @@ class ProductService {
     const response = await http.patch(`/products/${id}`, product);
     return response.data;
   }
+
+  async delete(id: number) {
+    await http.delete(`/products/${id}`);
+  }
 }
 
 export default new ProductService();

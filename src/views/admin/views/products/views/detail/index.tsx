@@ -21,12 +21,15 @@ import { UpdateProductSchema } from "@/schemas/updateProduct.schema";
 import { cn } from "@/lib/utils";
 import useUpdateProductMutation from "@/api/mutations/useUpdateProductMutation";
 import SaveChangesToolbar from "@/components/common/SaveChangesToolbar";
+import DeleteElementDialog from "@/components/common/DeleteElementDialog";
+import useDeleteProductMutation from "@/api/mutations/useDeleteProductMutation";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
   const [isFormChanged, setIsFormChanged] = useState(false);
   const { product, isPending } = useContext(ProductDetailContext);
-  const { mutate } = useUpdateProductMutation();
+  const { mutate: updateProductMutate } = useUpdateProductMutation();
+  const { mutate: deleteProductMutate } = useDeleteProductMutation();
   const form = useFormContext<UpdateProductSchema>();
 
   useEffect(() => {
@@ -37,23 +40,25 @@ const ProductDetail = () => {
     }
   }, [form.formState.isDirty]);
 
-  const onSubmit = (data: UpdateProductSchema) => {
-    if (product) {
-      mutate(
-        { id: product.id, data },
-        {
-          onSuccess: () => {
-            form.reset(data);
-            setIsFormChanged(false);
-          },
-        },
-      );
-    }
-  };
-
   if (isPending || !product) {
     return <ViewLoading />;
   }
+
+  const onSubmit = (data: UpdateProductSchema) => {
+    updateProductMutate(
+      { id: product.id, data },
+      {
+        onSuccess: () => {
+          form.reset(data);
+          setIsFormChanged(false);
+        },
+      },
+    );
+  };
+
+  const handleDelete = () => {
+    deleteProductMutate({ id: product.id });
+  };
 
   // TODO: Implement a error view if the product is not found
 
@@ -78,14 +83,23 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <DropdownMenu>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                  <DeleteElementDialog
+                    title="Eliminar producto"
+                    description="¿Estás seguro de que deseas eliminar este producto?"
+                    trigger={
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        Eliminar
+                      </DropdownMenuItem>
+                    }
+                    onDelete={handleDelete}
+                  />
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

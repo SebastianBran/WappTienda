@@ -8,7 +8,7 @@ interface CustomerCardProps {
   customer: Customer;
 }
 
-const CustomerdCard: FC<CustomerCardProps> = ({ customer }) => {
+const CustomerCard: FC<CustomerCardProps> = ({ customer }) => {
   const navigate = useNavigate();
 
   return (
@@ -43,4 +43,4 @@ const CustomerdCard: FC<CustomerCardProps> = ({ customer }) => {
   );
 };
 
-export default CustomerdCard;
+export default CustomerCard;

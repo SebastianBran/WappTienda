@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetOrderByIdQuery from "@/api/queries/useGetOrderByIdQuery";
 import ViewLoading from "@/components/common/ViewLoading";
-import CustomerdCard from "./components/CustomerdCard";
-import UpdateOrderForm from "./components/UpdateOrderForm";
-import OrderSummary from "./components/OrderSummary";
-import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
+import DeleteElementDialog from "@/components/common/DeleteElementDialog";
+import useDeleteOrderMutation from "@/api/mutations/useDeleteOrderMutation";
+import { OrderSummary, UpdateOrderForm, CustomerCard } from "./components";
 
 const OrderDetail = () => {
   const { orderId } = useParams();
@@ -19,10 +19,15 @@ const OrderDetail = () => {
     Number(orderId || 0),
   );
   const navigate = useNavigate();
+  const { mutate } = useDeleteOrderMutation();
 
   if (getOrderLoading || !order) {
     return <ViewLoading />;
   }
+
+  const handleDelete = () => {
+    mutate({ id: order.id });
+  };
 
   return (
     <div className="container mx-auto py-6">
@@ -48,7 +53,16 @@ const OrderDetail = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <ConfirmDeleteDialog orderId={order.id} />
+                <DeleteElementDialog
+                  title="Eliminar orden"
+                  description="¿Estás seguro de que deseas eliminar esta orden?"
+                  trigger={
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                      Eliminar
+                    </DropdownMenuItem>
+                  }
+                  onDelete={handleDelete}
+                />
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -61,7 +75,7 @@ const OrderDetail = () => {
           </div>
 
           <div className="flex flex-col space-y-6">
-            <CustomerdCard customer={order.customer} />
+            <CustomerCard customer={order.customer} />
           </div>
         </div>
       </div>

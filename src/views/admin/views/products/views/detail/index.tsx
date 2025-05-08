@@ -1,4 +1,4 @@
-import { ArrowLeft, MoreHorizontal, Save, Trash } from "lucide-react";
+import { ArrowLeft, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,6 +18,7 @@ import { useFormContext } from "react-hook-form";
 import { UpdateProductSchema } from "@/schemas/updateProduct.schema";
 import { cn } from "@/lib/utils";
 import useUpdateProductMutation from "@/api/mutations/useUpdateProductMutation";
+import SaveChangesToolbar from "@/components/common/SaveChangesToolbar";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -29,17 +30,22 @@ const ProductDetail = () => {
   useEffect(() => {
     if (form.formState.isDirty) {
       setIsFormChanged(true);
+    } else {
+      setIsFormChanged(false);
     }
-  }, [form.formState]);
+  }, [form.formState.isDirty]);
 
   const onSubmit = (data: UpdateProductSchema) => {
     if (product) {
-      mutate({ id: product.id, data }, {
-        onSuccess: () => {
-          form.reset(data);
-          setIsFormChanged(false);
+      mutate(
+        { id: product.id, data },
+        {
+          onSuccess: () => {
+            form.reset(data);
+            setIsFormChanged(false);
+          },
         },
-      });
+      );
     }
   };
 
@@ -47,31 +53,11 @@ const ProductDetail = () => {
     return <ViewLoading />;
   }
 
+  // TODO: Implement a error view if the product is not found
+
   return (
     <>
-      {isFormChanged && (
-        <div className="absolute top-0 left-0 bg-gray-300 border-b w-full px-4">
-          <div className="container mx-auto py-3 flex items-center gap-4">
-            <span className="text-sm font-medium">Cambios sin guardar</span>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                form.reset();
-                setIsFormChanged(false);
-              }}
-              className="gap-2 ml-auto"
-            >
-              <Trash className="h-4 w-4" /> Descartar
-            </Button>
-            <Button
-              onClick={() => form.handleSubmit(onSubmit)()}
-              className="gap-2"
-            >
-              <Save className="h-4 w-4" /> Guardar
-            </Button>
-          </div>
-        </div>
-      )}
+      {isFormChanged && <SaveChangesToolbar form={form} onSubmit={onSubmit} />}
       <div className={cn("container mx-auto py-6", isFormChanged && "pt-16")}>
         <div className="space-y-6">
           <div className="flex items-center justify-between">

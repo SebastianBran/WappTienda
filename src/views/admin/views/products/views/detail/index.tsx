@@ -14,7 +14,7 @@ import {
   ProductAttributes,
 } from "./components";
 import ViewLoading from "@/components/common/ViewLoading";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ProductDetailContext } from "./ProductDetailContext";
 import { useFormContext } from "react-hook-form";
 import { UpdateProductSchema } from "@/schemas/updateProduct.schema";
@@ -26,19 +26,11 @@ import useDeleteProductMutation from "@/api/mutations/useDeleteProductMutation";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
-  const [isFormChanged, setIsFormChanged] = useState(false);
   const { product, isPending } = useContext(ProductDetailContext);
   const { mutate: updateProductMutate } = useUpdateProductMutation();
   const { mutate: deleteProductMutate } = useDeleteProductMutation();
   const form = useFormContext<UpdateProductSchema>();
-
-  useEffect(() => {
-    if (form.formState.isDirty) {
-      setIsFormChanged(true);
-    } else {
-      setIsFormChanged(false);
-    }
-  }, [form.formState.isDirty]);
+  const isFormChanged = form.formState.isDirty;
 
   if (isPending || !product) {
     return <ViewLoading />;
@@ -50,7 +42,6 @@ const ProductDetail = () => {
       {
         onSuccess: () => {
           form.reset(data);
-          setIsFormChanged(false);
         },
       },
     );

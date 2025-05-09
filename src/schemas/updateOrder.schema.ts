@@ -4,9 +4,9 @@ import { z } from "zod";
 const updateOrderSchema = z.object({
   status: z.nativeEnum(OrderStatus).optional(),
   paymentStatus: z.nativeEnum(PaymentStatus).optional(),
-  internalNotes: z.string().optional(),
+  internalNotes: z.string().nullable(),
 });
 
-export type UpdateOrderFormType = z.infer<typeof updateOrderSchema>;
+export type UpdateOrderSchema = z.infer<typeof updateOrderSchema>;
 
 export default updateOrderSchema;

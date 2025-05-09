@@ -22,6 +22,7 @@ import Settings from "./views/admin/views/settings";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { ProductDetailWrapper } from "./views/admin/views/products/views/detail/ProductDetailWrapper";
+import { OrderDetailWrapper } from "./views/admin/views/orders/views/detail/OrderDetailWrapper";
 
 const queryClient = new QueryClient();
 
@@ -37,7 +38,14 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="orders">
               <Route index element={<Orders />} />
-              <Route path=":orderId/detail" element={<OrderDetail />} />
+              <Route
+                path=":orderId/detail"
+                element={
+                  <OrderDetailWrapper>
+                    <OrderDetail />
+                  </OrderDetailWrapper>
+                }
+              />
             </Route>
             <Route path="products">
               <Route index element={<Products />} />

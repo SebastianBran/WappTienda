@@ -7,7 +7,7 @@ export interface Order {
   paymentStatus: PaymentStatus;
   totalAmount: number;
   subtotalAmount: number;
-  internalNotes: string;
+  internalNotes: string | null;
   orderItems: OrderItem[];
   totalItems: number;
   customer: Customer;

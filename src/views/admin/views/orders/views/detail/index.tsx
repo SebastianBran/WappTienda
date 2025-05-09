@@ -38,12 +38,19 @@ const OrderDetail = () => {
         onSuccess: () => {
           form.reset(data);
         },
-      }
+      },
     );
   };
 
   const handleDelete = () => {
-    deleteOrderMutate({ id: order.id });
+    deleteOrderMutate(
+      { id: order.id },
+      {
+        onSuccess: () => {
+          navigate("/admin/orders");
+        },
+      },
+    );
   };
 
   return (

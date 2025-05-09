@@ -48,7 +48,14 @@ const ProductDetail = () => {
   };
 
   const handleDelete = () => {
-    deleteProductMutate({ id: product.id });
+    deleteProductMutate(
+      { id: product.id },
+      {
+        onSuccess: () => {
+          navigate("/admin/products");
+        },
+      },
+    );
   };
 
   // TODO: Implement a error view if the product is not found

@@ -10,7 +10,7 @@ const useUpdateOrderMutation = () => {
     mutationFn: ({ id, data }: { id: number; data: UpdateOrderSchema }) =>
       ordersService.update(id, data),
     onSuccess: (data, variables) => {
-      queryClient.setQueryData(["order", variables.id], data);
+      queryClient.invalidateQueries({ queryKey: ["order", variables.id] });
       toast({
         title: "Exitoso",
         description: `Orden #${data.id} actualizada correctamente`,

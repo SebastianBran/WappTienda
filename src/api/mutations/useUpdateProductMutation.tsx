@@ -10,7 +10,7 @@ const useUpdateProductMutation = () => {
     mutationFn: ({ id, data }: { id: number; data: UpdateProductSchema }) =>
       productsService.update(id, data),
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["products", variables.id] });
+      queryClient.invalidateQueries({ queryKey: ["product", variables.id] });
       toast({
         title: "Success",
         description: `Product #${data.id} updated successfully`,

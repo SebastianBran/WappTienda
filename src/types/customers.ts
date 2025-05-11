@@ -1,3 +1,5 @@
+import { Order } from "./orders";
+
 export interface Customer {
   id: number;
   name: string;
@@ -8,4 +10,5 @@ export interface Customer {
   deleted: boolean;
   created_at: string;
   updated_at: string;
+  orders: Order[];
 }

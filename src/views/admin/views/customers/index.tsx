@@ -8,24 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useNavigate } from 'react-router-dom';
-import { useSidebar } from "@/components/ui/sidebar";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useGetAllCustomersQuery from "@/api/queries/useGetAllCustomersQuery";
+import ViewLoading from "@/components/common/ViewLoading";
 
 const Customers = () => {
   const navigate = useNavigate();
-  const { setOpen } = useSidebar();
+  const { data: customers, isPending } = useGetAllCustomersQuery();
 
-  useEffect(() => {
-    setOpen(true);
-  }, [setOpen]);
+  if (isPending) {
+    return <ViewLoading />;
+  }
 
   return (
     <div className="container mx-auto py-6">
@@ -50,24 +43,30 @@ const Customers = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow onClick={() => navigate('/admin/customers/1/detail')}>
-              <TableCell>
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                <div className="font-medium">
-                  Estefano Sebastian Bran Zapata
-                </div>
-              </TableCell>
-              <TableCell className="text-muted-foreground">
-                +51 987 961 985
-              </TableCell>
-            </TableRow>
+            {customers?.map((customer) => (
+              <TableRow
+                key={customer.id + customer.name}
+                onClick={() =>
+                  navigate(`/admin/customers/${customer.id}/detail`)
+                }
+              >
+                <TableCell>
+                  <Checkbox />
+                </TableCell>
+                <TableCell>
+                  <div className="font-medium">{customer.name}</div>
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {customer.phone}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
 
-      <div className="flex items-center justify-between mt-4">
+      {/* TODO: Implement paginations */}
+      {/* <div className="flex items-center justify-between mt-4">
         <div className="text-sm text-muted-foreground">
           Total 1
         </div>
@@ -90,9 +89,9 @@ const Customers = () => {
             {">"}
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
-  )
-}
+  );
+};
 
 export default Customers;

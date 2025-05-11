@@ -45,8 +45,16 @@ export class ProductsService {
     id: number,
     updateProductDto: UpdateProductDto,
   ): Promise<Product> {
-    const product = await this.findOne(id);
-    return this.productRepository.merge(product, updateProductDto);
+    const product = await this.productRepository.preload({
+      id,
+      ...updateProductDto,
+    });
+
+    if (!product || product.deleted) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    return this.productRepository.save(product);
   }
 
   async remove(id: number): Promise<Product> {

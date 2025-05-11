@@ -2,7 +2,7 @@ import { Customer } from "@/types/customers";
 import http from "./http-common";
 
 class CustomersService {
-  async getAll() {
+  async getAll(): Promise<Customer[]> {
     // TODO: Implement pagination
     const response = await http.get("/customers");
     return response.data;

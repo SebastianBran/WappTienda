@@ -3,10 +3,10 @@ import { Order } from "./orders";
 export interface Customer {
   id: number;
   name: string;
-  email: string | null;
+  email?: string;
   phone: string;
-  birthDate: string | null;
-  notes: string | null;
+  birthDate?: string;
+  notes?: string;
   deleted: boolean;
   created_at: string;
   updated_at: string;

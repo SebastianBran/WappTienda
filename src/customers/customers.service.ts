@@ -45,8 +45,16 @@ export class CustomersService {
     id: number,
     updateCustomerDto: UpdateCustomerDto,
   ): Promise<Customer> {
-    const customer = await this.findOne(id);
-    return this.customerRepository.merge(customer, updateCustomerDto);
+    const customer = await this.customerRepository.preload({
+      id,
+      ...updateCustomerDto,
+    });
+
+    if (!customer || customer.deleted) {
+      throw new NotFoundException(`Customer with ID ${id} not found`);
+    }
+
+    return this.customerRepository.save(customer);
   }
 
   async remove(id: number): Promise<Customer> {

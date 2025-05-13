@@ -21,14 +21,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useState } from "react";
+import useDeleteCustomerMutation from "@/api/mutations/useDeleteCustomerMutation";
+import DeleteElementDialog from "@/components/common/DeleteElementDialog";
 
 const CustomerDetail = () => {
   const navigate = useNavigate();
   const { customerId } = useParams();
+  const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const { data: customer, isPending } = useGetCustomerByIdQuery(
     Number(customerId || 0),
   );
-  const [showCopyTooltip, setShowCopyTooltip] = useState(false);
+  const { mutate: deleteCustomerMutation } = useDeleteCustomerMutation();
 
   if (isPending || !customer) {
     return <ViewLoading />;
@@ -102,6 +105,19 @@ const CustomerDetail = () => {
     }, 2000);
   };
 
+  const handleDelete = () => {
+    deleteCustomerMutation(
+      {
+        id: customer.id,
+      },
+      {
+        onSuccess: () => {
+          navigate("/admin/customers");
+        },
+      },
+    );
+  };
+
   return (
     <div className="container mx-auto py-6">
       <div className="space-y-6">
@@ -125,7 +141,12 @@ const CustomerDetail = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="destructive">Eliminar</Button>
+            <DeleteElementDialog
+              title="Eliminar cliente"
+              description="¿Estás seguro de que deseas eliminar este cliente?"
+              trigger={<Button variant="destructive">Eliminar</Button>}
+              onDelete={handleDelete}
+            ></DeleteElementDialog>
           </div>
         </div>
 
@@ -242,7 +263,7 @@ const CustomerDetail = () => {
                       {/* TODO: Abstract to component */}
                       <TooltipProvider>
                         <Tooltip open={showCopyTooltip}>
-                          <TooltipTrigger>
+                          <TooltipTrigger asChild>
                             <Button
                               variant="ghost"
                               size="icon"

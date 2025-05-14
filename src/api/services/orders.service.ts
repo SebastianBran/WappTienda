@@ -1,4 +1,4 @@
-import { Order } from "@/types/orders";
+import { CreateOrder, Order } from "@/types/orders";
 import http from "./http-common";
 
 class OrderService {
@@ -13,7 +13,7 @@ class OrderService {
     return response.data;
   }
 
-  async create(order: Partial<Order>): Promise<Order> {
+  async create(order: CreateOrder): Promise<Order> {
     const response = await http.post<Order>("/orders", order);
     return response.data;
   }

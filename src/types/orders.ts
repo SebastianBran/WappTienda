@@ -15,6 +15,11 @@ export interface Order {
   updated_at: string;
 }
 
+export interface CreateOrder {
+  customer: Partial<Customer>;
+  orderItems: Partial<OrderItem>[];
+}
+
 export enum OrderStatus {
   PENDING = "PENDING",
   CONFIRMED = "CONFIRMED",
@@ -36,6 +41,7 @@ export interface OrderItem {
   quantity: number;
   price: number;
   product: Product;
+  productId: number;
   created_at: string;
   updated_at: string;
 }

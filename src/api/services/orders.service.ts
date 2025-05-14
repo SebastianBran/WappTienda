@@ -13,6 +13,11 @@ class OrderService {
     return response.data;
   }
 
+  async create(order: Partial<Order>): Promise<Order> {
+    const response = await http.post<Order>("/orders", order);
+    return response.data;
+  }
+
   async update(id: number, order: Partial<Order>): Promise<Order> {
     const response = await http.patch<Order>(`/orders/${id}`, order);
     return response.data;

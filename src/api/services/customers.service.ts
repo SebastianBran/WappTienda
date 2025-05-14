@@ -13,6 +13,11 @@ class CustomersService {
     return response.data;
   }
 
+  async create(customer: Partial<Customer>): Promise<Customer> {
+    const response = await http.post("/customers", customer);
+    return response.data;
+  }
+
   async update(id: number, customer: Partial<Customer>): Promise<Customer> {
     const response = await http.patch(`/customers/${id}`, customer);
     return response.data;

@@ -71,9 +71,13 @@ const CustomerDetail = () => {
     }
   };
 
-  const totalSpent = customer.orders.reduce((acc, order) => {
-    return acc + order.totalAmount;
-  }, 0);
+  const totalSpent = Number(
+    customer.orders
+      .reduce((acc, order) => {
+        return acc + order.totalAmount;
+      }, 0)
+      .toFixed(2),
+  );
 
   let averageSpent: string = "0.00";
   if (customer.orders.length > 0) {

@@ -13,6 +13,11 @@ class ProductService {
     return response.data;
   }
 
+  async create(product: Partial<Product>): Promise<Product> {
+    const response = await http.post("/products", product);
+    return response.data;
+  }
+
   async update(id: number, product: Partial<Product>): Promise<Product> {
     const response = await http.patch(`/products/${id}`, product);
     return response.data;

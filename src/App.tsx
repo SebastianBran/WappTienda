@@ -23,6 +23,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { ProductDetailWrapper } from "./views/admin/views/products/views/detail/ProductDetailWrapper";
 import { OrderDetailWrapper } from "./views/admin/views/orders/views/detail/OrderDetailWrapper";
+import CreateOrder from "./views/admin/views/orders/views/create";
+import CreateOrderWrapper from "./views/admin/views/orders/views/create/CreateOrderWrapper";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +40,14 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="orders">
               <Route index element={<Orders />} />
+              <Route
+                path="create"
+                element={
+                  <CreateOrderWrapper>
+                    <CreateOrder />
+                  </CreateOrderWrapper>
+                }
+              />
               <Route
                 path=":orderId/detail"
                 element={

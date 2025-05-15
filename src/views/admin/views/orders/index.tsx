@@ -63,7 +63,9 @@ const Orders = () => {
           <h1 className="text-xl font-semibold">Órdenes</h1>
         </div>
         <div className="flex gap-2">
-          <Button>Crear orden</Button>
+          <Button onClick={() => navigate("/admin/orders/create")}>
+            Crear orden
+          </Button>
         </div>
       </div>
 

@@ -15,9 +15,9 @@ export interface Order {
   updated_at: string;
 }
 
-export interface CreateOrder {
+export interface CreateOrderDto {
   customer: Partial<Customer>;
-  orderItems: Partial<OrderItem>[];
+  orderItems: Partial<CreateOrderItemDto>[];
 }
 
 export enum OrderStatus {
@@ -36,12 +36,18 @@ export enum PaymentStatus {
   CANCELED = "CANCELED",
 }
 
+export interface CreateOrderItemDto {
+  productId: number;
+  productName: string;
+  quantity: number;
+  price: number;
+}
+
 export interface OrderItem {
   id: number;
   quantity: number;
   price: number;
   product: Product;
-  productId: number;
   created_at: string;
   updated_at: string;
 }

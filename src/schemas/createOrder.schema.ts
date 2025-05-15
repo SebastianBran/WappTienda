@@ -9,6 +9,7 @@ const createOrderSchema = z.object({
     .array(
       z.object({
         productId: z.number().int().positive(),
+        productName: z.string().nonempty(),
         price: z.number().positive(),
         quantity: z.number().int().positive(),
       }),

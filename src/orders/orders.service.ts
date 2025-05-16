@@ -10,6 +10,8 @@ import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { Product } from 'src/products/entities/product.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { CreateCustomerDto } from 'src/customers/dto/create-customer.dto';
+import { OrderStatus } from './entities/order-status.enum';
+import { PaymentStatus } from './entities/payment-status.enum';
 
 @Injectable()
 export class OrdersService {
@@ -64,6 +66,8 @@ export class OrdersService {
 
     const order = this.orderRepository.create({
       ...createOrderDto,
+      status: OrderStatus.PENDING,
+      paymentStatus: PaymentStatus.PENDING,
       totalAmount,
       // TODO: Check if subtotalAmount is needed, if so, calculate it
       subtotalAmount: totalAmount,

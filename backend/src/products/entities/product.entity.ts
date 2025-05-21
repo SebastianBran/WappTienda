@@ -16,8 +16,7 @@ export class Product {
   id: number;
 
   @Column({
-    unique: true,
-    default: '',
+    nullable: true,
   })
   @Index()
   sku: string;
@@ -33,7 +32,7 @@ export class Product {
   type: string;
 
   @Column({
-    default: '',
+    nullable: true,
   })
   description: string;
 

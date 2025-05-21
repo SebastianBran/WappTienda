@@ -17,6 +17,7 @@ export class Product {
 
   @Column({
     unique: true,
+    default: '',
   })
   @Index()
   sku: string;
@@ -31,7 +32,9 @@ export class Product {
   })
   type: string;
 
-  @Column()
+  @Column({
+    default: '',
+  })
   description: string;
 
   @Column({
@@ -59,7 +62,9 @@ export class Product {
   @Column()
   trackInventory: boolean;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   totalInventory: number;
 
   @Column({

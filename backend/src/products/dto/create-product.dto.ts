@@ -10,7 +10,6 @@ import {
 import { ProductType } from '../entities/product-type.enum';
 
 export class CreateProductDto {
-  @IsNotEmpty()
   @IsString()
   readonly sku: string;
 
@@ -22,7 +21,7 @@ export class CreateProductDto {
   @IsEnum(ProductType)
   readonly type: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly description: string;
 
@@ -40,7 +39,7 @@ export class CreateProductDto {
   @IsBoolean()
   readonly trackInventory: boolean;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   @Min(0)
   readonly totalInventory: number;

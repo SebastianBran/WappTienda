@@ -16,7 +16,7 @@ const CreateOrder = () => {
   const { mutate: createOrderMutate, isPending } = useCreateOrderMutation();
   const { reset, handleSubmit } = useFormContext<CreateOrderSchema>();
 
-  const onSubmit = async (data: CreateOrderSchema) => {
+  const onSubmit = (data: CreateOrderSchema) => {
     const orderItems = data.orderItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,

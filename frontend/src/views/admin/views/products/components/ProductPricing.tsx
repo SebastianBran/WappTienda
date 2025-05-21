@@ -15,10 +15,12 @@ const ProductPricing: FC = () => {
           <div className="space-y-2">
             <FormField
               control={control}
-              name="salesPrice"
+              name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="price">Precio</FormLabel>
+                  <FormLabel htmlFor="price">
+                    Precio original<span className="text-red-500">*</span>
+                  </FormLabel>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                       <span className="text-muted-foreground">PEN</span>
@@ -43,10 +45,10 @@ const ProductPricing: FC = () => {
           <div className="space-y-2">
             <FormField
               control={control}
-              name="price"
+              name="salesPrice"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="price">Precio original</FormLabel>
+                  <FormLabel htmlFor="price">Precio de venta</FormLabel>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                       <span className="text-muted-foreground">PEN</span>

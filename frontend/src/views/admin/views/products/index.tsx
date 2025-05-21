@@ -28,7 +28,7 @@ const Products = () => {
           <h1 className="text-xl font-semibold">Productos</h1>
         </div>
         <div className="flex gap-2">
-          <Button>Añadir producto</Button>
+          <Button onClick={() => navigate("/admin/products/create")}>Añadir producto</Button>
         </div>
       </div>
 

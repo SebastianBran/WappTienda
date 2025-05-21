@@ -12,7 +12,7 @@ import {
   ProductDescription,
   ProductPricing,
   ProductAttributes,
-} from "./components";
+} from "@/views/admin/views/products/components";
 import ViewLoading from "@/components/common/ViewLoading";
 import { useContext } from "react";
 import { ProductDetailContext } from "./ProductDetailContext";

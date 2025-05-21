@@ -62,7 +62,9 @@ const ProductAttributes: FC = () => {
               name="visible"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="visible">Visibilidad</FormLabel>
+                  <FormLabel htmlFor="visible">
+                    Visibilidad<span className="text-red-500">*</span>
+                  </FormLabel>
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value === "visible");
@@ -91,7 +93,9 @@ const ProductAttributes: FC = () => {
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="type">Tipo</FormLabel>
+                  <FormLabel htmlFor="type">
+                    Tipo<span className="text-red-500">*</span>
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}

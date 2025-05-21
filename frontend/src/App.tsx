@@ -25,6 +25,8 @@ import { ProductDetailWrapper } from "./views/admin/views/products/views/detail/
 import { OrderDetailWrapper } from "./views/admin/views/orders/views/detail/OrderDetailWrapper";
 import CreateOrder from "./views/admin/views/orders/views/create";
 import CreateOrderWrapper from "./views/admin/views/orders/views/create/CreateOrderWrapper";
+import CreateProductWrapper from "./views/admin/views/products/views/create/CreateProductWrapper";
+import CreateProduct from "./views/admin/views/products/views/create";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +67,14 @@ function App() {
                   <ProductDetailWrapper>
                     <ProductDetail />
                   </ProductDetailWrapper>
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <CreateProductWrapper>
+                    <CreateProduct />
+                  </CreateProductWrapper>
                 }
               />
             </Route>

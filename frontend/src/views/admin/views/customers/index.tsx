@@ -27,7 +27,9 @@ const Customers = () => {
           <h1 className="text-xl font-semibold">Clientes</h1>
         </div>
         <div className="flex gap-2">
-          <Button>Agregar cliente</Button>
+          <Button onClick={() => navigate("/admin/customers/create")}>
+            Agregar cliente
+          </Button>
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const updateCustomerSchema = z.object({
+const createCustomerSchema = z.object({
   name: z.string().nonempty(),
   phone: z.string().nonempty(),
   email: z.string().email().optional(),
@@ -8,6 +8,6 @@ const updateCustomerSchema = z.object({
   notes: z.string().optional(),
 });
 
-export type UpdateCustomerSchema = z.infer<typeof updateCustomerSchema>;
+export type CreateCustomerSchema = z.infer<typeof createCustomerSchema>;
 
-export default updateCustomerSchema;
+export default createCustomerSchema;

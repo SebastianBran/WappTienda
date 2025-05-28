@@ -17,7 +17,7 @@ import Products from "./views/admin/views/products";
 import ProductDetail from "./views/admin/views/products/views/detail";
 import Customers from "./views/admin/views/customers";
 import CustomerDetail from "./views/admin/views/customers/views/detail";
-import CustomerEdit from "./views/admin/views/customers/views/edit";
+import EditCustomer from "./views/admin/views/customers/views/edit";
 import Settings from "./views/admin/views/settings";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
@@ -27,6 +27,9 @@ import CreateOrder from "./views/admin/views/orders/views/create";
 import CreateOrderWrapper from "./views/admin/views/orders/views/create/CreateOrderWrapper";
 import CreateProductWrapper from "./views/admin/views/products/views/create/CreateProductWrapper";
 import CreateProduct from "./views/admin/views/products/views/create";
+import CreateCustomer from "./views/admin/views/customers/views/create";
+import CreateCustomerWrapper from "./views/admin/views/customers/views/create/CreateCustomerWrapper";
+import EditCustomerWrapper from "./views/admin/views/customers/views/edit/EditCustomerWrapper";
 
 const queryClient = new QueryClient();
 
@@ -80,8 +83,23 @@ function App() {
             </Route>
             <Route path="customers">
               <Route index element={<Customers />} />
+              <Route
+                path="create"
+                element={
+                  <CreateCustomerWrapper>
+                    <CreateCustomer />
+                  </CreateCustomerWrapper>
+                }
+              />
               <Route path=":customerId/detail" element={<CustomerDetail />} />
-              <Route path=":customerId/edit" element={<CustomerEdit />} />
+              <Route
+                path=":customerId/edit"
+                element={
+                  <EditCustomerWrapper>
+                    <EditCustomer />
+                  </EditCustomerWrapper>
+                }
+              />
             </Route>
             <Route path="settings">
               <Route index element={<Settings />} />

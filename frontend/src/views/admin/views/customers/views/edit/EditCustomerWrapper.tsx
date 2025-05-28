@@ -19,9 +19,9 @@ const EditCustomerWrapper: FC<PropsWithChildren> = ({ children }) => {
     defaultValues: {
       name: "",
       phone: "",
-      email: undefined,
-      birthDate: undefined,
-      notes: undefined,
+      email: "",
+      birthDate: "",
+      notes: "",
     },
     resolver: zodResolver(updateCustomerSchema),
   });
@@ -29,14 +29,12 @@ const EditCustomerWrapper: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (customer) {
-      const { name, phone, email, birthDate, notes } = customer;
-
       reset({
-        name: name || undefined,
-        phone: phone || undefined,
-        email: email || undefined,
-        birthDate: birthDate || undefined,
-        notes: notes || undefined,
+        name: customer.name,
+        phone: customer.phone,
+        email: customer.email || "",
+        birthDate: customer.birthDate || "",
+        notes: customer.notes || "",
       });
     }
   }, [customer, reset]);

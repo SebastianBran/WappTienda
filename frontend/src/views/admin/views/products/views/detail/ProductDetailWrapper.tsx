@@ -19,15 +19,15 @@ export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
   );
   const form = useForm<UpdateProductSchema>({
     defaultValues: {
-      name: product?.name || "",
-      sku: product?.sku || "",
-      visible: product?.visible || false,
-      type: product?.type || ProductType.VIRTUAL,
-      description: product?.description || "",
-      trackInventory: product?.trackInventory || false,
-      totalInventory: product?.totalInventory || 0,
-      salesPrice: product?.salesPrice || 0,
-      price: product?.price || 0,
+      name: "",
+      sku: "",
+      visible: false,
+      type: ProductType.VIRTUAL,
+      description: "",
+      trackInventory: false,
+      totalInventory: 0,
+      salesPrice: 0,
+      price: 0,
     },
     resolver: zodResolver(updateProductSchema),
   });
@@ -37,10 +37,10 @@ export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
     if (product) {
       reset({
         name: product.name,
-        sku: product.sku || undefined,
+        sku: product.sku || "",
         visible: product.visible,
         type: product.type,
-        description: product.description || undefined,
+        description: product.description || "",
         trackInventory: product.trackInventory,
         totalInventory: product.totalInventory || 0,
         salesPrice: product.salesPrice,

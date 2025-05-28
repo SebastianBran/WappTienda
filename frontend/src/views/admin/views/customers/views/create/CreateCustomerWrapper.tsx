@@ -13,9 +13,9 @@ const CreateCustomerWrapper: FC<PropsWithChildren> = ({ children }) => {
     defaultValues: {
       name: "",
       phone: "",
-      email: undefined,
-      birthDate: undefined,
-      notes: undefined,
+      email: "",
+      birthDate: "",
+      notes: "",
     },
     resolver: zodResolver(createCustomerSchema),
   });

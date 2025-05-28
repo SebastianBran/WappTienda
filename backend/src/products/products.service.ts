@@ -54,6 +54,10 @@ export class ProductsService {
       throw new BadRequestException(`Product with SKU ${sku} already exists`);
     }
 
+    if (!createProductDto.salesPrice) {
+      createProductDto.salesPrice = createProductDto.price;
+    }
+
     const product = this.productRepository.create(createProductDto);
     return await this.productRepository.save(product);
   }

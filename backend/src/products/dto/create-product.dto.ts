@@ -11,40 +11,41 @@ import { ProductType } from '../entities/product-type.enum';
 
 export class CreateProductDto {
   @IsString()
-  readonly sku: string;
+  @IsOptional()
+  sku: string;
 
   @IsNotEmpty()
   @IsString()
-  readonly name: string;
+  name: string;
 
   @IsNotEmpty()
   @IsEnum(ProductType)
-  readonly type: string;
+  type: string;
 
-  @IsOptional()
   @IsString()
-  readonly description: string;
+  @IsOptional()
+  description: string;
 
   @IsNotEmpty()
   @IsNumber()
   @Min(0)
-  readonly price: number;
+  price: number;
 
-  @IsOptional()
   @IsNumber()
   @Min(0)
-  readonly salesPrice: number;
+  @IsOptional()
+  salesPrice: number;
 
   @IsNotEmpty()
   @IsBoolean()
-  readonly trackInventory: boolean;
+  trackInventory: boolean;
 
-  @IsOptional()
   @IsNumber()
   @Min(0)
-  readonly totalInventory: number;
+  @IsOptional()
+  totalInventory: number;
 
   @IsNotEmpty()
   @IsBoolean()
-  readonly visible: boolean;
+  visible: boolean;
 }

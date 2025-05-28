@@ -13,10 +13,10 @@ const CreateProductWrapper: FC<PropsWithChildren> = ({ children }) => {
   const form = useForm<CreateProductSchema>({
     defaultValues: {
       name: "",
-      sku: "",
+      sku: undefined,
       visible: true,
       type: ProductType.PHYSICAL,
-      description: "",
+      description: undefined,
       trackInventory: false,
       totalInventory: 0,
       salesPrice: 0,

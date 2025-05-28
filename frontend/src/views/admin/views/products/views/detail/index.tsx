@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   ProductInventory,
   ProductDescription,
@@ -26,19 +26,21 @@ import useDeleteProductMutation from "@/api/mutations/useDeleteProductMutation";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
-  const { product, isPending } = useContext(ProductDetailContext);
+  const { productId } = useParams();
+  const { isPending } = useContext(ProductDetailContext);
   const { mutate: updateProductMutate } = useUpdateProductMutation();
   const { mutate: deleteProductMutate } = useDeleteProductMutation();
   const form = useFormContext<UpdateProductSchema>();
-  const isFormChanged = form.formState.isDirty;
+  const { handleSubmit, formState } = form;
+  const isFormChanged = formState.isDirty;
 
-  if (isPending || !product) {
+  if (isPending || !productId) {
     return <ViewLoading />;
   }
 
   const onSubmit = (data: UpdateProductSchema) => {
     updateProductMutate(
-      { id: product.id, data },
+      { id: Number(productId), data },
       {
         onSuccess: () => {
           form.reset(data);
@@ -49,7 +51,7 @@ const ProductDetail = () => {
 
   const handleDelete = () => {
     deleteProductMutate(
-      { id: product.id },
+      { id: Number(productId) },
       {
         onSuccess: () => {
           navigate("/admin/products");
@@ -76,7 +78,7 @@ const ProductDetail = () => {
               </Button>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-semibold">
-                  Producto #{product.id}
+                  Producto #{Number(productId)}
                 </h1>
               </div>
             </div>
@@ -105,7 +107,7 @@ const ProductDetail = () => {
 
           <form
             className="grid gap-6 md:grid-cols-3"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="md:col-span-2 space-y-6">
               <ProductAttributes />

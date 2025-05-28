@@ -10,7 +10,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import updateProductSchema, {
   UpdateProductSchema,
 } from "@/schemas/updateProduct.schema";
-import { ProductType } from "@/types/products";
 
 export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
   const { productId } = useParams();
@@ -19,34 +18,47 @@ export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
   );
   const form = useForm<UpdateProductSchema>({
     defaultValues: {
-      name: product?.name || "",
-      sku: product?.sku || "",
-      visible: product?.visible || false,
-      type: product?.type || ProductType.VIRTUAL,
-      description: product?.description || "",
-      trackInventory: product?.trackInventory || false,
-      totalInventory: product?.totalInventory || 0,
-      salesPrice: product?.salesPrice || 0,
-      price: product?.price || 0,
+      name: "",
+      sku: undefined,
+      visible: false,
+      type: undefined,
+      description: undefined,
+      trackInventory: false,
+      totalInventory: 0,
+      salesPrice: 0,
+      price: 0,
     },
     resolver: zodResolver(updateProductSchema),
   });
+  const { reset } = form;
 
   useEffect(() => {
     if (product) {
-      form.reset({
-        name: product.name,
-        sku: product.sku,
-        visible: product.visible,
-        type: product.type,
-        description: product.description,
-        trackInventory: product.trackInventory,
-        totalInventory: product.totalInventory,
-        salesPrice: product.salesPrice,
-        price: product.price,
+      const {
+        name,
+        sku,
+        visible,
+        type,
+        description,
+        trackInventory,
+        totalInventory,
+        salesPrice,
+        price,
+      } = product;
+
+      reset({
+        name: name,
+        sku: sku || undefined,
+        visible: visible,
+        type: type,
+        description: description || undefined,
+        trackInventory: trackInventory,
+        totalInventory: totalInventory || 0,
+        salesPrice: salesPrice,
+        price: price,
       });
     }
-  }, [product, form]);
+  }, [product, reset]);
 
   const value: ProductDetailContextValue = {
     product: product,

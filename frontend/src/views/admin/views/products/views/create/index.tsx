@@ -24,9 +24,6 @@ const CreateProduct = () => {
         onSuccess: () => {
           reset();
         },
-        onError: (error) => {
-          console.error("Error creating product", error);
-        },
       },
     );
   };

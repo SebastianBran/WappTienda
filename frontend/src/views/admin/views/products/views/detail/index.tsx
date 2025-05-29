@@ -1,12 +1,4 @@
-import { ArrowLeft, MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   ProductInventory,
   ProductDescription,
@@ -21,15 +13,12 @@ import { UpdateProductSchema } from "@/schemas/updateProduct.schema";
 import { cn } from "@/lib/utils";
 import useUpdateProductMutation from "@/api/mutations/useUpdateProductMutation";
 import SaveChangesToolbar from "@/components/common/SaveChangesToolbar";
-import DeleteElementDialog from "@/components/common/DeleteElementDialog";
-import useDeleteProductMutation from "@/api/mutations/useDeleteProductMutation";
+import ProductDetailHeader from "./components/ProductDetailHeader";
 
 const ProductDetail = () => {
-  const navigate = useNavigate();
   const { productId } = useParams();
   const { isPending } = useContext(ProductDetailContext);
   const { mutate: updateProductMutate } = useUpdateProductMutation();
-  const { mutate: deleteProductMutate } = useDeleteProductMutation();
   const form = useFormContext<UpdateProductSchema>();
   const { handleSubmit, formState } = form;
   const isFormChanged = formState.isDirty;
@@ -49,17 +38,6 @@ const ProductDetail = () => {
     );
   };
 
-  const handleDelete = () => {
-    deleteProductMutate(
-      { id: Number(productId) },
-      {
-        onSuccess: () => {
-          navigate("/admin/products");
-        },
-      },
-    );
-  };
-
   // TODO: Implement a error view if the product is not found
 
   return (
@@ -67,43 +45,7 @@ const ProductDetail = () => {
       {isFormChanged && <SaveChangesToolbar form={form} onSubmit={onSubmit} />}
       <div className={cn("container mx-auto py-6", isFormChanged && "pt-16")}>
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate("/admin/products")}
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-semibold">
-                  Producto #{Number(productId)}
-                </h1>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DeleteElementDialog
-                    title="Eliminar producto"
-                    description="¿Estás seguro de que deseas eliminar este producto?"
-                    trigger={
-                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                        Eliminar
-                      </DropdownMenuItem>
-                    }
-                    onDelete={handleDelete}
-                  />
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
+          <ProductDetailHeader />
 
           <form
             className="grid gap-6 md:grid-cols-3"

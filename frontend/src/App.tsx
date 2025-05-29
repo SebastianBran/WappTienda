@@ -30,6 +30,7 @@ import CreateProduct from "./views/admin/views/products/views/create";
 import CreateCustomer from "./views/admin/views/customers/views/create";
 import CreateCustomerWrapper from "./views/admin/views/customers/views/create/CreateCustomerWrapper";
 import EditCustomerWrapper from "./views/admin/views/customers/views/edit/EditCustomerWrapper";
+import CustomerDetailWrapper from "./views/admin/views/customers/views/detail/CustomerDetailWrapper";
 
 const queryClient = new QueryClient();
 
@@ -91,7 +92,14 @@ function App() {
                   </CreateCustomerWrapper>
                 }
               />
-              <Route path=":customerId/detail" element={<CustomerDetail />} />
+              <Route
+                path=":customerId/detail"
+                element={
+                  <CustomerDetailWrapper>
+                    <CustomerDetail />
+                  </CustomerDetailWrapper>
+                }
+              />
               <Route
                 path=":customerId/edit"
                 element={

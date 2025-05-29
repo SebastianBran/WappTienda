@@ -2,8 +2,7 @@ import { Customer } from "@/types/customers";
 import { createContext } from "react";
 
 export type EditCustomerContextValue = {
-  customer?: Customer;
-  isPending: boolean;
+  customer: Customer;
 };
 
 const EditCustomerContext = createContext<EditCustomerContextValue>(

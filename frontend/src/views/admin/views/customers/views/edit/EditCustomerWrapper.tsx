@@ -9,6 +9,7 @@ import updateCustomerSchema, {
 } from "@/schemas/updateCustomer.schema";
 import useGetCustomerByIdQuery from "@/api/queries/useGetCustomerByIdQuery";
 import { useParams } from "react-router-dom";
+import ViewLoading from "@/components/common/ViewLoading";
 
 const EditCustomerWrapper: FC<PropsWithChildren> = ({ children }) => {
   const { customerId } = useParams();
@@ -39,9 +40,12 @@ const EditCustomerWrapper: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [customer, reset]);
 
+  if (isPending || !customer) {
+    return <ViewLoading />;
+  }
+
   const value: EditCustomerContextValue = {
     customer,
-    isPending,
   };
 
   return (

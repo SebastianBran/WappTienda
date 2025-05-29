@@ -43,7 +43,7 @@ export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
         type: product.type,
         description: product.description || "",
         trackInventory: product.trackInventory,
-        totalInventory: product.totalInventory || 0,
+        totalInventory: product.totalInventory,
         salesPrice: product.salesPrice,
         price: product.price,
       });

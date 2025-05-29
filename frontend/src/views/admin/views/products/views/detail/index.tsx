@@ -5,34 +5,26 @@ import {
   ProductPricing,
   ProductAttributes,
 } from "@/views/admin/views/products/components";
-import ViewLoading from "@/components/common/ViewLoading";
-import { useContext } from "react";
-import { ProductDetailContext } from "./ProductDetailContext";
 import { useFormContext } from "react-hook-form";
 import { UpdateProductSchema } from "@/schemas/updateProduct.schema";
 import { cn } from "@/lib/utils";
 import useUpdateProductMutation from "@/api/mutations/useUpdateProductMutation";
 import SaveChangesToolbar from "@/components/common/SaveChangesToolbar";
-import ProductDetailHeader from "./components/ProductDetailHeader";
+import { ProductDetailHeader } from "./components";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const { isPending } = useContext(ProductDetailContext);
   const { mutate: updateProductMutate } = useUpdateProductMutation();
   const form = useFormContext<UpdateProductSchema>();
-  const { handleSubmit, formState } = form;
+  const { handleSubmit, reset, formState } = form;
   const isFormChanged = formState.isDirty;
-
-  if (isPending || !productId) {
-    return <ViewLoading />;
-  }
 
   const onSubmit = (data: UpdateProductSchema) => {
     updateProductMutate(
       { id: Number(productId), data },
       {
         onSuccess: () => {
-          form.reset(data);
+          reset(data);
         },
       },
     );

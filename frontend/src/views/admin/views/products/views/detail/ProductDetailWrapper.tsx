@@ -11,6 +11,7 @@ import updateProductSchema, {
   UpdateProductSchema,
 } from "@/schemas/updateProduct.schema";
 import { ProductType } from "@/types/products";
+import ViewLoading from "@/components/common/ViewLoading";
 
 export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
   const { productId } = useParams();
@@ -49,9 +50,12 @@ export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [product, reset]);
 
+  if (isPending || !product) {
+    return <ViewLoading />
+  }
+
   const value: ProductDetailContextValue = {
     product: product,
-    isPending: isPending,
   };
 
   return (

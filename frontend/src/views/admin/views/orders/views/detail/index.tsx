@@ -4,15 +4,14 @@ import { OrderDetailContext } from "./OrderDetailContext";
 import useUpdateOrderMutation from "@/api/mutations/useUpdateOrderMutation";
 import { UpdateOrderSchema } from "@/schemas/updateOrder.schema";
 import { useFormContext } from "react-hook-form";
-import SaveChangesToolbar from "@/components/common/SaveChangesToolbar";
-import { cn } from "@/lib/utils";
 import OrderDetailHeader from "./components/OrderDetailHeader";
+import EditFormLayout from "@/components/common/EditFormLayout";
 
 const OrderDetail = () => {
   const { order } = useContext(OrderDetailContext);
   const { mutate: updateOrderMutate } = useUpdateOrderMutation();
   const form = useFormContext<UpdateOrderSchema>();
-  const isFormChanged = form.formState.isDirty;
+  const { handleSubmit } = form;
 
   const onSubmit = (data: UpdateOrderSchema) => {
     updateOrderMutate(
@@ -26,28 +25,25 @@ const OrderDetail = () => {
   };
 
   return (
-    <>
-      {isFormChanged && <SaveChangesToolbar form={form} onSubmit={onSubmit} />}
-      <div className={cn("container mx-auto py-6", isFormChanged && "pt-16")}>
-        <div className="flex flex-col gap-6">
-          <OrderDetailHeader />
+    <EditFormLayout onSubmit={onSubmit}>
+      <div className="flex flex-col gap-6">
+        <OrderDetailHeader />
 
-          <form
-            className="grid gap-6 md:grid-cols-3"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <div className="md:col-span-2 space-y-6">
-              <OrderUpdateForm />
-              <OrderSummary order={order} />
-            </div>
+        <form
+          className="grid gap-6 md:grid-cols-3"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="md:col-span-2 space-y-6">
+            <OrderUpdateForm />
+            <OrderSummary order={order} />
+          </div>
 
-            <div className="flex flex-col space-y-6">
-              <OrderCustomerCard customer={order.customer} />
-            </div>
-          </form>
-        </div>
+          <div className="flex flex-col space-y-6">
+            <OrderCustomerCard customer={order.customer} />
+          </div>
+        </form>
       </div>
-    </>
+    </EditFormLayout>
   );
 };
 

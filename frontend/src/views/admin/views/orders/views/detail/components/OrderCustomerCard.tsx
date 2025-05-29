@@ -4,11 +4,11 @@ import { Customer } from "@/types/customers";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface CustomerCardProps {
+interface OrderCustomerCardProps {
   customer: Customer;
 }
 
-const CustomerCard: FC<CustomerCardProps> = ({ customer }) => {
+const OrderCustomerCard: FC<OrderCustomerCardProps> = ({ customer }) => {
   const navigate = useNavigate();
 
   return (
@@ -20,9 +20,7 @@ const CustomerCard: FC<CustomerCardProps> = ({ customer }) => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() =>
-                navigate(`/admin/customers/${customer.id}/detail`)
-              }
+              onClick={() => navigate(`/admin/customers/${customer.id}/detail`)}
             >
               Ver
             </Button>
@@ -43,4 +41,4 @@ const CustomerCard: FC<CustomerCardProps> = ({ customer }) => {
   );
 };
 
-export default CustomerCard;
+export default OrderCustomerCard;

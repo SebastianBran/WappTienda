@@ -17,7 +17,7 @@ import { orderStatus, paymentStatus } from "@/lib/constants";
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
 
-const UpdateOrderForm: FC = () => {
+const OrderUpdateForm: FC = () => {
   const { control } = useFormContext();
 
   return (
@@ -114,4 +114,4 @@ const UpdateOrderForm: FC = () => {
   );
 };
 
-export default UpdateOrderForm;
+export default OrderUpdateForm;

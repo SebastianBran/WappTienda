@@ -11,6 +11,7 @@ import {
   OrderDetailContext,
   OrderDetailContextValue,
 } from "./OrderDetailContext";
+import ViewLoading from "@/components/common/ViewLoading";
 
 export const OrderDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
   const { orderId } = useParams();
@@ -34,9 +35,12 @@ export const OrderDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [order, form]);
 
+  if (isPending || !order) {
+    return <ViewLoading />;
+  }
+
   const value: OrderDetailContextValue = {
     order: order,
-    isPending: isPending,
   };
 
   return (

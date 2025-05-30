@@ -15,7 +15,8 @@ import { CreateProductSchema } from "@/schemas/createProduct.schema";
 const CreateProduct = () => {
   const navigate = useNavigate();
   const { mutate: createProductMutate, isPending } = useCreateProductMutation();
-  const { reset, handleSubmit } = useFormContext<CreateProductSchema>();
+  const { reset, handleSubmit, formState } = useFormContext<CreateProductSchema>();
+  console.log("form state", formState.errors);
 
   const onSubmit = (data: CreateProductSchema) => {
     createProductMutate(
@@ -46,7 +47,7 @@ const CreateProduct = () => {
           </div>
         </div>
 
-        <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="grid gap-6">
           <div className="grid gap-6 md:grid-cols-3">
             <div className="md:col-span-2 space-y-6">
               <ProductAttributes />
@@ -59,7 +60,12 @@ const CreateProduct = () => {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending}
+            onClick={handleSubmit(onSubmit)}
+          >
             {isPending ? <Spinner /> : "Crear producto"}
           </Button>
         </form>

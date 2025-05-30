@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { FC } from "react";
@@ -58,6 +58,7 @@ const ProductInventory: FC = () => {
                         field.onChange(value);
                       }}
                     />
+                    <FormMessage />
                   </FormItem>
                 )}
               />

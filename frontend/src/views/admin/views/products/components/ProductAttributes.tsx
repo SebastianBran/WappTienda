@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -35,6 +36,7 @@ const ProductAttributes: FC = () => {
                 <FormControl>
                   <Input id="name" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -50,6 +52,7 @@ const ProductAttributes: FC = () => {
                 <FormControl>
                   <Input id="sku" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />

@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
@@ -38,6 +38,7 @@ const ProductPricing: FC = () => {
                       }}
                     />
                   </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -66,6 +67,7 @@ const ProductPricing: FC = () => {
                       }}
                     />
                   </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />

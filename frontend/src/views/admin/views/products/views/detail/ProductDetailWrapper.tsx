@@ -42,8 +42,8 @@ export const ProductDetailWrapper: FC<PropsWithChildren> = ({ children }) => {
         visible: product.visible,
         type: product.type,
         description: product.description || "",
-        trackInventory: product.trackInventory,
-        totalInventory: product.totalInventory,
+        trackInventory: product.trackInventory || false,
+        totalInventory: product.totalInventory || 0,
         salesPrice: product.salesPrice,
         price: product.price,
       });

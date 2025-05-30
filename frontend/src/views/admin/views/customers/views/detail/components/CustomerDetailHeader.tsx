@@ -5,24 +5,13 @@ import { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomerDetailContext from "../CustomerDetailContext";
 import useDeleteCustomerMutation from "@/api/mutations/useDeleteCustomerMutation";
+import useCustomerStats from "@/hooks/useCustomerStats";
 
 const CustomerDetailHeader: FC = () => {
   const navigate = useNavigate();
   const { customer } = useContext(CustomerDetailContext);
   const { mutate: deleteCustomerMutation } = useDeleteCustomerMutation();
-
-  const lastOrderDate = () => {
-    let lastOrder = customer.orders[0];
-    for (let i = 1; i < customer.orders.length; i++) {
-      if (
-        new Date(customer.orders[i].created_at) > new Date(lastOrder.created_at)
-      ) {
-        lastOrder = customer.orders[i];
-      }
-    }
-
-    return new Date(lastOrder.created_at).toLocaleDateString("es-ES");
-  };
+  const { lastOrder } = useCustomerStats(customer);
 
   const handleDelete = () => {
     deleteCustomerMutation(
@@ -51,7 +40,7 @@ const CustomerDetailHeader: FC = () => {
           <h1 className="text-xl font-semibold">{customer.name}</h1>
           {customer.orders.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              Último pedido {lastOrderDate()}
+              Último pedido {lastOrder}
             </p>
           )}
         </div>

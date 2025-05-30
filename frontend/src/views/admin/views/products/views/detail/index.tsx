@@ -15,8 +15,7 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const { mutate: updateProductMutate } = useUpdateProductMutation();
   const form = useFormContext<UpdateProductSchema>();
-  const { handleSubmit, reset, formState } = form;
-  console.log("formstate", formState.errors)
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (data: UpdateProductSchema) => {
     updateProductMutate(

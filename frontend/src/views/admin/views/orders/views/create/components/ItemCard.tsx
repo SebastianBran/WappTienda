@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -67,6 +68,7 @@ const ItemCard: FC<ItemCardProps> = ({ item, index, onRemove }) => {
                   required
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -91,6 +93,7 @@ const ItemCard: FC<ItemCardProps> = ({ item, index, onRemove }) => {
                   required
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

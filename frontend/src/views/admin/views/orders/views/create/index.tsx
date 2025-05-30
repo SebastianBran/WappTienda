@@ -53,11 +53,16 @@ const CreateOrder = () => {
         <h1 className="text-xl font-semibold">Crear orden</h1>
       </div>
 
-      <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="grid gap-6">
         <CustomerDetailCard />
         <OrderItemsCard />
         <OrderSummaryCard />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+          onClick={handleSubmit(onSubmit)}
+        >
           {isPending ? <Spinner /> : "Crear orden"}
         </Button>
       </form>

@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CreateOrderSchema } from "@/schemas/createOrder.schema";
@@ -29,6 +30,7 @@ const CustomerDetailCard: FC = () => {
                 <FormControl>
                   <Input id="name" {...field} required />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -46,6 +48,7 @@ const CustomerDetailCard: FC = () => {
                 <FormControl>
                   <Input id="phone" type="tel" {...field} required />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />

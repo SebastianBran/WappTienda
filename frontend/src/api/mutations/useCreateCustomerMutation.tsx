@@ -9,8 +9,14 @@ const useCreateCustomerMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ data }: { data: CreateCustomerSchema }) =>
-      customersService.create(data),
+    mutationFn: ({ data }: { data: CreateCustomerSchema }) => {
+      return customersService.create({
+        ...data,
+        email: data.email || null,
+        birthDate: data.birthDate || null,
+        notes: data.notes || null,
+      });
+    },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
       toast({

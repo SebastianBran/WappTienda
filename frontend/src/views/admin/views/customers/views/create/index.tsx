@@ -12,7 +12,8 @@ const CreateCustomer: FC = () => {
   const navigate = useNavigate();
   const { mutate: createCustomerMutate, isPending } =
     useCreateCustomerMutation();
-  const { handleSubmit, reset } = useFormContext<CreateCustomerSchema>();
+  const form = useFormContext<CreateCustomerSchema>();
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (data: CreateCustomerSchema) => {
     createCustomerMutate(
@@ -33,21 +34,25 @@ const CreateCustomer: FC = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate("/admin/products")}
+              onClick={() => navigate("/admin/customers")}
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-semibold">Crear Producto</h1>
+              <h1 className="text-xl font-semibold">Crear Cliente</h1>
             </div>
           </div>
         </div>
 
-        <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="grid gap-6">
           <CustomerAttributes />
 
-          <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? <Spinner /> : "Crear producto"}
+          <Button
+            className="w-full"
+            disabled={isPending}
+            onClick={handleSubmit(onSubmit)}
+          >
+            {isPending ? <Spinner /> : "Crear cliente"}
           </Button>
         </form>
       </div>

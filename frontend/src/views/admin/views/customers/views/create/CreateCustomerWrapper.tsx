@@ -24,7 +24,9 @@ const CreateCustomerWrapper: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <CreateCustomerContext.Provider value={value}>
-      <FormProvider {...form}>{children}</FormProvider>
+      <FormProvider {...form}>
+        {children}
+      </FormProvider>
     </CreateCustomerContext.Provider>
   );
 };

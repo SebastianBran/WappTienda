@@ -5,6 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -59,6 +60,7 @@ const CustomerAttributes: FC = () => {
               <FormControl>
                 <Input id="name" {...field} required />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -76,6 +78,7 @@ const CustomerAttributes: FC = () => {
               <FormControl>
                 <Input id="phone" type="tel" {...field} required />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -96,6 +99,7 @@ const CustomerAttributes: FC = () => {
                   placeholder="Correo eletrónico del cliente"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

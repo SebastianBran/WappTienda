@@ -7,8 +7,14 @@ const useUpdateCustomerMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: UpdateCustomerSchema }) =>
-      customersService.update(id, data),
+    mutationFn: ({ id, data }: { id: number; data: UpdateCustomerSchema }) => {
+      return customersService.update(id, {
+        ...data,
+        email: data.email || null,
+        birthDate: data.birthDate || null,
+        notes: data.notes || null,
+      });
+    },
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["customer", variables.id] });
       toast({

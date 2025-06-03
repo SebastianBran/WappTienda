@@ -11,7 +11,7 @@ const useDeleteProductMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["product", "products"] });
       toast({
         title: "Exitoso",
-        description: `Product #${variables.id} deleted`,
+        description: `Producto #${variables.id} eliminado`,
         variant: "success",
       });
     },

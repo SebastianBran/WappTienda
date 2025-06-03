@@ -12,8 +12,8 @@ const useUpdateProductMutation = () => {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["product", variables.id] });
       toast({
-        title: "Success",
-        description: `Product #${data.id} updated successfully`,
+        title: "Exitoso",
+        description: `Producto #${data.id} actualizado correctamente`,
         variant: "success",
       });
     },

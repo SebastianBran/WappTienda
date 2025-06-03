@@ -9,6 +9,7 @@ import { CustomersModule } from './customers/customers.module';
 import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ConfigurationsModule } from './configurations/configurations.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UsersModule } from './users/users.module';
     CustomersModule,
     AuthModule,
     UsersModule,
+    ConfigurationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -22,6 +22,9 @@ export class Configuration {
   @Column()
   value: string;
 
+  @Column()
+  category: string;
+
   @Column({
     type: 'enum',
     enum: ConfigurationType,

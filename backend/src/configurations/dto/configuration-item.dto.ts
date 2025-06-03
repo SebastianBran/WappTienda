@@ -12,5 +12,9 @@ export class ConfigurationItemDto {
 
   @IsString()
   @IsOptional()
+  category: string;
+
+  @IsString()
+  @IsOptional()
   type: ConfigurationType;
 }

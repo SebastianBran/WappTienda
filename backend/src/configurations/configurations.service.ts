@@ -14,8 +14,12 @@ export class ConfigurationsService {
 
   private readonly logger = new Logger(ConfigurationsService.name);
 
-  getAll(): Promise<Configuration[]> {
-    return this.configurationRepository.find();
+  getAll(category?: string): Promise<Configuration[]> {
+    return this.configurationRepository.find({
+      where: {
+        category: category,
+      },
+    });
   }
 
   async create(

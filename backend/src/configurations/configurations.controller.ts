@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put } from '@nestjs/common';
+import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { ConfigurationsService } from './configurations.service';
 import { UpdateConfigurationsDto } from './dto/update-configurations.dto';
 import { Role } from 'src/users/entities/role.enum';
@@ -10,11 +10,11 @@ export class ConfigurationsController {
 
   @Roles(Role.ADMIN, Role.WRITER, Role.READER)
   @Get()
-  getAll() {
-    return this.configurationsService.getAll();
+  getAll(@Query('category') category: string) {
+    return this.configurationsService.getAll(category);
   }
 
-  @Roles(Role.ADMIN, Role.WRITER)
+  @Roles(Role.ADMIN)
   @Put()
   update(@Body() updateConfigurationsDto: UpdateConfigurationsDto) {
     return this.configurationsService.update(updateConfigurationsDto);

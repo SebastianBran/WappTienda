@@ -12,28 +12,33 @@ export class BootstrapConfigurationProvider implements OnApplicationBootstrap {
   async onApplicationBootstrap() {
     const defaultConfigs: ConfigurationItemDto[] = [
       {
-        key: 'store-name',
+        key: 'storeName',
         value: '',
+        category: 'general',
         type: ConfigurationType.STRING,
       },
       {
-        key: 'facebook-profile',
+        key: 'facebookProfile',
         value: '',
+        category: 'general',
         type: ConfigurationType.STRING,
       },
       {
-        key: 'instagram-profile',
+        key: 'instagramProfile',
         value: '',
+        category: 'general',
         type: ConfigurationType.STRING,
       },
       {
-        key: 'tiktok-profile',
+        key: 'tiktokProfile',
         value: '',
+        category: 'general',
         type: ConfigurationType.STRING,
       },
       {
-        key: 'whatsapp-number',
+        key: 'whatsappNumber',
         value: '',
+        category: 'general',
         type: ConfigurationType.STRING,
       },
     ];

@@ -21,7 +21,7 @@ const Customers = () => {
   }
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto p-4">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <h1 className="text-xl font-semibold">Clientes</h1>

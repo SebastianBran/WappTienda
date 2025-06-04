@@ -7,7 +7,7 @@ import {
 
 const CustomerDetail = () => {
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto p-4">
       <div className="space-y-6">
         <CustomerDetailHeader />
 

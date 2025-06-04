@@ -11,7 +11,6 @@ const OrderDetail = () => {
   const { order } = useContext(OrderDetailContext);
   const { mutate: updateOrderMutate } = useUpdateOrderMutation();
   const form = useFormContext<UpdateOrderSchema>();
-  const { handleSubmit } = form;
 
   const onSubmit = (data: UpdateOrderSchema) => {
     updateOrderMutate(
@@ -29,10 +28,7 @@ const OrderDetail = () => {
       <div className="flex flex-col gap-6">
         <OrderDetailHeader />
 
-        <form
-          className="grid gap-6 md:grid-cols-3"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
             <OrderUpdateForm />
             <OrderSummary order={order} />

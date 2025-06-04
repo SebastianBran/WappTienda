@@ -15,8 +15,7 @@ import { CreateProductSchema } from "@/schemas/createProduct.schema";
 const CreateProduct = () => {
   const navigate = useNavigate();
   const { mutate: createProductMutate, isPending } = useCreateProductMutation();
-  const { reset, handleSubmit, formState } = useFormContext<CreateProductSchema>();
-  console.log("form state", formState.errors);
+  const { reset, handleSubmit } = useFormContext<CreateProductSchema>();
 
   const onSubmit = (data: CreateProductSchema) => {
     createProductMutate(
@@ -30,7 +29,7 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto p-4">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

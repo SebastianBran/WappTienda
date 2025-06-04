@@ -15,7 +15,7 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const { mutate: updateProductMutate } = useUpdateProductMutation();
   const form = useFormContext<UpdateProductSchema>();
-  const { handleSubmit, reset } = form;
+  const { reset } = form;
 
   const onSubmit = (data: UpdateProductSchema) => {
     updateProductMutate(
@@ -35,10 +35,7 @@ const ProductDetail = () => {
       <div className="space-y-6">
         <ProductDetailHeader />
 
-        <form
-          className="grid gap-6 md:grid-cols-3"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
             <ProductAttributes />
             <ProductPricing />

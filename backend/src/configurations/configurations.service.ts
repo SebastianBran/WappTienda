@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Configuration } from './entities/configuration.entity';
 import { UpdateConfigurationsDto } from './dto/update-configurations.dto';
 import { ConfigurationItemDto } from './dto/configuration-item.dto';
+import { ConfigurationType } from './entities/configuration-type.enum';
 
 @Injectable()
 export class ConfigurationsService {
@@ -14,12 +15,34 @@ export class ConfigurationsService {
 
   private readonly logger = new Logger(ConfigurationsService.name);
 
-  getAll(category?: string): Promise<Configuration[]> {
-    return this.configurationRepository.find({
+  async getAll(
+    category?: string,
+  ): Promise<Record<string, string | boolean | number | object>> {
+    const configs = await this.configurationRepository.find({
       where: {
         category: category,
       },
     });
+
+    const mappedConfigs = configs.reduce(
+      (acc, { key, value, type }) => {
+        switch (type) {
+          case ConfigurationType.BOOLEAN:
+            return { ...acc, [key]: value === 'true' };
+          case ConfigurationType.STRING:
+            return { ...acc, [key]: value };
+          case ConfigurationType.INTEGER:
+            return { ...acc, [key]: Number(value) };
+          case ConfigurationType.JSON:
+            return { ...acc, [key]: JSON.parse(value) as object };
+          default:
+            return { ...acc, [key]: value };
+        }
+      },
+      {} as Record<string, string | boolean | number | object>,
+    );
+
+    return mappedConfigs;
   }
 
   async create(

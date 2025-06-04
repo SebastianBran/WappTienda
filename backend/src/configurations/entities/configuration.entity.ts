@@ -19,7 +19,9 @@ export class Configuration {
   @Index()
   key: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   value: string;
 
   @Column()
@@ -29,7 +31,7 @@ export class Configuration {
     type: 'enum',
     enum: ConfigurationType,
   })
-  type: string;
+  type: ConfigurationType;
 
   @CreateDateColumn()
   created_at: Date;

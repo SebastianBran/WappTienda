@@ -31,6 +31,8 @@ import CreateCustomer from "./views/admin/views/customers/views/create";
 import CreateCustomerWrapper from "./views/admin/views/customers/views/create/CreateCustomerWrapper";
 import EditCustomerWrapper from "./views/admin/views/customers/views/edit/EditCustomerWrapper";
 import CustomerDetailWrapper from "./views/admin/views/customers/views/detail/CustomerDetailWrapper";
+import GeneralSettings from "./views/admin/views/settings/views/general";
+import GeneralSettingsWrapper from "./views/admin/views/settings/views/general/GeneralSettingsWrapper";
 
 const queryClient = new QueryClient();
 
@@ -109,8 +111,23 @@ function App() {
                 }
               />
             </Route>
-            <Route path="settings">
-              <Route index element={<Settings />} />
+            <Route path="settings" element={<Settings />}>
+              <Route
+                index
+                element={
+                  <GeneralSettingsWrapper>
+                    <GeneralSettings />
+                  </GeneralSettingsWrapper>
+                }
+              />
+              <Route
+                path="general"
+                element={
+                  <GeneralSettingsWrapper>
+                    <GeneralSettings />
+                  </GeneralSettingsWrapper>
+                }
+              />
             </Route>
           </Route>
           <Route path="/store">

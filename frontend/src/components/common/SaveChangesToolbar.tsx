@@ -12,7 +12,7 @@ const SaveChangesToolbar: FC<SaveChangesToolbarProps> = ({
   onSave,
 }) => {
   return (
-    <div className="absolute top-0 left-0 bg-gray-300 border-b w-full px-4">
+    <div className="bg-gray-300 border-b w-full px-4">
       <div className="container mx-auto py-3 flex items-center gap-4">
         <span className="text-sm font-medium">Cambios sin guardar</span>
         <Button variant="secondary" onClick={onReset} className="gap-2 ml-auto">

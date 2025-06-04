@@ -1,7 +1,6 @@
 import { PropsWithChildren } from "react";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import SaveChangesToolbar from "./SaveChangesToolbar";
-import { cn } from "@/lib/utils";
 
 type EditFormLayoutProps<T extends FieldValues> = PropsWithChildren & {
   onSubmit: SubmitHandler<T>;
@@ -23,14 +22,7 @@ const EditFormLayout = <T extends FieldValues>({
           onSave={handleSubmit(onSubmit)}
         />
       )}
-      <div
-        className={cn(
-          "container mx-auto py-6",
-          isFormChanged && "pt-16",
-        )}
-      >
-        {children}
-      </div>
+      <div className="container mx-auto p-4">{children}</div>
     </>
   );
 };

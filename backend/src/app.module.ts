@@ -10,6 +10,7 @@ import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigurationsModule } from './configurations/configurations.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ConfigurationsModule } from './configurations/configurations.module';
     AuthModule,
     UsersModule,
     ConfigurationsModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

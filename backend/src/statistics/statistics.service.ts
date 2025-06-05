@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from 'src/orders/entities/order.entity';
 import { Not, Repository } from 'typeorm';
-import { Statistic } from './entities/statistic.entity';
+import { Statistics } from './entities/statistics.entity';
 import { PaymentStatus } from 'src/orders/entities/payment-status.enum';
 import { OrderStatus } from 'src/orders/entities/order-status.enum';
 
@@ -13,7 +13,7 @@ export class StatisticsService {
     private readonly orderRepository: Repository<Order>,
   ) {}
 
-  async getStatistics(): Promise<Statistic> {
+  async getStatistics(): Promise<Statistics> {
     // Total orders
     const totalOrders = await this.orderRepository.count();
 
@@ -41,7 +41,7 @@ export class StatisticsService {
       },
     });
 
-    const statistic = Statistic.create(
+    const statistic = Statistics.create(
       totalOrders,
       totalSales,
       pendingOrders,

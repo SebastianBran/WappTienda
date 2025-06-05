@@ -1,15 +1,15 @@
-export class StatisticLast30Days {
+export class StatisticsLast30Days {
   constructor(
     private readonly pendingOrders: number,
     private readonly unpaidOrders: number,
   ) {}
 }
 
-export class Statistic {
+export class Statistics {
   constructor(
     public readonly totalOrders: number,
     public readonly totalSales: number,
-    public readonly last30days: StatisticLast30Days,
+    public readonly last30days: StatisticsLast30Days,
   ) {}
 
   static create(
@@ -18,7 +18,7 @@ export class Statistic {
     pendingOrders: number,
     unpaidOrders: number,
   ) {
-    const last30days = new StatisticLast30Days(pendingOrders, unpaidOrders);
-    return new Statistic(totalOrders, totalSales, last30days);
+    const last30days = new StatisticsLast30Days(pendingOrders, unpaidOrders);
+    return new Statistics(totalOrders, totalSales, last30days);
   }
 }

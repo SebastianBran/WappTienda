@@ -33,6 +33,7 @@ import EditCustomerWrapper from "./views/admin/views/customers/views/edit/EditCu
 import CustomerDetailWrapper from "./views/admin/views/customers/views/detail/CustomerDetailWrapper";
 import GeneralSettings from "./views/admin/views/settings/views/general";
 import GeneralSettingsWrapper from "./views/admin/views/settings/views/general/GeneralSettingsWrapper";
+import ProtectedRoute from "./components/common/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +44,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/admin" element={<Admin />}>
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="orders">

@@ -1,26 +1,32 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useSidebar } from "@/components/ui/sidebar";
+import useGetStatisticsQuery from "@/api/queries/useGetStatisticsQuery";
+import ViewLoading from "@/components/common/ViewLoading";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { CreditCardIcon, ShoppingCart } from "lucide-react";
-import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { setOpen } = useSidebar();
+  const { data: statistics, isPending } = useGetStatisticsQuery();
 
-  useEffect(() => {
-    setOpen(true);
-  }, [setOpen]);
+  if (isPending || !statistics) {
+    return <ViewLoading />;
+  }
 
   return (
-    <div className="grid justify-items-center max-w-3xl mx-auto">
+    <div className="grid justify-items-center max-w-3xl mx-auto p-4">
       <div className="grid grid-cols-2 gap-4 w-full">
         <Card className="grid p-4">
           <span className="">Órdenes</span>
-          <span className="font-bold">0</span>
+          <span className="font-bold">{statistics.totalOrders}</span>
         </Card>
 
         <Card className="grid p-4">
           <span>Ventas</span>
-          <span className="font-bold">S/ 0.00</span>
+          <span className="font-bold">S/ {statistics.totalSales}</span>
         </Card>
       </div>
 
@@ -32,16 +38,20 @@ const Dashboard = () => {
         <CardContent className="grid gap-4">
           <div className="flex gap-4 p-2 border rounded-md">
             <ShoppingCart className="size-8 bg-teal-100 p-2 rounded-md" />
-            <span className="text-center self-center text-sm">2 órdenes pendientes</span>
+            <span className="text-center self-center text-sm">
+              {statistics.last30days.pendingOrders} órdenes pendientes
+            </span>
           </div>
           <div className="flex gap-4 p-2 border rounded-md">
             <CreditCardIcon className="size-8 bg-teal-100 p-2 rounded-md" />
-            <span className="text-center self-center text-sm">2 órdenes sin pagar</span>
+            <span className="text-center self-center text-sm">
+              {statistics.last30days.unpaidOrders} órdenes sin pagar
+            </span>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 export default Dashboard;

@@ -7,7 +7,7 @@ import {
   IsString,
   Min,
 } from 'class-validator';
-import { ProductType } from '../entities/product-type.enum';
+import { ProductType } from 'src/products/domain/entities/product-type.enum';
 
 export class CreateProductDto {
   @IsString()
@@ -20,7 +20,7 @@ export class CreateProductDto {
 
   @IsNotEmpty()
   @IsEnum(ProductType)
-  type: string;
+  type: ProductType;
 
   @IsString()
   @IsOptional()

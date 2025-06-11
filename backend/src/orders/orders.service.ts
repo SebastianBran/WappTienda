@@ -7,11 +7,11 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderItemDto } from './dto/create-order-item.dto';
-import { Product } from 'src/products/entities/product.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { CreateCustomerDto } from 'src/customers/dto/create-customer.dto';
 import { OrderStatus } from './entities/order-status.enum';
 import { PaymentStatus } from './entities/payment-status.enum';
+import { ProductEntity } from 'src/products/infrastucture/entities/product.typeorm-entity';
 
 @Injectable()
 export class OrdersService {
@@ -20,8 +20,8 @@ export class OrdersService {
     private readonly orderRepository: Repository<Order>,
     @InjectRepository(OrderItem)
     private readonly orderItemRepository: Repository<OrderItem>,
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @InjectRepository(ProductEntity)
+    private readonly productRepository: Repository<ProductEntity>,
     @InjectRepository(Customer)
     private readonly customerRepository: Repository<Customer>,
   ) {}
@@ -111,7 +111,6 @@ export class OrdersService {
   async preloadOrderItem(item: CreateOrderItemDto): Promise<OrderItem> {
     const product = await this.productRepository.findOneBy({
       id: item.productId,
-      deleted: false,
     });
 
     if (!product) {

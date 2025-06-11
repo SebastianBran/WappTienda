@@ -1,3 +1,5 @@
+import { OrderItem } from 'src/orders/entities/order-item.entity';
+import { ProductType } from 'src/products/domain/entities/product-type.enum';
 import {
   Column,
   CreateDateColumn,
@@ -7,11 +9,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProductType } from './product-type.enum';
-import { OrderItem } from '../../orders/entities/order-item.entity';
 
-@Entity()
-export class Product {
+@Entity('product')
+export class ProductEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,7 +29,7 @@ export class Product {
     enum: ProductType,
     default: ProductType.PHYSICAL,
   })
-  type: string;
+  type: ProductType;
 
   @Column({
     nullable: true,
@@ -82,8 +82,8 @@ export class Product {
   orderItems: OrderItem[];
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 }

@@ -25,8 +25,7 @@ export class CreateProductHandler
       }
     }
 
-    const product: Product =
-      ProductMapper.createProductCommandToDomain(command);
+    const product = ProductMapper.createProductCommandToDomain(command);
 
     return this.productRepository.create(product);
   }

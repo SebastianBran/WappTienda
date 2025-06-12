@@ -15,7 +15,7 @@ export class UpdateProductHandler
   ) {}
 
   async execute(command: UpdateProductCommand): Promise<Product> {
-    const sku = command.sku;
+    const { sku } = command;
 
     if (sku) {
       const productExist = await this.productRepository.existBySku(sku);
@@ -25,16 +25,19 @@ export class UpdateProductHandler
       }
     }
 
-    const productId = command.id;
+    const { id: productId } = command;
 
-    let product = await this.productRepository.findById(productId);
+    const product = await this.productRepository.findById(productId);
 
     if (!product) {
       throw new NotFoundException(`Product with ID ${productId} not found`);
     }
 
-    product = ProductMapper.updateProductCommandToDomain(command, product);
+    const updatedProduct = ProductMapper.updateProductCommandToDomain(
+      command,
+      product,
+    );
 
-    return this.productRepository.update(product);
+    return this.productRepository.update(updatedProduct);
   }
 }

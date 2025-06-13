@@ -2,7 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetProductQuery } from '../../queries/get-product.query';
 import { Product } from 'src/products/domain/entities/product.entity';
 import { ProductRepository } from '../../ports/product.repository';
-import { Inject } from '@nestjs/common';
+import { Inject, NotFoundException } from '@nestjs/common';
 
 @QueryHandler(GetProductQuery)
 export class GetProductHandler implements IQueryHandler<GetProductQuery> {
@@ -11,8 +11,15 @@ export class GetProductHandler implements IQueryHandler<GetProductQuery> {
     private readonly productRepository: ProductRepository,
   ) {}
 
-  execute(query: GetProductQuery): Promise<Product | null> {
+  async execute(query: GetProductQuery): Promise<Product> {
     const { id } = query;
-    return this.productRepository.findActiveById(id);
+
+    const product = await this.productRepository.findActiveById(id);
+
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    return product;
   }
 }

@@ -63,8 +63,8 @@ export class TypeOrmProductRepository implements ProductRepository {
     return ProductInfraestructureMapper.entityToDomain(productEntity);
   }
 
-  async existBySku(sku: string): Promise<boolean> {
-    return await this.repository.existsBy({ sku, deleted: false });
+  existBySku(sku: string): Promise<boolean> {
+    return this.repository.existsBy({ sku, deleted: false });
   }
 
   async create(product: Product): Promise<Product> {

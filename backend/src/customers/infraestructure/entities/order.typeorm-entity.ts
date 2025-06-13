@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CustomerEntity } from './customer.entity';
+import { CustomerEntity } from './customer.typeorm-entity';
 
 @Entity('order')
 export class OrderEntity {

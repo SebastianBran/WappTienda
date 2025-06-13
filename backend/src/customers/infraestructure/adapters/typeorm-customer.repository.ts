@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerRepository } from 'src/customers/application/ports/customer.repository';
 import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { Repository } from 'typeorm';
-import { CustomerEntity } from '../entities/customer.entity';
+import { CustomerEntity } from '../entities/customer.typeorm-entity';
 import { CustomerInfraestructureMapper } from '../mappers/customer-infraestructure.mapper';
 
 export class TypeOrmCustomerRepository implements CustomerRepository {

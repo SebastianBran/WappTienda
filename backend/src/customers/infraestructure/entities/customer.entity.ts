@@ -1,4 +1,3 @@
-import { Order } from 'src/orders/entities/order.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,9 +7,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { OrderEntity } from './order.entity';
 
-@Entity()
-export class Customer {
+@Entity('customer')
+export class CustomerEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,9 +18,10 @@ export class Customer {
   name: string;
 
   @Column({
+    type: 'text',
     nullable: true,
   })
-  email: string;
+  email: string | null;
 
   @Column({
     unique: true,
@@ -39,16 +40,16 @@ export class Customer {
     },
     nullable: true,
   })
-  birthDate: Date;
+  birthDate: Date | null;
 
   @Column({
     type: 'text',
     nullable: true,
   })
-  notes: string;
+  notes: string | null;
 
-  @OneToMany(() => Order, (order) => order.customer)
-  orders: Order[];
+  @OneToMany(() => OrderEntity, (order) => order.customer)
+  orders: OrderEntity[];
 
   @Column({
     default: false,

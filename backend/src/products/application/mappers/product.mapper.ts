@@ -6,17 +6,15 @@ import { Product } from 'src/products/domain/entities/product.entity';
 export class ProductMapper {
   public static createProductCommandToDomain(command: CreateProductCommand) {
     return ProductFactory.create(
-      0, // ID will be set by the database
+      command.sku,
       command.name,
       command.type,
+      command.description,
       command.price,
       command.salesPrice,
       command.trackInventory,
       command.totalInventory,
       command.visible,
-      false, // not deleted
-      command.sku,
-      command.description,
     );
   }
 

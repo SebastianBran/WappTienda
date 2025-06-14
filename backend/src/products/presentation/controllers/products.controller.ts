@@ -47,15 +47,15 @@ export class ProductsController {
   create(@Body() createProductDto: CreateProductDto) {
     return this.commandBus.execute(
       new CreateProductCommand(
+        createProductDto.sku,
         createProductDto.name,
         createProductDto.type,
+        createProductDto.description,
         createProductDto.price,
         createProductDto.salesPrice,
         createProductDto.trackInventory,
         createProductDto.totalInventory,
         createProductDto.visible,
-        createProductDto.sku,
-        createProductDto.description,
       ),
     );
   }
@@ -66,15 +66,15 @@ export class ProductsController {
     return this.commandBus.execute(
       new UpdateProductCommand(
         id,
+        updateProductDto.sku,
         updateProductDto.name,
         updateProductDto.type,
+        updateProductDto.description,
         updateProductDto.price,
         updateProductDto.salesPrice,
         updateProductDto.trackInventory,
         updateProductDto.totalInventory,
         updateProductDto.visible,
-        updateProductDto.sku,
-        updateProductDto.description,
       ),
     );
   }

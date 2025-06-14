@@ -16,9 +16,6 @@ export class CustomerFactory {
       birthDate,
       notes,
       [], // Assuming no orders initially
-      false, // not deleted
-      new Date(), // createdAt
-      new Date(), // updatedAt
     );
   }
 }

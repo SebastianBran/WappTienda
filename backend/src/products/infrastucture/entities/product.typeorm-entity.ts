@@ -1,11 +1,9 @@
-import { OrderItem } from 'src/orders/entities/order-item.entity';
 import { ProductType } from 'src/products/domain/entities/product-type.enum';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -77,9 +75,6 @@ export class ProductEntity {
   })
   @Index()
   deleted: boolean;
-
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
-  orderItems: OrderItem[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -1,13 +1,13 @@
 import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { CreateCustomerCommand } from '../commands/create-customer.commad';
 import { UpdateCustomerCommand } from '../commands/update-customer.commad';
+import { CustomerFactory } from 'src/customers/domain/factories/customer.factory';
 
 export class CustomerMapper {
   public static createCustomerCommandToDomain(
     command: CreateCustomerCommand,
   ): Customer {
-    return new Customer(
-      0, // Assuming ID is auto-generated
+    return CustomerFactory.create(
       command.name,
       command.email,
       command.phone,

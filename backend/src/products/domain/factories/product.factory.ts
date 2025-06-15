@@ -24,9 +24,6 @@ export class ProductFactory {
       trackInventory,
       totalInventory,
       visible,
-      false,
-      new Date(),
-      new Date(),
     );
   }
 }

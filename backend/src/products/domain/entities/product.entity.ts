@@ -12,7 +12,7 @@ export class Product {
     private trackInventory: boolean,
     private totalInventory: number,
     private visible: boolean,
-    private deleted: boolean,
+    private deleted: boolean = false,
     private createdAt: Date = new Date(),
     private updatedAt: Date = new Date(),
   ) {}

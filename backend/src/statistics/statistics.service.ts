@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Order } from 'src/orders/entities/order.entity';
 import { Not, Repository } from 'typeorm';
 import { Statistics } from './entities/statistics.entity';
-import { PaymentStatus } from 'src/orders/entities/payment-status.enum';
-import { OrderStatus } from 'src/orders/entities/order-status.enum';
+import { PaymentStatus } from 'src/orders/domain/entities/payment-status.enum';
+import { OrderStatus } from 'src/orders/domain/entities/order-status.enum';
+import { OrderEntity } from 'src/orders/infrastructure/entities/order.typeorm-entity';
 
 @Injectable()
 export class StatisticsService {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
+    @InjectRepository(OrderEntity)
+    private readonly orderRepository: Repository<OrderEntity>,
   ) {}
 
   async getStatistics(): Promise<Statistics> {

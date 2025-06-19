@@ -2,7 +2,7 @@ import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
 import { Order } from 'src/customers/domain/entities/order.entity';
 
-export class CustomerInfraestructureMapper {
+export class CustomerInfrastructureMapper {
   static domainToEntity(customer: Customer): CustomerEntity {
     const customerEntity = new CustomerEntity();
     customerEntity.id = customer.getId();

@@ -3,7 +3,7 @@ import { CustomerRepository } from 'src/customers/application/ports/customer.rep
 import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { Repository } from 'typeorm';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
-import { CustomerInfraestructureMapper } from '../mappers/customer-infraestructure.mapper';
+import { CustomerInfrastructureMapper } from '../mappers/customer-infraestructure.mapper';
 
 export class TypeOrmCustomerRepository implements CustomerRepository {
   constructor(
@@ -18,7 +18,7 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
       take: limit,
     });
     return customersEntities.map((entity) =>
-      CustomerInfraestructureMapper.entityToDomain(entity),
+      CustomerInfrastructureMapper.entityToDomain(entity),
     );
   }
 
@@ -30,7 +30,7 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
       relations: ['orders'],
     });
     return customersEntities.map((entity) =>
-      CustomerInfraestructureMapper.entityToDomain(entity),
+      CustomerInfrastructureMapper.entityToDomain(entity),
     );
   }
 
@@ -42,7 +42,7 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
     if (!customerEntity) {
       return null;
     }
-    return CustomerInfraestructureMapper.entityToDomain(customerEntity);
+    return CustomerInfrastructureMapper.entityToDomain(customerEntity);
   }
 
   async findActiveById(id: number): Promise<Customer | null> {
@@ -53,7 +53,7 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
     if (!customerEntity) {
       return null;
     }
-    return CustomerInfraestructureMapper.entityToDomain(customerEntity);
+    return CustomerInfrastructureMapper.entityToDomain(customerEntity);
   }
 
   existsByPhone(phone: string): Promise<boolean> {
@@ -62,17 +62,17 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
 
   async create(customer: Customer): Promise<Customer> {
     const customerEntity =
-      CustomerInfraestructureMapper.domainToEntity(customer);
+      CustomerInfrastructureMapper.domainToEntity(customer);
     const customerCreated = this.repository.create(customerEntity);
     const newCustomer = await this.repository.save(customerCreated);
-    return CustomerInfraestructureMapper.entityToDomain(newCustomer);
+    return CustomerInfrastructureMapper.entityToDomain(newCustomer);
   }
 
   async update(customer: Customer): Promise<Customer> {
     const customerEntity =
-      CustomerInfraestructureMapper.domainToEntity(customer);
+      CustomerInfrastructureMapper.domainToEntity(customer);
     const updatedEntity = await this.repository.save(customerEntity);
-    return CustomerInfraestructureMapper.entityToDomain(updatedEntity);
+    return CustomerInfrastructureMapper.entityToDomain(updatedEntity);
   }
 
   async remove(id: number): Promise<void> {

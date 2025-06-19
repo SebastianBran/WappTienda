@@ -7,11 +7,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Order } from './order.entity';
-import { ProductEntity } from 'src/products/infrastucture/entities/product.typeorm-entity';
+import { OrderEntity } from './order.typeorm-entity';
+import { ProductEntity } from './product.typeorm-entity';
 
-@Entity()
-export class OrderItem {
+@Entity('order_item')
+export class OrderItemEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -33,11 +33,11 @@ export class OrderItem {
   @JoinColumn()
   product: ProductEntity;
 
-  @ManyToOne(() => Order, (order) => order.orderItems, {
+  @ManyToOne(() => OrderEntity, (order) => order.orderItems, {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  order: Order;
+  order: OrderEntity;
 
   @CreateDateColumn()
   created_at: Date;

@@ -7,13 +7,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrderStatus } from './order-status.enum';
-import { PaymentStatus } from './payment-status.enum';
-import { OrderItem } from './order-item.entity';
-import { Customer } from 'src/customers/entities/customer.entity';
+import { OrderItemEntity } from './order-item.typeorm-entity';
+import { OrderStatus } from 'src/orders/domain/entities/order-status.enum';
+import { PaymentStatus } from 'src/orders/domain/entities/payment-status.enum';
+import { CustomerEntity } from './customer.typeorm-entity';
 
-@Entity()
-export class Order {
+@Entity('order')
+export class OrderEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -22,14 +22,14 @@ export class Order {
     enum: OrderStatus,
     default: OrderStatus.PENDING,
   })
-  status: string;
+  status: OrderStatus;
 
   @Column({
     type: 'enum',
     enum: PaymentStatus,
     default: PaymentStatus.PENDING,
   })
-  paymentStatus: string;
+  paymentStatus: PaymentStatus;
 
   @Column({
     type: 'decimal',
@@ -59,19 +59,19 @@ export class Order {
   })
   internalNotes: string;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  orderItems: OrderItem[];
+  orderItems: OrderItemEntity[];
 
   @Column()
   totalItems: number;
 
-  @ManyToOne(() => Customer, (customer) => customer.orders, {
+  @ManyToOne(() => CustomerEntity, (customer) => customer.orders, {
     cascade: true,
   })
-  customer: Customer;
+  customer: CustomerEntity;
 
   @CreateDateColumn()
   created_at: Date;

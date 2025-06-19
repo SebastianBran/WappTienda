@@ -1,7 +1,7 @@
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { CreateOrderItemDto } from './create-order-item.dto';
 import { Type } from 'class-transformer';
-import { CreateCustomerDto } from 'src/customers/dto/create-customer.dto';
+import { CreateCustomerDto } from './create-customer.dto';
 
 export class CreateOrderDto {
   @Type(() => CreateCustomerDto)

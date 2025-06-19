@@ -28,6 +28,5 @@ const QueryHandlers = [GetProductHandler, GetProductsHandler];
     },
   ],
   controllers: [ProductsController],
-  exports: ['ProductRepository'],
 })
 export class ProductsModule {}

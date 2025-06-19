@@ -1,5 +1,6 @@
 import { Product } from 'src/products/domain/entities/product.entity';
 
+// TODO: Review if all methods are used
 export interface ProductRepository {
   findAll(offset?: number, limit?: number): Promise<Product[]>;
   findAllActive(offset?: number, limit?: number): Promise<Product[]>;

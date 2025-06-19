@@ -4,7 +4,6 @@ import { Product } from 'src/products/domain/entities/product.entity';
 import { Repository } from 'typeorm';
 import { ProductEntity } from '../entities/product.typeorm-entity';
 import { ProductInfraestructureMapper } from '../mappers/product-infraestructure.mapper';
-import { NotFoundException } from '@nestjs/common';
 
 export class TypeOrmProductRepository implements ProductRepository {
   constructor(
@@ -81,12 +80,6 @@ export class TypeOrmProductRepository implements ProductRepository {
   }
 
   async remove(id: number): Promise<void> {
-    const productEntity = await this.repository.findOne({
-      where: { id, deleted: false },
-    });
-    if (!productEntity) {
-      throw new NotFoundException(`Product with id ${id} not found`);
-    }
-    await this.repository.remove(productEntity);
+    await this.repository.delete({ id });
   }
 }

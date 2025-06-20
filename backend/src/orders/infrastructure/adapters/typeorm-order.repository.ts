@@ -42,7 +42,6 @@ export class TypeormOrderRepository implements OrderRepository {
 
   async create(order: Order): Promise<Order> {
     const orderEntity = OrderInfrastructureMapper.domainToEntity(order);
-    console.log('Creating order entity:', orderEntity);
     const createdOrder = this.orderRepository.create(orderEntity);
     const savedOrder = await this.orderRepository.save(createdOrder);
     return OrderInfrastructureMapper.entityToDomain(savedOrder);

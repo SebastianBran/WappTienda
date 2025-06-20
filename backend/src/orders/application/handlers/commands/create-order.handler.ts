@@ -39,7 +39,7 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
       orderItems,
       customer,
     );
-    console.log('Creating order:', order);
+
     return this.orderRepository.create(order);
   }
 

@@ -8,14 +8,6 @@ export class CustomerFactory {
     birthDate: Date | null,
     notes: string | null,
   ): Customer {
-    return new Customer(
-      0,
-      name,
-      email,
-      phone,
-      birthDate,
-      notes,
-      [], // Assuming no orders initially
-    );
+    return new Customer(0, name, email, phone, birthDate, notes);
   }
 }

@@ -1,5 +1,7 @@
-export interface CreateOrderItemDto {
-  productId: number;
-  quantity: number;
-  price: number;
+export class CreateOrderItemDto {
+  constructor(
+    public productId: number,
+    public quantity: number,
+    public price: number,
+  ) {}
 }

@@ -1,7 +1,9 @@
-export interface CreateCustomerDto {
-  name: string;
-  phone: string;
-  email: string | null;
-  birthDate: Date | null;
-  notes: string | null;
+export class CreateCustomerDto {
+  constructor(
+    public name: string,
+    public phone: string,
+    public email: string | null,
+    public birthDate: Date | null,
+    public notes: string | null,
+  ) {}
 }

@@ -7,7 +7,7 @@ import { ProductEntity } from './infrastructure/entities/product.typeorm-entity'
 import { CreateOrderHandler } from './application/handlers/commands/create-order.handler';
 import { UpdateOrderHandler } from './application/handlers/commands/update-order.handler';
 import { DeleteOrderHandler } from './application/handlers/commands/delete-order.handler';
-import { GetOrderHandler } from './application/handlers/queries/get-order.handler';
+import { GetOrderByIdHandler } from './application/handlers/queries/get-order-by-id.handler';
 import { GetOrdersHandler } from './application/handlers/queries/get-orders.handler';
 import { TypeormOrderRepository } from './infrastructure/adapters/typeorm-order.repository';
 import { TypeormProductRepository } from './infrastructure/adapters/typeorm-product.repository';
@@ -20,7 +20,7 @@ const CommandHandlers = [
   UpdateOrderHandler,
   DeleteOrderHandler,
 ];
-const QueryHandlers = [GetOrderHandler, GetOrdersHandler];
+const QueryHandlers = [GetOrderByIdHandler, GetOrdersHandler];
 
 @Module({
   imports: [

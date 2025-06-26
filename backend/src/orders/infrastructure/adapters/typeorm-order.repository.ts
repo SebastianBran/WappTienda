@@ -36,6 +36,17 @@ export class TypeormOrderRepository implements OrderRepository {
     return OrderInfrastructureMapper.entityToDomain(orderEntity);
   }
 
+  async findByCustomerId(customerId: number): Promise<Order[]> {
+    const orderEntities = await this.orderRepository.find({
+      where: { customer: { id: customerId } },
+      relations: ['orderItems', 'orderItems.product', 'customer'],
+    });
+
+    return orderEntities.map((order) =>
+      OrderInfrastructureMapper.entityToDomain(order),
+    );
+  }
+
   existsById(id: number): Promise<boolean> {
     return this.orderRepository.existsBy({ id });
   }

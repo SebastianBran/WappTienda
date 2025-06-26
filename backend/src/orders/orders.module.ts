@@ -14,13 +14,18 @@ import { TypeormProductRepository } from './infrastructure/adapters/typeorm-prod
 import { TypeOrmCustomerRepository } from './infrastructure/adapters/typeorm-customer.repository';
 import { CustomerEntity } from './infrastructure/entities/customer.typeorm-entity';
 import { CqrsModule } from '@nestjs/cqrs';
+import { GetOrdersByCustomerIdHandler } from './application/handlers/queries/get-orders-by-customer-id.handler';
 
 const CommandHandlers = [
   CreateOrderHandler,
   UpdateOrderHandler,
   DeleteOrderHandler,
 ];
-const QueryHandlers = [GetOrderByIdHandler, GetOrdersHandler];
+const QueryHandlers = [
+  GetOrderByIdHandler,
+  GetOrdersByCustomerIdHandler,
+  GetOrdersHandler,
+];
 
 @Module({
   imports: [

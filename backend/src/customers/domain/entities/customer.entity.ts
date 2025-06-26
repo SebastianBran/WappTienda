@@ -1,17 +1,14 @@
-import { Order } from './order.entity';
-
 export class Customer {
   constructor(
-    public id: number,
-    public name: string,
-    public email: string | null,
-    public phone: string,
-    public birthDate: Date | null,
-    public notes: string | null,
-    public orders: Order[] = [],
-    public deleted: boolean = false,
-    public createdAt: Date = new Date(),
-    public updatedAt: Date = new Date(),
+    private id: number,
+    private name: string,
+    private email: string | null,
+    private phone: string,
+    private birthDate: Date | null,
+    private notes: string | null,
+    private deleted: boolean = false,
+    private createdAt: Date = new Date(),
+    private updatedAt: Date = new Date(),
   ) {}
 
   public getId(): number {
@@ -36,10 +33,6 @@ export class Customer {
 
   public getNotes(): string | null {
     return this.notes;
-  }
-
-  public getOrders(): Order[] {
-    return this.orders;
   }
 
   public isDeleted(): boolean {
@@ -72,10 +65,6 @@ export class Customer {
 
   public setNotes(notes: string | null): void {
     this.notes = notes;
-  }
-
-  public setOrders(orders: Order[]): void {
-    this.orders = orders;
   }
 
   public setDeleted(deleted: boolean): void {

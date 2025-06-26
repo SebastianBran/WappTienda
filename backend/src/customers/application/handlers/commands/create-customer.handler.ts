@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCustomerCommand } from '../../commands/create-customer.commad';
 import { Customer } from 'src/customers/domain/entities/customer.entity';
-import { BadRequestException, Inject } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { CustomerRepository } from '../../ports/customer.repository';
 import { CustomerMapper } from '../../mappers/customer.mapper';
 
@@ -10,8 +10,8 @@ export class CreateCustomerHandler
   implements ICommandHandler<CreateCustomerCommand>
 {
   constructor(
-    @Inject('CustomerRepository')
     private readonly customerRepository: CustomerRepository,
+    private readonly customerMapper: CustomerMapper,
   ) {}
 
   async execute(command: CreateCustomerCommand): Promise<Customer> {
@@ -35,7 +35,7 @@ export class CreateCustomerHandler
     }
 
     const customer: Customer =
-      CustomerMapper.createCustomerCommandToDomain(command);
+      this.customerMapper.createCustomerCommandToDomain(command);
 
     return this.customerRepository.create(customer);
   }

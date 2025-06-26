@@ -2,9 +2,13 @@ import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { CreateCustomerCommand } from '../commands/create-customer.commad';
 import { UpdateCustomerCommand } from '../commands/update-customer.commad';
 import { CustomerFactory } from 'src/customers/domain/factories/customer.factory';
+import { Injectable } from '@nestjs/common';
+import { CustomerWithOrdersDto } from '../dto/customer-with-orders.dto';
+import { OrderDto } from '../dto/order.dto';
 
+@Injectable()
 export class CustomerMapper {
-  public static createCustomerCommandToDomain(
+  public createCustomerCommandToDomain(
     command: CreateCustomerCommand,
   ): Customer {
     return CustomerFactory.create(
@@ -16,7 +20,7 @@ export class CustomerMapper {
     );
   }
 
-  public static updateCustomerCommandToDomain(
+  public updateCustomerCommandToDomain(
     command: UpdateCustomerCommand,
     customer: Customer,
   ): Customer {
@@ -41,5 +45,23 @@ export class CustomerMapper {
     }
 
     return customer;
+  }
+
+  public toCustomerWithOrdersDto(
+    customer: Customer,
+    orders: OrderDto[],
+  ): CustomerWithOrdersDto {
+    return new CustomerWithOrdersDto(
+      customer.getId(),
+      customer.getName(),
+      customer.getEmail(),
+      customer.getPhone(),
+      customer.getBirthDate(),
+      customer.getNotes(),
+      customer.isDeleted(),
+      customer.getCreatedAt(),
+      customer.getUpdatedAt(),
+      orders,
+    );
   }
 }

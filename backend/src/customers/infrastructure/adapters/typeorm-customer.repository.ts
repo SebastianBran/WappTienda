@@ -3,22 +3,24 @@ import { CustomerRepository } from 'src/customers/application/ports/customer.rep
 import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { Repository } from 'typeorm';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
-import { CustomerInfrastructureMapper } from '../mappers/customer-infraestructure.mapper';
+import { CustomerInfrastructureMapper } from '../mappers/customer-infrastructure.mapper';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class TypeOrmCustomerRepository implements CustomerRepository {
   constructor(
     @InjectRepository(CustomerEntity)
     private readonly repository: Repository<CustomerEntity>,
+    private readonly customerInfrastructureMapper: CustomerInfrastructureMapper,
   ) {}
 
   async findAll(offset?: number, limit?: number): Promise<Customer[]> {
     const customersEntities = await this.repository.find({
-      relations: ['orders'],
       skip: offset,
       take: limit,
     });
     return customersEntities.map((entity) =>
-      CustomerInfrastructureMapper.entityToDomain(entity),
+      this.customerInfrastructureMapper.entityToDomain(entity),
     );
   }
 
@@ -27,33 +29,30 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
       where: { deleted: false },
       skip: offset,
       take: limit,
-      relations: ['orders'],
     });
     return customersEntities.map((entity) =>
-      CustomerInfrastructureMapper.entityToDomain(entity),
+      this.customerInfrastructureMapper.entityToDomain(entity),
     );
   }
 
   async findById(id: number): Promise<Customer | null> {
     const customerEntity = await this.repository.findOne({
       where: { id },
-      relations: ['orders'],
     });
     if (!customerEntity) {
       return null;
     }
-    return CustomerInfrastructureMapper.entityToDomain(customerEntity);
+    return this.customerInfrastructureMapper.entityToDomain(customerEntity);
   }
 
   async findActiveById(id: number): Promise<Customer | null> {
     const customerEntity = await this.repository.findOne({
       where: { id, deleted: false },
-      relations: ['orders'],
     });
     if (!customerEntity) {
       return null;
     }
-    return CustomerInfrastructureMapper.entityToDomain(customerEntity);
+    return this.customerInfrastructureMapper.entityToDomain(customerEntity);
   }
 
   existsByPhone(phone: string): Promise<boolean> {
@@ -62,17 +61,17 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
 
   async create(customer: Customer): Promise<Customer> {
     const customerEntity =
-      CustomerInfrastructureMapper.domainToEntity(customer);
+      this.customerInfrastructureMapper.domainToEntity(customer);
     const customerCreated = this.repository.create(customerEntity);
     const newCustomer = await this.repository.save(customerCreated);
-    return CustomerInfrastructureMapper.entityToDomain(newCustomer);
+    return this.customerInfrastructureMapper.entityToDomain(newCustomer);
   }
 
   async update(customer: Customer): Promise<Customer> {
     const customerEntity =
-      CustomerInfrastructureMapper.domainToEntity(customer);
+      this.customerInfrastructureMapper.domainToEntity(customer);
     const updatedEntity = await this.repository.save(customerEntity);
-    return CustomerInfrastructureMapper.entityToDomain(updatedEntity);
+    return this.customerInfrastructureMapper.entityToDomain(updatedEntity);
   }
 
   async remove(id: number): Promise<void> {

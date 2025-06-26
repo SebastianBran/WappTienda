@@ -3,11 +3,9 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrderEntity } from './order.typeorm-entity';
 
 @Entity('customer')
 export class CustomerEntity {
@@ -47,9 +45,6 @@ export class CustomerEntity {
     nullable: true,
   })
   notes: string | null;
-
-  @OneToMany(() => OrderEntity, (order) => order.customer)
-  orders: OrderEntity[];
 
   @Column({
     default: false,

@@ -15,7 +15,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/users/entities/role.enum';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetCustomersQuery } from '../../application/queries/get-customers.query';
-import { GetCustomerQuery } from '../../application/queries/get-customer.query';
+import { GetCustomerByIdQuery } from '../../application/queries/get-customer-by-id.query';
 import { CreateCustomerCommand } from 'src/customers/application/commands/create-customer.commad';
 import { UpdateCustomerCommand } from 'src/customers/application/commands/update-customer.commad';
 import { DeleteCustomerCommand } from 'src/customers/application/commands/delete-customer.commad';
@@ -38,7 +38,7 @@ export class CustomersController {
   @Roles(Role.ADMIN, Role.WRITER, Role.READER)
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.queryBus.execute(new GetCustomerQuery(id));
+    return this.queryBus.execute(new GetCustomerByIdQuery(id));
   }
 
   @Roles(Role.ADMIN, Role.WRITER)

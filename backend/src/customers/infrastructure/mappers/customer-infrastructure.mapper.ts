@@ -1,9 +1,10 @@
 import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
-import { Order } from 'src/customers/domain/entities/order.entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CustomerInfrastructureMapper {
-  static domainToEntity(customer: Customer): CustomerEntity {
+  public domainToEntity(customer: Customer): CustomerEntity {
     const customerEntity = new CustomerEntity();
     customerEntity.id = customer.getId();
     customerEntity.name = customer.getName();
@@ -15,24 +16,7 @@ export class CustomerInfrastructureMapper {
     return customerEntity;
   }
 
-  static entityToDomain(customerEntity: CustomerEntity): Customer {
-    let orders: Order[] = [];
-    if (customerEntity.orders?.length > 0) {
-      orders = customerEntity.orders.map((orderEntity) => {
-        return new Order(
-          orderEntity.id,
-          orderEntity.status,
-          orderEntity.paymentStatus,
-          orderEntity.totalAmount,
-          orderEntity.subtotalAmount,
-          orderEntity.internalNotes,
-          orderEntity.totalItems,
-          orderEntity.created_at,
-          orderEntity.updated_at,
-        );
-      });
-    }
-
+  public entityToDomain(customerEntity: CustomerEntity): Customer {
     return new Customer(
       customerEntity.id,
       customerEntity.name,
@@ -40,7 +24,6 @@ export class CustomerInfrastructureMapper {
       customerEntity.phone,
       customerEntity.birthDate,
       customerEntity.notes,
-      orders,
       customerEntity.deleted,
       customerEntity.created_at,
       customerEntity.updated_at,

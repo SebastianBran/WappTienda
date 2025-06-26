@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateCustomerCommand } from '../../commands/update-customer.commad';
 import { CustomerRepository } from '../../ports/customer.repository';
 import { Customer } from 'src/customers/domain/entities/customer.entity';
-import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CustomerMapper } from '../../mappers/customer.mapper';
 
 @CommandHandler(UpdateCustomerCommand)
@@ -10,8 +10,8 @@ export class UpdateCustomerHandler
   implements ICommandHandler<UpdateCustomerCommand>
 {
   constructor(
-    @Inject('CustomerRepository')
     private readonly customerRepository: CustomerRepository,
+    private readonly customerMapper: CustomerMapper,
   ) {}
 
   async execute(command: UpdateCustomerCommand): Promise<Customer> {
@@ -23,7 +23,7 @@ export class UpdateCustomerHandler
       throw new NotFoundException(`Customer with ID ${id} not found`);
     }
 
-    const updatedCustomer = CustomerMapper.updateCustomerCommandToDomain(
+    const updatedCustomer = this.customerMapper.updateCustomerCommandToDomain(
       command,
       customer,
     );

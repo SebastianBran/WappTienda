@@ -11,16 +11,6 @@ export class TypeOrmProductRepository implements ProductRepository {
     private readonly repository: Repository<ProductEntity>,
   ) {}
 
-  async findAll(offset?: number, limit?: number): Promise<Product[]> {
-    const productEntities = await this.repository.find({
-      skip: offset,
-      take: limit,
-    });
-    return productEntities.map((product) =>
-      ProductInfraestructureMapper.entityToDomain(product),
-    );
-  }
-
   async findAllActive(offset?: number, limit?: number): Promise<Product[]> {
     const productEntities = await this.repository.find({
       where: { deleted: false },
@@ -52,16 +42,6 @@ export class TypeOrmProductRepository implements ProductRepository {
     return ProductInfraestructureMapper.entityToDomain(productEntity);
   }
 
-  async findBySku(sku: string): Promise<Product | null> {
-    const productEntity = await this.repository.findOne({
-      where: { sku, deleted: false },
-    });
-    if (!productEntity) {
-      return null;
-    }
-    return ProductInfraestructureMapper.entityToDomain(productEntity);
-  }
-
   existBySku(sku: string): Promise<boolean> {
     return this.repository.existsBy({ sku, deleted: false });
   }
@@ -77,9 +57,5 @@ export class TypeOrmProductRepository implements ProductRepository {
     const productEntity = ProductInfraestructureMapper.domainToEntity(product);
     const savedProduct = await this.repository.save(productEntity);
     return ProductInfraestructureMapper.entityToDomain(savedProduct);
-  }
-
-  async remove(id: number): Promise<void> {
-    await this.repository.delete({ id });
   }
 }

@@ -1,10 +1,16 @@
 import { OrderItem } from 'src/orders/domain/entities/order-item.entity';
 import { OrderItemEntity } from '../entities/order-item.typeorm-entity';
 import { ProductInfrastructureMapper } from './product-infrastructure.mapper';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class OrderItemInfrastructureMapper {
-  static entityToDomain(orderItemEntity: OrderItemEntity): OrderItem {
-    const product = ProductInfrastructureMapper.entityToDomain(
+  constructor(
+    private readonly productInfrastructureMapper: ProductInfrastructureMapper,
+  ) {}
+
+  public entityToDomain(orderItemEntity: OrderItemEntity): OrderItem {
+    const product = this.productInfrastructureMapper.entityToDomain(
       orderItemEntity.product,
     );
 
@@ -16,12 +22,12 @@ export class OrderItemInfrastructureMapper {
     );
   }
 
-  static domainToEntity(orderItem: OrderItem): OrderItemEntity {
+  public domainToEntity(orderItem: OrderItem): OrderItemEntity {
     const orderItemEntity = new OrderItemEntity();
     orderItemEntity.id = orderItem.getId();
     orderItemEntity.quantity = orderItem.getQuantity();
     orderItemEntity.price = orderItem.getPrice();
-    orderItemEntity.product = ProductInfrastructureMapper.domainToEntity(
+    orderItemEntity.product = this.productInfrastructureMapper.domainToEntity(
       orderItem.getProduct(),
     );
     return orderItemEntity;

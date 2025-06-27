@@ -15,6 +15,10 @@ import { TypeOrmCustomerRepository } from './infrastructure/adapters/typeorm-cus
 import { CustomerEntity } from './infrastructure/entities/customer.typeorm-entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetOrdersByCustomerIdHandler } from './application/handlers/queries/get-orders-by-customer-id.handler';
+import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-infrastructure.mapper';
+import { OrderInfrastructureMapper } from './infrastructure/mappers/order-infrastructure.mapper';
+import { ProductInfrastructureMapper } from './infrastructure/mappers/product-infrastructure.mapper';
+import { OrderItemInfrastructureMapper } from './infrastructure/mappers/order-item-infrastucture.mapper';
 
 const CommandHandlers = [
   CreateOrderHandler,
@@ -52,6 +56,10 @@ const QueryHandlers = [
       provide: 'CustomerRepository',
       useClass: TypeOrmCustomerRepository,
     },
+    CustomerInfrastructureMapper,
+    OrderInfrastructureMapper,
+    OrderItemInfrastructureMapper,
+    ProductInfrastructureMapper,
   ],
   controllers: [OrdersController],
 })

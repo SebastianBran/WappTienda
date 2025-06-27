@@ -4,11 +4,14 @@ import { Repository } from 'typeorm';
 import { OrderEntity } from '../entities/order.typeorm-entity';
 import { OrderInfrastructureMapper } from '../mappers/order-infrastructure.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class TypeormOrderRepository implements OrderRepository {
   constructor(
     @InjectRepository(OrderEntity)
     private readonly orderRepository: Repository<OrderEntity>,
+    private readonly orderInfrastructureMapper: OrderInfrastructureMapper,
   ) {}
 
   async findAll(limit?: number, offset?: number): Promise<Order[]> {
@@ -19,7 +22,7 @@ export class TypeormOrderRepository implements OrderRepository {
     });
 
     return orderEntities.map((order) =>
-      OrderInfrastructureMapper.entityToDomain(order),
+      this.orderInfrastructureMapper.entityToDomain(order),
     );
   }
 
@@ -33,7 +36,7 @@ export class TypeormOrderRepository implements OrderRepository {
       return null;
     }
 
-    return OrderInfrastructureMapper.entityToDomain(orderEntity);
+    return this.orderInfrastructureMapper.entityToDomain(orderEntity);
   }
 
   async findByCustomerId(customerId: number): Promise<Order[]> {
@@ -43,7 +46,7 @@ export class TypeormOrderRepository implements OrderRepository {
     });
 
     return orderEntities.map((order) =>
-      OrderInfrastructureMapper.entityToDomain(order),
+      this.orderInfrastructureMapper.entityToDomain(order),
     );
   }
 
@@ -52,16 +55,16 @@ export class TypeormOrderRepository implements OrderRepository {
   }
 
   async create(order: Order): Promise<Order> {
-    const orderEntity = OrderInfrastructureMapper.domainToEntity(order);
+    const orderEntity = this.orderInfrastructureMapper.domainToEntity(order);
     const createdOrder = this.orderRepository.create(orderEntity);
     const savedOrder = await this.orderRepository.save(createdOrder);
-    return OrderInfrastructureMapper.entityToDomain(savedOrder);
+    return this.orderInfrastructureMapper.entityToDomain(savedOrder);
   }
 
   async update(order: Order): Promise<Order> {
-    const orderEntity = OrderInfrastructureMapper.domainToEntity(order);
+    const orderEntity = this.orderInfrastructureMapper.domainToEntity(order);
     const updatedOrder = await this.orderRepository.save(orderEntity);
-    return OrderInfrastructureMapper.entityToDomain(updatedOrder);
+    return this.orderInfrastructureMapper.entityToDomain(updatedOrder);
   }
 
   async remove(id: number): Promise<void> {

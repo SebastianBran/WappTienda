@@ -4,11 +4,14 @@ import { Repository } from 'typeorm';
 import { Product } from 'src/orders/domain/entities/product.entity';
 import { ProductInfrastructureMapper } from '../mappers/product-infrastructure.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class TypeormProductRepository implements ProductRepository {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
+    private readonly productInfrastructureMapper: ProductInfrastructureMapper,
   ) {}
 
   async findById(id: number): Promise<Product | null> {
@@ -20,6 +23,6 @@ export class TypeormProductRepository implements ProductRepository {
       return null;
     }
 
-    return ProductInfrastructureMapper.entityToDomain(productEntity);
+    return this.productInfrastructureMapper.entityToDomain(productEntity);
   }
 }

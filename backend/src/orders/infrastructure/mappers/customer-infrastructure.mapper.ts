@@ -1,8 +1,10 @@
 import { Customer } from 'src/orders/domain/entities/customer.entity';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CustomerInfrastructureMapper {
-  static domainToEntity(customer: Customer): CustomerEntity {
+  public domainToEntity(customer: Customer): CustomerEntity {
     const customerEntity = new CustomerEntity();
     customerEntity.id = customer.getId();
     customerEntity.name = customer.getName();
@@ -14,7 +16,7 @@ export class CustomerInfrastructureMapper {
     return customerEntity;
   }
 
-  static entityToDomain(customerEntity: CustomerEntity): Customer {
+  public entityToDomain(customerEntity: CustomerEntity): Customer {
     return new Customer(
       customerEntity.id,
       customerEntity.name,

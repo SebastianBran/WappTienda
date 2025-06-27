@@ -4,11 +4,14 @@ import { Customer } from 'src/orders/domain/entities/customer.entity';
 import { Repository } from 'typeorm';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
 import { CustomerInfrastructureMapper } from '../mappers/customer-infrastructure.mapper';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class TypeOrmCustomerRepository implements CustomerRepository {
   constructor(
     @InjectRepository(CustomerEntity)
     private readonly customerRepository: Repository<CustomerEntity>,
+    private readonly customerInfrastructureMapper: CustomerInfrastructureMapper,
   ) {}
 
   async findByPhone(phone: string): Promise<Customer | null> {
@@ -20,6 +23,6 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerInfrastructureMapper.entityToDomain(customerEntity);
+    return this.customerInfrastructureMapper.entityToDomain(customerEntity);
   }
 }

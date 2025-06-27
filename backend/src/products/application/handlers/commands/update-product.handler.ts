@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ProductRepository } from '../../ports/product.repository';
-import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { ProductMapper } from '../../mappers/product.mapper';
 import { Product } from 'src/products/domain/entities/product.entity';
 import { UpdateProductCommand } from '../../commands/update-product.command';
@@ -9,10 +9,7 @@ import { UpdateProductCommand } from '../../commands/update-product.command';
 export class UpdateProductHandler
   implements ICommandHandler<UpdateProductCommand>
 {
-  constructor(
-    @Inject('ProductRepository')
-    private readonly productRepository: ProductRepository,
-  ) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async execute(command: UpdateProductCommand): Promise<Product> {
     const { sku } = command;

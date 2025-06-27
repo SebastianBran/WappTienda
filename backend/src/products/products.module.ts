@@ -9,6 +9,7 @@ import { UpdateProductHandler } from './application/handlers/commands/update-pro
 import { GetProductHandler } from './application/handlers/queries/get-product.handler';
 import { GetProductsHandler } from './application/handlers/queries/get-products.handler';
 import { DeleteProductHandler } from './application/handlers/commands/delete-product.handler';
+import { ProductRepository } from './application/ports/product.repository';
 
 const CommandHandlers = [
   CreateProductHandler,
@@ -23,7 +24,7 @@ const QueryHandlers = [GetProductHandler, GetProductsHandler];
     ...CommandHandlers,
     ...QueryHandlers,
     {
-      provide: 'ProductRepository',
+      provide: ProductRepository,
       useClass: TypeOrmProductRepository,
     },
   ],

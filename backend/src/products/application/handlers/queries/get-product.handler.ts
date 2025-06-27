@@ -2,14 +2,11 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetProductQuery } from '../../queries/get-product.query';
 import { Product } from 'src/products/domain/entities/product.entity';
 import { ProductRepository } from '../../ports/product.repository';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 
 @QueryHandler(GetProductQuery)
 export class GetProductHandler implements IQueryHandler<GetProductQuery> {
-  constructor(
-    @Inject('ProductRepository')
-    private readonly productRepository: ProductRepository,
-  ) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async execute(query: GetProductQuery): Promise<Product> {
     const { id } = query;

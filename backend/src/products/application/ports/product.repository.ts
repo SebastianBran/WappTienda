@@ -1,14 +1,13 @@
 import { Product } from 'src/products/domain/entities/product.entity';
 
-// TODO: Review if all methods are used
-export interface ProductRepository {
-  findAll(offset?: number, limit?: number): Promise<Product[]>;
-  findAllActive(offset?: number, limit?: number): Promise<Product[]>;
-  findById(id: number): Promise<Product | null>;
-  findActiveById(id: number): Promise<Product | null>;
-  findBySku(sku: string): Promise<Product | null>;
-  existBySku(sku: string): Promise<boolean>;
-  create(product: Product): Promise<Product>;
-  update(product: Product): Promise<Product>;
-  remove(id: number): Promise<void>;
+export abstract class ProductRepository {
+  abstract findAll(offset?: number, limit?: number): Promise<Product[]>;
+  abstract findAllActive(offset?: number, limit?: number): Promise<Product[]>;
+  abstract findById(id: number): Promise<Product | null>;
+  abstract findActiveById(id: number): Promise<Product | null>;
+  abstract findBySku(sku: string): Promise<Product | null>;
+  abstract existBySku(sku: string): Promise<boolean>;
+  abstract create(product: Product): Promise<Product>;
+  abstract update(product: Product): Promise<Product>;
+  abstract remove(id: number): Promise<void>;
 }

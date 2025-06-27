@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateProductCommand } from '../../commands/create-product.command';
 import { ProductRepository } from '../../ports/product.repository';
-import { BadRequestException, Inject } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { ProductMapper } from '../../mappers/product.mapper';
 import { Product } from 'src/products/domain/entities/product.entity';
 
@@ -9,10 +9,7 @@ import { Product } from 'src/products/domain/entities/product.entity';
 export class CreateProductHandler
   implements ICommandHandler<CreateProductCommand>
 {
-  constructor(
-    @Inject('ProductRepository')
-    private readonly productRepository: ProductRepository,
-  ) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async execute(command: CreateProductCommand): Promise<Product> {
     const { sku } = command;

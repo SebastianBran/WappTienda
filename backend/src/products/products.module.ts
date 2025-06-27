@@ -6,7 +6,7 @@ import { CreateProductHandler } from './application/handlers/commands/create-pro
 import { TypeOrmProductRepository } from './infrastucture/adapters/typeorm-product.repository';
 import { CqrsModule } from '@nestjs/cqrs';
 import { UpdateProductHandler } from './application/handlers/commands/update-product.handler';
-import { GetProductHandler } from './application/handlers/queries/get-product.handler';
+import { GetProductByIdHandler } from './application/handlers/queries/get-product-by-id.handler';
 import { GetProductsHandler } from './application/handlers/queries/get-products.handler';
 import { DeleteProductHandler } from './application/handlers/commands/delete-product.handler';
 import { ProductRepository } from './application/ports/product.repository';
@@ -16,7 +16,7 @@ const CommandHandlers = [
   UpdateProductHandler,
   DeleteProductHandler,
 ];
-const QueryHandlers = [GetProductHandler, GetProductsHandler];
+const QueryHandlers = [GetProductByIdHandler, GetProductsHandler];
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductEntity]), CqrsModule],

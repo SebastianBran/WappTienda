@@ -19,7 +19,7 @@ import { UpdateProductCommand } from '../../application/commands/update-product.
 import { DeleteProductCommand } from '../../application/commands/delete-product.command';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { GetProductsQuery } from 'src/products/application/queries/get-products.query';
-import { GetProductQuery } from 'src/products/application/queries/get-product.query';
+import { GetProductByIdQuery } from 'src/products/application/queries/get-product-by-id.query';
 
 @Controller('products')
 export class ProductsController {
@@ -39,7 +39,7 @@ export class ProductsController {
   @Public()
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.queryBus.execute(new GetProductQuery(id));
+    return this.queryBus.execute(new GetProductByIdQuery(id));
   }
 
   @Roles(Role.ADMIN, Role.WRITER)

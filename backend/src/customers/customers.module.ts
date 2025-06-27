@@ -15,6 +15,7 @@ import { OrderService } from './application/ports/order.service';
 import { CustomerMapper } from './application/mappers/customer.mapper';
 import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-infrastructure.mapper';
 import { OrderInfrastructureMapper } from './infrastructure/mappers/order-infraestructure.mapper';
+import { CustomerFactory } from './domain/factories/customer.factory';
 
 const CommandHandlers = [
   CreateCustomerHandler,
@@ -40,6 +41,7 @@ const QueryHandlers = [GetCustomersHandler, GetCustomerByIdHandler];
     CustomerMapper,
     CustomerInfrastructureMapper,
     OrderInfrastructureMapper,
+    CustomerFactory,
   ],
 })
 export class CustomersModule {}

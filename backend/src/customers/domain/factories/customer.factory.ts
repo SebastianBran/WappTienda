@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { Customer } from '../entities/customer.entity';
 
+@Injectable()
 export class CustomerFactory {
-  public static create(
+  public create(
     name: string,
     email: string | null,
     phone: string,

@@ -8,10 +8,12 @@ import { OrderDto } from '../dto/order.dto';
 
 @Injectable()
 export class CustomerMapper {
+  constructor(private readonly customerFactory: CustomerFactory) {}
+
   public createCustomerCommandToDomain(
     command: CreateCustomerCommand,
   ): Customer {
-    return CustomerFactory.create(
+    return this.customerFactory.create(
       command.name,
       command.email,
       command.phone,

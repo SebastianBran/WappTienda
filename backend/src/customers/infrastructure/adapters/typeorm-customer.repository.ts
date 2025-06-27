@@ -55,6 +55,16 @@ export class TypeOrmCustomerRepository implements CustomerRepository {
     return this.customerInfrastructureMapper.entityToDomain(customerEntity);
   }
 
+  async findByPhone(phone: string): Promise<Customer | null> {
+    const customerEntity = await this.repository.findOne({
+      where: { phone, deleted: false },
+    });
+    if (!customerEntity) {
+      return null;
+    }
+    return this.customerInfrastructureMapper.entityToDomain(customerEntity);
+  }
+
   existsByPhone(phone: string): Promise<boolean> {
     return this.repository.existsBy({ phone, deleted: false });
   }

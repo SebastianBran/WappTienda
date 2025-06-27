@@ -1,4 +1,3 @@
-import { Customer } from './customer.entity';
 import { OrderItem } from './order-item.entity';
 import { OrderStatus } from './order-status.enum';
 import { PaymentStatus } from './payment-status.enum';
@@ -13,7 +12,6 @@ export class Order {
     private internalNotes: string | null,
     private orderItems: OrderItem[] = [],
     private totalItems: number,
-    private customer: Customer,
     private createdAt: Date = new Date(),
     private updatedAt: Date = new Date(),
   ) {}
@@ -48,10 +46,6 @@ export class Order {
 
   public getTotalItems(): number {
     return this.totalItems;
-  }
-
-  public getCustomer(): Customer {
-    return this.customer;
   }
 
   public getCreatedAt(): Date {
@@ -89,10 +83,6 @@ export class Order {
 
   public setTotalItems(totalItems: number): void {
     this.totalItems = totalItems;
-  }
-
-  public setCustomer(customer: Customer): void {
-    this.customer = customer;
   }
 
   public setCreatedAt(createdAt: Date): void {

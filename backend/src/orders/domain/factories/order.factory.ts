@@ -1,7 +1,6 @@
 import { Order } from '../entities/order.entity';
 import { OrderStatus } from '../entities/order-status.enum';
 import { PaymentStatus } from '../entities/payment-status.enum';
-import { Customer } from '../entities/customer.entity';
 import { OrderItem } from '../entities/order-item.entity';
 
 export class OrderFactory {
@@ -10,7 +9,6 @@ export class OrderFactory {
     paymentStatus: PaymentStatus,
     internalNotes: string | null,
     orderItems: OrderItem[],
-    customer: Customer,
   ) {
     const totalItems = orderItems.reduce((total, item) => {
       return total + item.getQuantity();
@@ -32,7 +30,6 @@ export class OrderFactory {
       internalNotes,
       orderItems,
       totalItems,
-      customer,
     );
   }
 }

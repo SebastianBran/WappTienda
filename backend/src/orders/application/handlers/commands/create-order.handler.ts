@@ -3,9 +3,7 @@ import { CreateOrderCommand } from '../../commands/create-order.command';
 import { Order } from 'src/orders/domain/entities/order.entity';
 import { Inject, NotFoundException } from '@nestjs/common';
 import { OrderRepository } from '../../ports/order.repository';
-import { CustomerRepository } from '../../ports/customer.repository';
 import { ProductRepository } from '../../ports/product.repository';
-import { CustomerFactory } from 'src/orders/domain/factories/customer.factory';
 import { OrderStatus } from 'src/orders/domain/entities/order-status.enum';
 import { PaymentStatus } from 'src/orders/domain/entities/payment-status.enum';
 import { OrderItem } from 'src/orders/domain/entities/order-item.entity';
@@ -13,20 +11,22 @@ import { OrderFactory } from 'src/orders/domain/factories/order.factory';
 import { CreateCustomerDto } from '../../dto/create-customer.dto';
 import { CreateOrderItemDto } from '../../dto/create-order-item.dto';
 import { OrderItemFactory } from 'src/orders/domain/factories/orede-item.factory';
+import { CustomerService } from '../../ports/customer.service';
+import { CustomerDto } from '../../dto/customer.dto';
+import { UpdateCustomerDto } from '../../dto/update-customer.dto';
 
 @CommandHandler(CreateOrderCommand)
 export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
   constructor(
     @Inject('OrderRepository')
     private readonly orderRepository: OrderRepository,
-    @Inject('CustomerRepository')
-    private readonly customerRepository: CustomerRepository,
     @Inject('ProductRepository')
     private readonly productRepository: ProductRepository,
+    private readonly customerService: CustomerService,
   ) {}
 
   async execute(command: CreateOrderCommand): Promise<Order> {
-    const customer = await this.preloadCustomer(command.createCustomerDto);
+    await this.createCustomer(command.createCustomerDto);
 
     const orderItems = await Promise.all(
       command.createOrderItemDto.map((item) => this.preloadOrderItem(item)),
@@ -37,32 +37,32 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
       PaymentStatus.PENDING,
       null, // internal notes
       orderItems,
-      customer,
     );
 
     return this.orderRepository.create(order);
   }
 
-  private async preloadCustomer(createCustomerDto: CreateCustomerDto) {
-    const existingCustomer = await this.customerRepository.findByPhone(
+  private async createCustomer(
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<CustomerDto> {
+    const existingCustomer = await this.customerService.getByPhone(
       createCustomerDto.phone,
     );
 
     if (existingCustomer) {
-      existingCustomer.setName(createCustomerDto.name);
-      existingCustomer.setEmail(createCustomerDto.email);
-      existingCustomer.setBirthDate(createCustomerDto.birthDate);
-      existingCustomer.setNotes(createCustomerDto.notes);
-      return existingCustomer;
+      return this.customerService.update(
+        new UpdateCustomerDto(
+          existingCustomer.id,
+          createCustomerDto.name,
+          createCustomerDto.phone,
+          createCustomerDto.email,
+          createCustomerDto.birthDate,
+          createCustomerDto.notes,
+        ),
+      );
     }
 
-    return CustomerFactory.create(
-      createCustomerDto.name,
-      createCustomerDto.phone,
-      createCustomerDto.email,
-      createCustomerDto.birthDate,
-      createCustomerDto.notes,
-    );
+    return this.customerService.create(createCustomerDto);
   }
 
   private async preloadOrderItem(item: CreateOrderItemDto): Promise<OrderItem> {

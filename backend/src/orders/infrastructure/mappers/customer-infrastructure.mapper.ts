@@ -1,6 +1,7 @@
-import { Customer } from 'src/orders/domain/entities/customer.entity';
+import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { CustomerEntity } from '../entities/customer.typeorm-entity';
 import { Injectable } from '@nestjs/common';
+import { CustomerDto } from 'src/orders/application/dto/customer.dto';
 
 @Injectable()
 export class CustomerInfrastructureMapper {
@@ -27,6 +28,20 @@ export class CustomerInfrastructureMapper {
       customerEntity.deleted,
       customerEntity.created_at,
       customerEntity.updated_at,
+    );
+  }
+
+  public domainToDto(customer: Customer): CustomerDto {
+    return new CustomerDto(
+      customer.getId(),
+      customer.getName(),
+      customer.getEmail(),
+      customer.getPhone(),
+      customer.getBirthDate(),
+      customer.getNotes(),
+      customer.isDeleted(),
+      customer.getCreatedAt(),
+      customer.getUpdatedAt(),
     );
   }
 }

@@ -11,7 +11,6 @@ import { GetOrderByIdHandler } from './application/handlers/queries/get-order-by
 import { GetOrdersHandler } from './application/handlers/queries/get-orders.handler';
 import { TypeormOrderRepository } from './infrastructure/adapters/typeorm-order.repository';
 import { TypeormProductRepository } from './infrastructure/adapters/typeorm-product.repository';
-import { TypeOrmCustomerRepository } from './infrastructure/adapters/typeorm-customer.repository';
 import { CustomerEntity } from './infrastructure/entities/customer.typeorm-entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetOrdersByCustomerIdHandler } from './application/handlers/queries/get-orders-by-customer-id.handler';
@@ -19,6 +18,8 @@ import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-
 import { OrderInfrastructureMapper } from './infrastructure/mappers/order-infrastructure.mapper';
 import { ProductInfrastructureMapper } from './infrastructure/mappers/product-infrastructure.mapper';
 import { OrderItemInfrastructureMapper } from './infrastructure/mappers/order-item-infrastucture.mapper';
+import { CustomerService } from './application/ports/customer.service';
+import { CustomerServiceImpl } from './infrastructure/adapters/customer.service.impl';
 
 const CommandHandlers = [
   CreateOrderHandler,
@@ -53,8 +54,8 @@ const QueryHandlers = [
       useClass: TypeormProductRepository,
     },
     {
-      provide: 'CustomerRepository',
-      useClass: TypeOrmCustomerRepository,
+      provide: CustomerService,
+      useClass: CustomerServiceImpl,
     },
     CustomerInfrastructureMapper,
     OrderInfrastructureMapper,

@@ -1,22 +1,17 @@
 import { Order } from 'src/orders/domain/entities/order.entity';
 import { OrderEntity } from '../entities/order.typeorm-entity';
-import { CustomerInfrastructureMapper } from './customer-infrastructure.mapper';
 import { OrderItemInfrastructureMapper } from './order-item-infrastucture.mapper';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class OrderInfrastructureMapper {
   constructor(
-    private readonly customerInfrastructureMapper: CustomerInfrastructureMapper,
     private readonly orderItemInfrastructureMapper: OrderItemInfrastructureMapper,
   ) {}
 
   public domainToEntity(order: Order) {
     const orderEntity = new OrderEntity();
     orderEntity.id = order.getId();
-    orderEntity.customer = this.customerInfrastructureMapper.domainToEntity(
-      order.getCustomer(),
-    );
     orderEntity.orderItems = order
       .getOrderItems()
       .map((orderItem) =>
@@ -38,10 +33,6 @@ export class OrderInfrastructureMapper {
       this.orderItemInfrastructureMapper.entityToDomain(orderItemEntity),
     );
 
-    const customer = this.customerInfrastructureMapper.entityToDomain(
-      orderEntity.customer,
-    );
-
     return new Order(
       orderEntity.id,
       orderEntity.status,
@@ -51,11 +42,8 @@ export class OrderInfrastructureMapper {
       orderEntity.internalNotes,
       orderItems,
       orderEntity.totalItems,
-      customer,
       orderEntity.created_at,
       orderEntity.updated_at,
     );
   }
-
-  private;
 }

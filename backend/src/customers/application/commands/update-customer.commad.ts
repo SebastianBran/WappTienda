@@ -6,9 +6,9 @@ export class UpdateCustomerCommand extends Command<Customer> {
     public readonly id: number,
     public readonly name?: string,
     public readonly phone?: string,
-    public readonly email?: string,
-    public readonly birthDate?: Date,
-    public readonly notes?: string,
+    public readonly email?: string | null,
+    public readonly birthDate?: Date | null,
+    public readonly notes?: string | null,
   ) {
     super();
   }

@@ -10,6 +10,9 @@ import { GetProductByIdHandler } from './application/handlers/queries/get-produc
 import { GetProductsHandler } from './application/handlers/queries/get-products.handler';
 import { DeleteProductHandler } from './application/handlers/commands/delete-product.handler';
 import { ProductRepository } from './application/ports/product.repository';
+import { ProductMapper } from './application/mappers/product.mapper';
+import { ProductInfraestructureMapper } from './infrastucture/mappers/product-infraestructure.mapper';
+import { ProductFactory } from './domain/factories/product.factory';
 
 const CommandHandlers = [
   CreateProductHandler,
@@ -27,6 +30,9 @@ const QueryHandlers = [GetProductByIdHandler, GetProductsHandler];
       provide: ProductRepository,
       useClass: TypeOrmProductRepository,
     },
+    ProductMapper,
+    ProductInfraestructureMapper,
+    ProductFactory,
   ],
   controllers: [ProductsController],
 })

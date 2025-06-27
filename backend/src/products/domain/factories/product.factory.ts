@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { ProductType } from '../entities/product-type.enum';
 import { Product } from '../entities/product.entity';
 
+@Injectable()
 export class ProductFactory {
-  public static create(
+  public create(
     sku: string | null,
     name: string,
     type: ProductType,

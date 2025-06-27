@@ -2,10 +2,14 @@ import { ProductFactory } from 'src/products/domain/factories/product.factory';
 import { CreateProductCommand } from '../commands/create-product.command';
 import { UpdateProductCommand } from '../commands/update-product.command';
 import { Product } from 'src/products/domain/entities/product.entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ProductMapper {
-  public static createProductCommandToDomain(command: CreateProductCommand) {
-    return ProductFactory.create(
+  constructor(private readonly productFactory: ProductFactory) {}
+
+  public createProductCommandToDomain(command: CreateProductCommand) {
+    return this.productFactory.create(
       command.sku,
       command.name,
       command.type,
@@ -18,7 +22,7 @@ export class ProductMapper {
     );
   }
 
-  public static updateProductCommandToDomain(
+  public updateProductCommandToDomain(
     command: UpdateProductCommand,
     product: Product,
   ): Product {

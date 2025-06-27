@@ -9,6 +9,7 @@ export class TypeOrmProductRepository implements ProductRepository {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly repository: Repository<ProductEntity>,
+    private readonly productInfraestructureMapper: ProductInfraestructureMapper,
   ) {}
 
   async findAllActive(offset?: number, limit?: number): Promise<Product[]> {
@@ -18,7 +19,7 @@ export class TypeOrmProductRepository implements ProductRepository {
       take: limit,
     });
     return productEntities.map((product) =>
-      ProductInfraestructureMapper.entityToDomain(product),
+      this.productInfraestructureMapper.entityToDomain(product),
     );
   }
 
@@ -29,7 +30,7 @@ export class TypeOrmProductRepository implements ProductRepository {
     if (!productEntity) {
       return null;
     }
-    return ProductInfraestructureMapper.entityToDomain(productEntity);
+    return this.productInfraestructureMapper.entityToDomain(productEntity);
   }
 
   async findActiveById(id: number): Promise<Product | null> {
@@ -39,7 +40,7 @@ export class TypeOrmProductRepository implements ProductRepository {
     if (!productEntity) {
       return null;
     }
-    return ProductInfraestructureMapper.entityToDomain(productEntity);
+    return this.productInfraestructureMapper.entityToDomain(productEntity);
   }
 
   existBySku(sku: string): Promise<boolean> {
@@ -47,15 +48,17 @@ export class TypeOrmProductRepository implements ProductRepository {
   }
 
   async create(product: Product): Promise<Product> {
-    const productEntity = ProductInfraestructureMapper.domainToEntity(product);
+    const productEntity =
+      this.productInfraestructureMapper.domainToEntity(product);
     const productCreated = this.repository.create(productEntity);
     const newProduct = await this.repository.save(productCreated);
-    return ProductInfraestructureMapper.entityToDomain(newProduct);
+    return this.productInfraestructureMapper.entityToDomain(newProduct);
   }
 
   async update(product: Product): Promise<Product> {
-    const productEntity = ProductInfraestructureMapper.domainToEntity(product);
+    const productEntity =
+      this.productInfraestructureMapper.domainToEntity(product);
     const savedProduct = await this.repository.save(productEntity);
-    return ProductInfraestructureMapper.entityToDomain(savedProduct);
+    return this.productInfraestructureMapper.entityToDomain(savedProduct);
   }
 }

@@ -1,8 +1,10 @@
 import { Product } from 'src/products/domain/entities/product.entity';
 import { ProductEntity } from '../entities/product.typeorm-entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ProductInfraestructureMapper {
-  static domainToEntity(product: Product): ProductEntity {
+  public domainToEntity(product: Product): ProductEntity {
     const productEntity = new ProductEntity();
     productEntity.id = product.getId();
     productEntity.sku = product.getSku() || '';
@@ -18,7 +20,7 @@ export class ProductInfraestructureMapper {
     return productEntity;
   }
 
-  static entityToDomain(productEntity: ProductEntity): Product {
+  public entityToDomain(productEntity: ProductEntity): Product {
     return new Product(
       productEntity.id,
       productEntity.sku || null,

@@ -9,7 +9,10 @@ import { UpdateProductCommand } from '../../commands/update-product.command';
 export class UpdateProductHandler
   implements ICommandHandler<UpdateProductCommand>
 {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly productMapper: ProductMapper,
+  ) {}
 
   async execute(command: UpdateProductCommand): Promise<Product> {
     const { sku } = command;
@@ -30,7 +33,7 @@ export class UpdateProductHandler
       throw new NotFoundException(`Product with ID ${productId} not found`);
     }
 
-    const updatedProduct = ProductMapper.updateProductCommandToDomain(
+    const updatedProduct = this.productMapper.updateProductCommandToDomain(
       command,
       product,
     );

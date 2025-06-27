@@ -9,7 +9,10 @@ import { Product } from 'src/products/domain/entities/product.entity';
 export class CreateProductHandler
   implements ICommandHandler<CreateProductCommand>
 {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly productMapper: ProductMapper,
+  ) {}
 
   async execute(command: CreateProductCommand): Promise<Product> {
     const { sku } = command;
@@ -22,7 +25,7 @@ export class CreateProductHandler
       }
     }
 
-    const product = ProductMapper.createProductCommandToDomain(command);
+    const product = this.productMapper.createProductCommandToDomain(command);
 
     return this.productRepository.create(product);
   }

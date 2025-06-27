@@ -16,13 +16,18 @@ import { CustomerMapper } from './application/mappers/customer.mapper';
 import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-infrastructure.mapper';
 import { OrderInfrastructureMapper } from './infrastructure/mappers/order-infraestructure.mapper';
 import { CustomerFactory } from './domain/factories/customer.factory';
+import { GetCustomerByPhoneHandler } from './application/handlers/queries/get-customer-by-phone.handler';
 
 const CommandHandlers = [
   CreateCustomerHandler,
   UpdateCustomerHandler,
   DeleteCustomerHandler,
 ];
-const QueryHandlers = [GetCustomersHandler, GetCustomerByIdHandler];
+const QueryHandlers = [
+  GetCustomersHandler,
+  GetCustomerByIdHandler,
+  GetCustomerByPhoneHandler,
+];
 
 @Module({
   imports: [TypeOrmModule.forFeature([CustomerEntity]), CqrsModule],

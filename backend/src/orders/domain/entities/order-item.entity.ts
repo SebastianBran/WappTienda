@@ -1,11 +1,9 @@
-import { Product } from './product.entity';
-
 export class OrderItem {
   constructor(
     private id: number,
     private quantity: number,
     private price: number,
-    private product: Product,
+    private productId: number,
     private createdAt: Date = new Date(),
     private updatedAt: Date = new Date(),
   ) {}
@@ -22,8 +20,8 @@ export class OrderItem {
     return this.price;
   }
 
-  public getProduct(): Product {
-    return this.product;
+  public getProductId(): number {
+    return this.productId;
   }
 
   public getCreatedAt(): Date {
@@ -42,8 +40,8 @@ export class OrderItem {
     this.price = price;
   }
 
-  public setProduct(product: Product): void {
-    this.product = product;
+  public setProductId(productId: number): void {
+    this.productId = productId;
   }
 
   public setCreatedAt(createdAt: Date): void {

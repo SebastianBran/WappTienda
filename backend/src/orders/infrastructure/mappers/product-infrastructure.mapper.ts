@@ -1,40 +1,24 @@
-import { Product } from 'src/orders/domain/entities/product.entity';
-import { ProductEntity } from '../entities/product.typeorm-entity';
+import { Product } from 'src/products/domain/entities/product.entity';
 import { Injectable } from '@nestjs/common';
+import { OrderItemProductDto } from 'src/orders/application/dto/order-item-product.dto';
 
 @Injectable()
 export class ProductInfrastructureMapper {
-  public domainToEntity(product: Product): ProductEntity {
-    const productEntity = new ProductEntity();
-    productEntity.id = product.getId();
-    productEntity.sku = product.getSku() || '';
-    productEntity.name = product.getName();
-    productEntity.type = product.getType();
-    productEntity.description = product.getDescription() || '';
-    productEntity.price = product.getPrice();
-    productEntity.salesPrice = product.getSalesPrice();
-    productEntity.trackInventory = product.isTrackInventory();
-    productEntity.totalInventory = product.getTotalInventory();
-    productEntity.visible = product.isVisible();
-    productEntity.deleted = product.isDeleted();
-    return productEntity;
-  }
-
-  public entityToDomain(productEntity: ProductEntity): Product {
-    return new Product(
-      productEntity.id,
-      productEntity.sku || null,
-      productEntity.name,
-      productEntity.type,
-      productEntity.description || null,
-      productEntity.price,
-      productEntity.salesPrice,
-      productEntity.trackInventory,
-      productEntity.totalInventory,
-      productEntity.visible,
-      productEntity.deleted,
-      productEntity.createdAt,
-      productEntity.updatedAt,
+  public domainToDto(product: Product): OrderItemProductDto {
+    return new OrderItemProductDto(
+      product.getId(),
+      product.getSku(),
+      product.getName(),
+      product.getType(),
+      product.getDescription(),
+      product.getPrice(),
+      product.getSalesPrice(),
+      product.isTrackInventory(),
+      product.getTotalInventory(),
+      product.isVisible(),
+      product.isDeleted(),
+      product.getCreatedAt(),
+      product.getUpdatedAt(),
     );
   }
 }

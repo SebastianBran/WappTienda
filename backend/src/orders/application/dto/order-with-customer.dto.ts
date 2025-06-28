@@ -1,7 +1,7 @@
 import { OrderStatus } from 'src/orders/domain/entities/order-status.enum';
 import { CustomerOrderDto } from './customer-order.dto';
 import { PaymentStatus } from 'src/orders/domain/entities/payment-status.enum';
-import { OrderItem } from 'src/orders/domain/entities/order-item.entity';
+import { OrderItemWithProductDto } from './order-item-with-product.dto';
 
 export class OrderWithCustomerDto {
   constructor(
@@ -11,7 +11,7 @@ export class OrderWithCustomerDto {
     private totalAmount: number,
     private subtotalAmount: number,
     private internalNotes: string | null,
-    private orderItems: OrderItem[] = [],
+    private orderItems: OrderItemWithProductDto[] = [],
     private totalItems: number,
     private customer: CustomerOrderDto,
     private createdAt: Date = new Date(),

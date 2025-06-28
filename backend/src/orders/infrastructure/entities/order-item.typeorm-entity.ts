@@ -8,7 +8,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { OrderEntity } from './order.typeorm-entity';
-import { ProductEntity } from './product.typeorm-entity';
 
 @Entity('order_item')
 export class OrderItemEntity {
@@ -29,9 +28,8 @@ export class OrderItemEntity {
   })
   price: number;
 
-  @ManyToOne(() => ProductEntity, (product) => product.orderItems)
-  @JoinColumn()
-  product: ProductEntity;
+  @Column()
+  productId: number;
 
   @ManyToOne(() => OrderEntity, (order) => order.orderItems, {
     onDelete: 'CASCADE',

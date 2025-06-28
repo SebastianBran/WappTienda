@@ -16,7 +16,7 @@ export class TypeormOrderRepository implements OrderRepository {
 
   async findAll(limit?: number, offset?: number): Promise<Order[]> {
     const orderEntities = await this.orderRepository.find({
-      relations: ['orderItems', 'orderItems.product'],
+      relations: ['orderItems'],
       take: limit,
       skip: offset,
     });
@@ -29,7 +29,7 @@ export class TypeormOrderRepository implements OrderRepository {
   async findById(id: number): Promise<Order | null> {
     const orderEntity = await this.orderRepository.findOne({
       where: { id },
-      relations: ['orderItems', 'orderItems.product'],
+      relations: ['orderItems'],
     });
 
     if (!orderEntity) {
@@ -42,7 +42,7 @@ export class TypeormOrderRepository implements OrderRepository {
   async findByCustomerId(customerId: number): Promise<Order[]> {
     const orderEntities = await this.orderRepository.find({
       where: { customerId },
-      relations: ['orderItems', 'orderItems.product'],
+      relations: ['orderItems'],
     });
 
     return orderEntities.map((order) =>

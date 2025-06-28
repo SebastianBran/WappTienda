@@ -5,6 +5,10 @@ import { NotFoundException } from '@nestjs/common';
 import { CustomerService } from '../../ports/customer.service';
 import { OrderWithCustomerDto } from '../../dto/order-with-customer.dto';
 import { OrderMapper } from '../../mappers/order.mapper';
+import { ProductService } from '../../ports/product.service';
+import { OrderItemMapper } from '../../mappers/order-item.mapper';
+import { OrderItemWithProductDto } from '../../dto/order-item-with-product.dto';
+import { OrderItem } from 'src/orders/domain/entities/order-item.entity';
 
 @QueryHandler(GetOrderByIdQuery)
 export class GetOrderByIdHandler
@@ -14,6 +18,8 @@ export class GetOrderByIdHandler
     private readonly orderRepository: OrderRepository,
     private readonly customerService: CustomerService,
     private readonly orderMapper: OrderMapper,
+    private readonly productService: ProductService,
+    private readonly orderItemMapper: OrderItemMapper,
   ) {}
 
   async execute(query: GetOrderByIdQuery): Promise<OrderWithCustomerDto> {
@@ -27,6 +33,25 @@ export class GetOrderByIdHandler
 
     const customer = await this.customerService.getById(order.getCustomerId());
 
-    return this.orderMapper.toOrderWithCustomerDto(order, customer);
+    const orderItemsWithProducts = await this.getOrderItemsWithProducts(
+      order.getOrderItems(),
+    );
+
+    return this.orderMapper.toOrderWithCustomerDto(
+      order,
+      customer,
+      orderItemsWithProducts,
+    );
+  }
+
+  async getOrderItemsWithProducts(
+    orderItems: OrderItem[],
+  ): Promise<OrderItemWithProductDto[]> {
+    return Promise.all(
+      orderItems.map(async (item) => {
+        const product = await this.productService.getById(item.getProductId());
+        return this.orderItemMapper.toOrderItemWithProductDto(item, product);
+      }),
+    );
   }
 }

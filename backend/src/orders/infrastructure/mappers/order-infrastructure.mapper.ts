@@ -23,6 +23,7 @@ export class OrderInfrastructureMapper {
     orderEntity.status = order.getStatus();
     orderEntity.paymentStatus = order.getPaymentStatus();
     orderEntity.internalNotes = order.getInternalNotes() || '';
+    orderEntity.customerId = order.getCustomerId();
     orderEntity.created_at = order.getCreatedAt();
     orderEntity.updated_at = order.getUpdatedAt();
     return orderEntity;
@@ -42,6 +43,7 @@ export class OrderInfrastructureMapper {
       orderEntity.internalNotes,
       orderItems,
       orderEntity.totalItems,
+      orderEntity.customerId,
       orderEntity.created_at,
       orderEntity.updated_at,
     );

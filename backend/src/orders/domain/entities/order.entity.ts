@@ -12,6 +12,7 @@ export class Order {
     private internalNotes: string | null,
     private orderItems: OrderItem[] = [],
     private totalItems: number,
+    private customerId: number,
     private createdAt: Date = new Date(),
     private updatedAt: Date = new Date(),
   ) {}
@@ -46,6 +47,10 @@ export class Order {
 
   public getTotalItems(): number {
     return this.totalItems;
+  }
+
+  public getCustomerId(): number {
+    return this.customerId;
   }
 
   public getCreatedAt(): Date {
@@ -83,6 +88,10 @@ export class Order {
 
   public setTotalItems(totalItems: number): void {
     this.totalItems = totalItems;
+  }
+
+  public setCustomerId(customerId: number): void {
+    this.customerId = customerId;
   }
 
   public setCreatedAt(createdAt: Date): void {

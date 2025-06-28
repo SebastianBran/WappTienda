@@ -1,17 +1,22 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetOrderByIdQuery } from '../../queries/get-order-by-id.query';
-import { Order } from 'src/orders/domain/entities/order.entity';
 import { OrderRepository } from '../../ports/order.repository';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
+import { CustomerService } from '../../ports/customer.service';
+import { OrderWithCustomerDto } from '../../dto/order-with-customer.dto';
+import { OrderMapper } from '../../mappers/order.mapper';
 
 @QueryHandler(GetOrderByIdQuery)
-export class GetOrderByIdHandler implements IQueryHandler<GetOrderByIdQuery> {
+export class GetOrderByIdHandler
+  implements IQueryHandler<GetOrderByIdQuery, OrderWithCustomerDto>
+{
   constructor(
-    @Inject('OrderRepository')
     private readonly orderRepository: OrderRepository,
+    private readonly customerService: CustomerService,
+    private readonly orderMapper: OrderMapper,
   ) {}
 
-  async execute(query: GetOrderByIdQuery): Promise<Order> {
+  async execute(query: GetOrderByIdQuery): Promise<OrderWithCustomerDto> {
     const { orderId } = query;
 
     const order = await this.orderRepository.findById(orderId);
@@ -20,6 +25,8 @@ export class GetOrderByIdHandler implements IQueryHandler<GetOrderByIdQuery> {
       throw new NotFoundException(`Order with ID ${orderId} not found`);
     }
 
-    return order;
+    const customer = await this.customerService.getById(order.getCustomerId());
+
+    return this.orderMapper.toOrderWithCustomerDto(order, customer);
   }
 }

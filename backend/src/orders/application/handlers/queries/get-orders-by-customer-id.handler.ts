@@ -1,17 +1,13 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetOrdersByCustomerIdQuery } from '../../queries/get-orders-by-customer-id.query';
 import { Order } from 'src/orders/domain/entities/order.entity';
-import { Inject } from '@nestjs/common';
 import { OrderRepository } from '../../ports/order.repository';
 
 @QueryHandler(GetOrdersByCustomerIdQuery)
 export class GetOrdersByCustomerIdHandler
   implements IQueryHandler<GetOrdersByCustomerIdQuery>
 {
-  constructor(
-    @Inject('OrderRepository')
-    private readonly orderRepository: OrderRepository,
-  ) {}
+  constructor(private readonly orderRepository: OrderRepository) {}
 
   async execute(query: GetOrdersByCustomerIdQuery): Promise<Order[]> {
     const { customerId } = query;

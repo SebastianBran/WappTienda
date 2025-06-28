@@ -1,9 +1,14 @@
 import { CreateCustomerDto } from '../dto/create-customer.dto';
-import { CustomerDto } from '../dto/customer.dto';
+import { CustomerOrderDto } from '../dto/customer-order.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 
 export abstract class CustomerService {
-  abstract getByPhone(phone: string): Promise<CustomerDto | null>;
-  abstract create(createCustomerDto: CreateCustomerDto): Promise<CustomerDto>;
-  abstract update(updateCustomerDto: UpdateCustomerDto): Promise<CustomerDto>;
+  abstract getById(id: number): Promise<CustomerOrderDto>;
+  abstract getByPhone(phone: string): Promise<CustomerOrderDto | null>;
+  abstract create(
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<CustomerOrderDto>;
+  abstract update(
+    updateCustomerDto: UpdateCustomerDto,
+  ): Promise<CustomerOrderDto>;
 }

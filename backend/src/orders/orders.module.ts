@@ -11,7 +11,6 @@ import { GetOrderByIdHandler } from './application/handlers/queries/get-order-by
 import { GetOrdersHandler } from './application/handlers/queries/get-orders.handler';
 import { TypeormOrderRepository } from './infrastructure/adapters/typeorm-order.repository';
 import { TypeormProductRepository } from './infrastructure/adapters/typeorm-product.repository';
-import { CustomerEntity } from './infrastructure/entities/customer.typeorm-entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetOrdersByCustomerIdHandler } from './application/handlers/queries/get-orders-by-customer-id.handler';
 import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-infrastructure.mapper';
@@ -20,6 +19,9 @@ import { ProductInfrastructureMapper } from './infrastructure/mappers/product-in
 import { OrderItemInfrastructureMapper } from './infrastructure/mappers/order-item-infrastucture.mapper';
 import { CustomerService } from './application/ports/customer.service';
 import { CustomerServiceImpl } from './infrastructure/adapters/customer.service.impl';
+import { OrderRepository } from './application/ports/order.repository';
+import { OrderMapper } from './application/mappers/order.mapper';
+import { OrderFactory } from './domain/factories/order.factory';
 
 const CommandHandlers = [
   CreateOrderHandler,
@@ -34,19 +36,14 @@ const QueryHandlers = [
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      OrderEntity,
-      OrderItemEntity,
-      ProductEntity,
-      CustomerEntity,
-    ]),
+    TypeOrmModule.forFeature([OrderEntity, OrderItemEntity, ProductEntity]),
     CqrsModule,
   ],
   providers: [
     ...CommandHandlers,
     ...QueryHandlers,
     {
-      provide: 'OrderRepository',
+      provide: OrderRepository,
       useClass: TypeormOrderRepository,
     },
     {
@@ -61,6 +58,8 @@ const QueryHandlers = [
     OrderInfrastructureMapper,
     OrderItemInfrastructureMapper,
     ProductInfrastructureMapper,
+    OrderMapper,
+    OrderFactory,
   ],
   controllers: [OrdersController],
 })

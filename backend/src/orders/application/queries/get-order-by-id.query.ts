@@ -1,7 +1,7 @@
 import { Query } from '@nestjs/cqrs';
-import { Order } from 'src/orders/domain/entities/order.entity';
+import { OrderWithCustomerDto } from '../dto/order-with-customer.dto';
 
-export class GetOrderByIdQuery extends Query<Order> {
+export class GetOrderByIdQuery extends Query<OrderWithCustomerDto> {
   constructor(public readonly orderId: number) {
     super();
   }

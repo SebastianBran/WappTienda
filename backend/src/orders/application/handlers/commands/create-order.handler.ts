@@ -4,47 +4,40 @@ import { Order } from 'src/orders/domain/entities/order.entity';
 import { Inject, NotFoundException } from '@nestjs/common';
 import { OrderRepository } from '../../ports/order.repository';
 import { ProductRepository } from '../../ports/product.repository';
-import { OrderStatus } from 'src/orders/domain/entities/order-status.enum';
-import { PaymentStatus } from 'src/orders/domain/entities/payment-status.enum';
 import { OrderItem } from 'src/orders/domain/entities/order-item.entity';
 import { OrderFactory } from 'src/orders/domain/factories/order.factory';
 import { CreateCustomerDto } from '../../dto/create-customer.dto';
 import { CreateOrderItemDto } from '../../dto/create-order-item.dto';
-import { OrderItemFactory } from 'src/orders/domain/factories/orede-item.factory';
+import { OrderItemFactory } from 'src/orders/domain/factories/order-item.factory';
 import { CustomerService } from '../../ports/customer.service';
-import { CustomerDto } from '../../dto/customer.dto';
+import { CustomerOrderDto } from '../../dto/customer-order.dto';
 import { UpdateCustomerDto } from '../../dto/update-customer.dto';
 
 @CommandHandler(CreateOrderCommand)
 export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
   constructor(
-    @Inject('OrderRepository')
     private readonly orderRepository: OrderRepository,
     @Inject('ProductRepository')
     private readonly productRepository: ProductRepository,
     private readonly customerService: CustomerService,
+    private readonly orderFactory: OrderFactory,
   ) {}
 
   async execute(command: CreateOrderCommand): Promise<Order> {
-    await this.createCustomer(command.createCustomerDto);
+    const customer = await this.createCustomer(command.createCustomerDto);
 
     const orderItems = await Promise.all(
       command.createOrderItemDto.map((item) => this.preloadOrderItem(item)),
     );
 
-    const order = OrderFactory.create(
-      OrderStatus.PENDING,
-      PaymentStatus.PENDING,
-      null, // internal notes
-      orderItems,
-    );
+    const order = this.orderFactory.create(customer.getId(), orderItems);
 
     return this.orderRepository.create(order);
   }
 
   private async createCustomer(
     createCustomerDto: CreateCustomerDto,
-  ): Promise<CustomerDto> {
+  ): Promise<CustomerOrderDto> {
     const existingCustomer = await this.customerService.getByPhone(
       createCustomerDto.phone,
     );
@@ -52,7 +45,7 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
     if (existingCustomer) {
       return this.customerService.update(
         new UpdateCustomerDto(
-          existingCustomer.id,
+          existingCustomer.getId(),
           createCustomerDto.name,
           createCustomerDto.phone,
           createCustomerDto.email,

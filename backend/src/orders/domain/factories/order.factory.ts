@@ -4,12 +4,7 @@ import { PaymentStatus } from '../entities/payment-status.enum';
 import { OrderItem } from '../entities/order-item.entity';
 
 export class OrderFactory {
-  public static create(
-    status: OrderStatus,
-    paymentStatus: PaymentStatus,
-    internalNotes: string | null,
-    orderItems: OrderItem[],
-  ) {
+  public create(customerId: number, orderItems: OrderItem[]) {
     const totalItems = orderItems.reduce((total, item) => {
       return total + item.getQuantity();
     }, 0);
@@ -20,16 +15,14 @@ export class OrderFactory {
 
     return new Order(
       0,
-      status,
-      paymentStatus,
+      OrderStatus.PENDING,
+      PaymentStatus.PENDING,
       totalAmount,
-      // Assuming subtotalAmount is the same as totalAmount for simplicity
-      // In the future, you might want to calculate it differently
-      // based on discounts or other factors
       totalAmount,
-      internalNotes,
+      null,
       orderItems,
       totalItems,
+      customerId,
     );
   }
 }

@@ -1,14 +1,14 @@
 export class Customer {
   constructor(
-    public id: number,
-    public name: string,
-    public email: string | null,
-    public phone: string,
-    public birthDate: Date | null,
-    public notes: string | null,
-    public deleted: boolean = false,
-    public createdAt: Date = new Date(),
-    public updatedAt: Date = new Date(),
+    private id: number,
+    private name: string,
+    private email: string | null,
+    private phone: string,
+    private birthDate: Date | null,
+    private notes: string | null,
+    private deleted: boolean = false,
+    private createdAt: Date = new Date(),
+    private updatedAt: Date = new Date(),
   ) {}
 
   public getId(): number {

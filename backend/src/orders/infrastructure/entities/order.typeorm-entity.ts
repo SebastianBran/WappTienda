@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,7 +9,6 @@ import {
 import { OrderItemEntity } from './order-item.typeorm-entity';
 import { OrderStatus } from 'src/orders/domain/entities/order-status.enum';
 import { PaymentStatus } from 'src/orders/domain/entities/payment-status.enum';
-import { CustomerEntity } from './customer.typeorm-entity';
 
 @Entity('order')
 export class OrderEntity {
@@ -68,10 +66,8 @@ export class OrderEntity {
   @Column()
   totalItems: number;
 
-  @ManyToOne(() => CustomerEntity, (customer) => customer.orders, {
-    cascade: true,
-  })
-  customer: CustomerEntity;
+  @Column()
+  customerId: number;
 
   @CreateDateColumn()
   created_at: Date;

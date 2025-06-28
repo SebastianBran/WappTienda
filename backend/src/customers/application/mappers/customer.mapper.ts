@@ -5,6 +5,7 @@ import { CustomerFactory } from 'src/customers/domain/factories/customer.factory
 import { Injectable } from '@nestjs/common';
 import { CustomerWithOrdersDto } from '../dto/customer-with-orders.dto';
 import { OrderDto } from '../dto/order.dto';
+import { CustomerDto } from '../dto/customer.dto';
 
 @Injectable()
 export class CustomerMapper {
@@ -64,6 +65,20 @@ export class CustomerMapper {
       customer.getCreatedAt(),
       customer.getUpdatedAt(),
       orders,
+    );
+  }
+
+  public toCustomerDto(customer: Customer): CustomerDto {
+    return new CustomerDto(
+      customer.getId(),
+      customer.getName(),
+      customer.getEmail(),
+      customer.getPhone(),
+      customer.getBirthDate(),
+      customer.getNotes(),
+      customer.isDeleted(),
+      customer.getCreatedAt(),
+      customer.getUpdatedAt(),
     );
   }
 }

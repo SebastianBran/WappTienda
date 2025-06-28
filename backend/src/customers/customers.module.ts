@@ -17,6 +17,7 @@ import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-
 import { OrderInfrastructureMapper } from './infrastructure/mappers/order-infraestructure.mapper';
 import { CustomerFactory } from './domain/factories/customer.factory';
 import { GetCustomerByPhoneHandler } from './application/handlers/queries/get-customer-by-phone.handler';
+import { GetCustomerWithoutOrdersByIdHandler } from './application/handlers/queries/get-customer-without-orders-by-id.handler';
 
 const CommandHandlers = [
   CreateCustomerHandler,
@@ -27,6 +28,7 @@ const QueryHandlers = [
   GetCustomersHandler,
   GetCustomerByIdHandler,
   GetCustomerByPhoneHandler,
+  GetCustomerWithoutOrdersByIdHandler,
 ];
 
 @Module({

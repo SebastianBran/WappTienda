@@ -24,7 +24,9 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
   ) {}
 
   async execute(command: CreateOrderCommand): Promise<Order> {
-    const customer = await this.createCustomer(command.createCustomerDto);
+    const customer = await this.createOrUpdateCustomer(
+      command.createCustomerDto,
+    );
 
     const orderItems = await Promise.all(
       command.createOrderItemDto.map((item) => this.preloadOrderItem(item)),
@@ -35,26 +37,46 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
     return this.orderRepository.create(order);
   }
 
-  private async createCustomer(
+  private async createOrUpdateCustomer(
     createCustomerDto: CreateCustomerDto,
   ): Promise<CustomerOrderDto> {
-    const existingCustomer = await this.customerService.getByPhone(
+    const customerExists = await this.getExistingCustomer(
       createCustomerDto.phone,
     );
 
-    if (existingCustomer) {
-      return this.customerService.update(
-        new UpdateCustomerDto(
-          existingCustomer.getId(),
-          createCustomerDto.name,
-          createCustomerDto.phone,
-          createCustomerDto.email,
-          createCustomerDto.birthDate,
-          createCustomerDto.notes,
-        ),
-      );
+    if (customerExists) {
+      return this.updateCustomer(customerExists, createCustomerDto);
+    } else {
+      return this.createCustomer(createCustomerDto);
     }
+  }
 
+  private async getExistingCustomer(
+    phone: string,
+  ): Promise<CustomerOrderDto | null> {
+    const existingCustomer = await this.customerService.getByPhone(phone);
+    return existingCustomer;
+  }
+
+  private async updateCustomer(
+    existingCustomer: CustomerOrderDto,
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<CustomerOrderDto> {
+    return this.customerService.update(
+      new UpdateCustomerDto(
+        existingCustomer.getId(),
+        createCustomerDto.name,
+        createCustomerDto.phone,
+        createCustomerDto.email,
+        createCustomerDto.birthDate,
+        createCustomerDto.notes,
+      ),
+    );
+  }
+
+  private async createCustomer(
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<CustomerOrderDto> {
     return this.customerService.create(createCustomerDto);
   }
 

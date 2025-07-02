@@ -5,7 +5,7 @@ import {
   MinLength,
   Matches,
 } from 'class-validator';
-import { Role } from '../entities/role.enum';
+import { Role } from 'src/users/domain/entities/role.enum';
 
 export class CreateUserDto {
   @IsNotEmpty()

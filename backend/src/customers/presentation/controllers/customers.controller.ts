@@ -12,7 +12,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from 'src/users/domain/entities/role.enum';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetCustomersQuery } from '../../application/queries/get-customers.query';
 import { GetCustomerByIdQuery } from '../../application/queries/get-customer-by-id.query';

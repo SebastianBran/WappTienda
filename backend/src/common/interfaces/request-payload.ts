@@ -1,4 +1,4 @@
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from 'src/users/domain/entities/role.enum';
 
 export interface AuthRequestPayload {
   username: string;

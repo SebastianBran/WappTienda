@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { ConfigurationsService } from './configurations.service';
 import { UpdateConfigurationsDto } from './dto/update-configurations.dto';
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from 'src/users/domain/entities/role.enum';
 import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('configurations')

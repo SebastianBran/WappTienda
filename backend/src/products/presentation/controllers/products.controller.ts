@@ -11,7 +11,7 @@ import {
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from 'src/users/domain/entities/role.enum';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProductCommand } from '../../application/commands/create-product.command';

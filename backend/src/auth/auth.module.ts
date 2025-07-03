@@ -1,15 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UsersModule } from 'src/users/users.module';
+import { AuthController } from './presentation/controllers/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { UserService } from './application/ports/user.service';
+import { UserServiceImpl } from './infrastructure/adapters/user.service.impl';
+import { UserInfrastructureMapper } from './infrastructure/mappers/user-infrastructure.mapper';
+import { SignInHandler } from './application/handlers/commands/sign-in.handler';
+import { CqrsModule } from '@nestjs/cqrs';
+
+const CommandHandlers = [SignInHandler];
 
 @Module({
   controllers: [AuthController],
   providers: [
-    AuthService,
+    ...CommandHandlers,
     {
       provide: 'APP_GUARD',
       useClass: AuthGuard,
@@ -18,9 +23,13 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
       provide: 'APP_GUARD',
       useClass: RolesGuard,
     },
+    {
+      provide: UserService,
+      useClass: UserServiceImpl,
+    },
+    UserInfrastructureMapper,
   ],
   imports: [
-    UsersModule,
     JwtModule.registerAsync({
       global: true,
       useFactory: () => {
@@ -30,6 +39,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
         };
       },
     }),
+    CqrsModule,
   ],
 })
 export class AuthModule {}

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './domain/entities/user.entity';
 import { UserBootstrapServiceImplementation } from './infrastructure/adapters/user-bootstrap.service.impl';
 import { UsersController } from './presentation/controllers/users.controller';
 import { UserInfrastructureMapper } from './infrastructure/mappers/user-infrastructure.mapper';
@@ -11,6 +10,11 @@ import { DeleteUserHandler } from './application/handlers/commands/delete-user.h
 import { UserRepository } from './application/ports/user.repository';
 import { TypeormUserRepository } from './infrastructure/adapters/typeorm-user.repository';
 import { UserBootstrapService } from './application/ports/user-bootstrap.service';
+import { CqrsModule } from '@nestjs/cqrs';
+import { GetUserByUsernameHandler } from './application/handlers/queries/get-user-by-username.handler';
+import { UserFactory } from './domain/factories/user.factory';
+import { UserMapper } from './application/mappers/user.mapper';
+import { UserEntity } from './infrastructure/entities/user.typeorm-entity';
 
 const CommandHandlers = [
   CreateMasterUserHandler,
@@ -19,10 +23,13 @@ const CommandHandlers = [
   DeleteUserHandler,
 ];
 
+const QueryHandlers = [GetUserByUsernameHandler];
+
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule],
   providers: [
     ...CommandHandlers,
+    ...QueryHandlers,
     {
       provide: UserRepository,
       useClass: TypeormUserRepository,
@@ -32,6 +39,8 @@ const CommandHandlers = [
       useClass: UserBootstrapServiceImplementation,
     },
     UserInfrastructureMapper,
+    UserFactory,
+    UserMapper,
   ],
   controllers: [UsersController],
 })

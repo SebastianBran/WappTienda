@@ -1,8 +1,8 @@
-import { UserRepository } from '../ports/user.repository';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UpdateUserCommand } from '../commands/update-user.command';
 import { NotFoundException } from '@nestjs/common';
-import { UserMapper } from '../mappers/user.mapper';
+import { UpdateUserCommand } from '../../commands/update-user.command';
+import { UserMapper } from '../../mappers/user.mapper';
+import { UserRepository } from '../../ports/user.repository';
 
 @CommandHandler(UpdateUserCommand)
 export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {

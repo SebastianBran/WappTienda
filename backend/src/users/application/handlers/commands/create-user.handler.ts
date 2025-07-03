@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateUserCommand } from '../commands/create-user.command';
-import { UserRepository } from '../ports/user.repository';
+import { CreateUserCommand } from '../../commands/create-user.command';
+import { UserRepository } from '../../ports/user.repository';
 import { UserFactory } from 'src/users/domain/factories/user.factory';
 import { BadRequestException } from '@nestjs/common';
 

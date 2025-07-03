@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateMasterUserCommand } from '../commands/create-master-user.command';
-import { UserRepository } from '../ports/user.repository';
+import { CreateMasterUserCommand } from '../../commands/create-master-user.command';
+import { UserRepository } from '../../ports/user.repository';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { UserFactory } from 'src/users/domain/factories/user.factory';

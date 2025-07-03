@@ -3,12 +3,14 @@ import { CreateUserCommand } from '../../commands/create-user.command';
 import { UserRepository } from '../../ports/user.repository';
 import { UserFactory } from 'src/users/domain/factories/user.factory';
 import { BadRequestException } from '@nestjs/common';
+import { PasswordService } from '../../ports/password.service';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly userFactory: UserFactory,
+    private readonly passwordService: PasswordService,
   ) {}
 
   async execute(command: CreateUserCommand): Promise<void> {
@@ -21,7 +23,9 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
       );
     }
 
-    const user = this.userFactory.create(username, password, role);
+    const hashedPassword = await this.passwordService.hashPassword(password);
+
+    const user = this.userFactory.create(username, hashedPassword, role);
 
     await this.userRepository.create(user);
   }

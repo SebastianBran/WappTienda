@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { UserFactory } from 'src/users/domain/factories/user.factory';
 import { Role } from 'src/users/domain/entities/role.enum';
+import { PasswordService } from '../../ports/password.service';
 
 @CommandHandler(CreateMasterUserCommand)
 export class CreateMasterUserHandler
@@ -14,6 +15,7 @@ export class CreateMasterUserHandler
     private readonly userRepository: UserRepository,
     private readonly configService: ConfigService,
     private readonly userFactory: UserFactory,
+    private readonly passwordService: PasswordService,
   ) {}
 
   private readonly logger = new Logger(CreateMasterUserHandler.name);
@@ -43,7 +45,14 @@ export class CreateMasterUserHandler
       return;
     }
 
-    const user = this.userFactory.create(username, password, Role.ADMIN, true);
+    const hashedPassword = await this.passwordService.hashPassword(password);
+
+    const user = this.userFactory.create(
+      username,
+      hashedPassword,
+      Role.ADMIN,
+      true,
+    );
 
     await this.userRepository.create(user);
 

@@ -15,6 +15,8 @@ import { GetUserByUsernameHandler } from './application/handlers/queries/get-use
 import { UserFactory } from './domain/factories/user.factory';
 import { UserMapper } from './application/mappers/user.mapper';
 import { UserEntity } from './infrastructure/entities/user.typeorm-entity';
+import { PasswordService } from './application/ports/password.service';
+import { BcryptPasswordService } from './infrastructure/adapters/bcrypt-password.service.impl';
 
 const CommandHandlers = [
   CreateMasterUserHandler,
@@ -37,6 +39,10 @@ const QueryHandlers = [GetUserByUsernameHandler];
     {
       provide: UserBootstrapService,
       useClass: UserBootstrapServiceImplementation,
+    },
+    {
+      provide: PasswordService,
+      useClass: BcryptPasswordService,
     },
     UserInfrastructureMapper,
     UserFactory,

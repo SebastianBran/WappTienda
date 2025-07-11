@@ -11,6 +11,7 @@ import { GetOrdersHandler } from './application/handlers/queries/get-orders.hand
 import { TypeormOrderRepository } from './infrastructure/adapters/typeorm-order.repository';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetOrdersByCustomerIdHandler } from './application/handlers/queries/get-orders-by-customer-id.handler';
+import { GetTotalOrdersHandler } from './application/handlers/queries/get-total-orders.handler';
 import { CustomerInfrastructureMapper } from './infrastructure/mappers/customer-infrastructure.mapper';
 import { OrderInfrastructureMapper } from './infrastructure/mappers/order-infrastructure.mapper';
 import { ProductInfrastructureMapper } from './infrastructure/mappers/product-infrastructure.mapper';
@@ -23,6 +24,9 @@ import { OrderFactory } from './domain/factories/order.factory';
 import { ProductService } from './application/ports/product.service';
 import { ProductServiceImpl } from './infrastructure/adapters/product.service.impl';
 import { OrderItemMapper } from './application/mappers/order-item.mapper';
+import { GetPendingOrdersLast30DaysHandler } from './application/handlers/queries/get-pending-orders-last-30-days.handler';
+import { GetTotalSalesHandler } from './application/handlers/queries/get-total-sales.handler';
+import { GetUnpaidOrdersLast30DaysHandler } from './application/handlers/queries/get-unpaid-orders-last-30-days.query';
 
 const CommandHandlers = [
   CreateOrderHandler,
@@ -33,6 +37,10 @@ const QueryHandlers = [
   GetOrderByIdHandler,
   GetOrdersByCustomerIdHandler,
   GetOrdersHandler,
+  GetTotalOrdersHandler,
+  GetPendingOrdersLast30DaysHandler,
+  GetTotalSalesHandler,
+  GetUnpaidOrdersLast30DaysHandler,
 ];
 
 @Module({

@@ -7,9 +7,9 @@ export class StatisticsLast30Days {
 
 export class Statistics {
   constructor(
-    public readonly totalOrders: number,
-    public readonly totalSales: number,
-    public readonly last30days: StatisticsLast30Days,
+    private readonly totalOrders: number,
+    private readonly totalSales: number,
+    private readonly last30days: StatisticsLast30Days,
   ) {}
 
   static create(
